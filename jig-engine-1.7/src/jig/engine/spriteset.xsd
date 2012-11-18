@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            Java Instructional Gaming (JIG) schema for sprite sheets.
+            See http://ai.vancouver.wsu.edu/jig/wiki/index.php/Sprite_Sheets
+            Author: Andrew Nierman
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:element name="spriteset" type="SpriteSetType" />
+    
+    <xsd:complexType name="SpriteSetType">
+        <xsd:choice minOccurs="1" maxOccurs="unbounded">
+            <xsd:element name="author" type="xsd:string" default="anonymous" />
+            <xsd:element name="name" type="xsd:string" minOccurs="0" />
+            <xsd:element name="description" type="xsd:string" minOccurs="0" />
+            <xsd:element name="type" type="ImageMimeType" minOccurs="0" />
+            <xsd:element name="width" type="xsd:positiveInteger" minOccurs="0" />
+            <xsd:element name="height" type="xsd:positiveInteger" minOccurs="0" />
+            <xsd:element name="transparent" type="HexRGBType" minOccurs="0" />
+            <xsd:element name="frameset" type="FrameSetType" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:choice>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="FrameSetType">
+        <xsd:all>
+            <!--  name should not be empty here, we require a string of length >= 1 -->
+            <xsd:element name="name">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:minLength value="1"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="top" type="xsd:nonNegativeInteger" />
+            <xsd:element name="left" type="xsd:nonNegativeInteger" />
+            <xsd:element name="width" type="xsd:positiveInteger" />
+            <xsd:element name="height" type="xsd:positiveInteger" />
+            <xsd:element name="rows" type="xsd:positiveInteger" minOccurs="0" default="1"/>
+            <xsd:element name="columns" type="xsd:positiveInteger" minOccurs="0" default="1" />
+        </xsd:all>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="HexRGBType">
+        <xsd:restriction base="xsd:hexBinary">
+            <!--  length of 3 below let's us enter values such as
+                FF0000 (red), 00FF00 (green), FFFFFF (white), etc -->
+            <xsd:length value="3" fixed="true" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="ImageMimeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="image/png" />
+            <xsd:enumeration value="image/jpeg" />
+            <xsd:enumeration value="image/bmp" />
+            <xsd:enumeration value="image/gif" />
+            <xsd:enumeration value="image/tiff" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+</xsd:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            Java Instructional Gaming (JIG) schema for resource xml files.
+            Author: Andrew Nierman
+        </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:element name="resources" type="ResourcesType" />
+    
+    <xsd:complexType name="ResourcesType">
+        <xsd:choice maxOccurs="unbounded">
+            <xsd:element name="spritesheet">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="imagesrc" type="FileNameType" />
+                        <xsd:element name="framesrc" type="FileNameType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+<!-- DESIGN: should we include a mime types for image and audioclip?
+    (like in spriteset.xsd) -->
+            
+            <xsd:element name="image">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="src" type="FileNameType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <xsd:element name="bitmapfont">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="src" type="FileNameType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        
+            <xsd:element name="audioclip">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="src" type="FileNameType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+        </xsd:choice>
+    </xsd:complexType>
+
+    <!-- a simple string type with a minimum length of 1 -->
+    <xsd:simpleType name="FileNameType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

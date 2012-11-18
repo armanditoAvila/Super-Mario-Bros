@@ -1,0 +1,82 @@
+<spriteset>
+    <author>Jenis Modi, Justin Shelton, Xin Tang</author>
+    <name>sprites</name>
+    <type>image/png</type>
+    <width>300</width>
+    <height>200</height>
+
+    <frameset>
+        <name>small-plank</name>
+        <top>0</top>
+        <left>0</left>
+        <width>32</width>
+        <height>8</height>
+    </frameset>
+
+    <frameset>
+        <name>small-box</name>
+        <top>0</top>
+        <left>32</left>
+        <width>16</width>
+        <height>16</height>
+    </frameset>
+
+    <frameset>
+        <name>paddle</name>
+        <top>0</top>
+        <left>64</left>
+        <width>64</width>
+        <height>16</height>
+    </frameset>
+
+    <frameset>
+        <name>ball</name>
+        <top>0</top>
+        <left>48</left>
+        <width>16</width>
+        <height>16</height>
+    </frameset>
+    
+    <frameset>
+    	<name>beetle</name>
+    	<left>0</left>
+    	<top>128</top>
+    	<height>20</height>
+    	<width>20</width>
+    	<columns>4</columns>
+    </frameset>
+
+	<frameset>
+    	<name>pincher</name>
+    	<left>0</left>
+    	<top>148</top>
+    	<height>20</height>
+    	<width>20</width>
+    	<columns>4</columns>
+    </frameset>
+    
+    <frameset>
+    	<name>iso-tile</name>
+    	<left>192</left>
+    	<top>0</top>
+    	<height>21</height>
+    	<width>42</width>
+    	<columns>2</columns>
+    </frameset>
+    
+    <frameset>
+    	<name>iso-block-low</name>
+    	<left>192</left>
+    	<top>32</top>
+    	<height>32</height>
+    	<width>42</width>
+    </frameset>
+	
+	<frameset>
+    	<name>iso-block-tall</name>
+    	<left>234</left>
+    	<top>32</top>
+    	<height>43</height>
+    	<width>42</width>
+    </frameset>
+</spriteset>

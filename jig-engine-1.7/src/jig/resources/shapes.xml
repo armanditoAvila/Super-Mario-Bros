@@ -1,0 +1,18 @@
+<spriteset>
+    <author>Scott Wallace</author>
+    <name>Shapes</name>
+    <type>image/png</type>
+    <width>128</width>
+    <height>192</height>
+
+    <frameset>
+        <name>shapes</name>
+        <top>0</top>
+        <left>0</left>
+        <width>64</width>
+        <height>64</height>
+        <rows>3</rows>
+        <columns>2</columns>
+    </frameset>
+
+</spriteset>
