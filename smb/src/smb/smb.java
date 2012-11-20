@@ -22,9 +22,13 @@ import jig.engine.util.Vector2D;
 
 public class smb extends ScrollingScreenGame {
 	
-	/* Original NES Effective Resolution */
-	static final int WORLD_WIDTH = 256;
-	static final int WORLD_HEIGHT = 224;
+	/* NES Effective Resolution */
+	//static final int WORLD_WIDTH = 256;
+	//static final int WORLD_HEIGHT = 224;
+	
+	/* NES Effective Resolution @2x */
+	static final int WORLD_WIDTH = 512;
+	static final int WORLD_HEIGHT = 448;
 	
 	static final String SPRITE_SHEET = "resources/spritesheet.png";
 	
@@ -48,6 +52,7 @@ public class smb extends ScrollingScreenGame {
 		
 		boolean left = keyboard.isPressed(KeyEvent.VK_LEFT);
 		boolean right = keyboard.isPressed(KeyEvent.VK_RIGHT);
+		boolean jump = keyboard.isPressed(KeyEvent.VK_SPACE);
 		
 		if (left && !right) {
 			//moving left

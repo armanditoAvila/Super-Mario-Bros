@@ -21,7 +21,7 @@ import jig.engine.util.Vector2D;
  */
 public abstract class AbstractSimpleGame {
 	
-	private static final double MAX_FPS = 200;
+	private static final double MAX_FPS = 60;
 
 	protected GameFrame gameframe;
 
