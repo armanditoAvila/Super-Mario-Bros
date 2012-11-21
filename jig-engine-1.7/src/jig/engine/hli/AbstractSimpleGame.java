@@ -37,6 +37,9 @@ public abstract class AbstractSimpleGame {
 	
 	protected SleepIfNeededTimeManager timeManager;
 	
+	public GameFrame getGameFrame(){
+		return gameframe;
+	}
 
 	/**
 	 * Creates a new game with the desired configuration.
@@ -64,7 +67,7 @@ public abstract class AbstractSimpleGame {
 		boolean truePreferFullScreen = preferFullScreen;
 				
 		gameframe = ResourceFactory.getFactory()
-				.getGameFrame("Super Mario Bros", desiredWidth, desiredHeight, truePreferFullScreen);
+				.getGameFrame("My Game", desiredWidth, desiredHeight, truePreferFullScreen);
 		
 		//frame rate element and an 'fps' command to toggles it
 		fre = new FrameRateElement(new Vector2D(gameframe.getWidth() - 150, gameframe

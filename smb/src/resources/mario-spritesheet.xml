@@ -1,0 +1,44 @@
+<spriteset>
+    <author>CS447</author>
+    <name>mario-sprites</name>
+    <type>image/png</type>
+    <width>1188</width>
+    <height>1711</height>
+
+    <frameset>
+        <name>breakableBrownWall</name>
+        <top>33</top>
+        <left>119</left>
+        <width>31</width>
+        <height>32</height>
+        <columns>1</columns>
+    </frameset>
+
+<frameset>
+        <name>mario</name>
+        <top>900</top>
+        <left>20</left>
+        <width>33</width>
+        <height>31</height>
+        <columns>1</columns>
+    </frameset>
+    
+   <frameset>
+        <name>Goomba</name>
+        <top>1322</top>
+        <left>123</left>
+        <width>42</width>
+        <height>31</height>
+        <columns>3</columns>
+    </frameset>
+    
+   <frameset>
+        <name>powerBlock</name>
+        <top>100</top>
+        <left>100</left>
+        <width>20</width>
+        <height>20</height>
+        <columns>3</columns>
+    </frameset>
+
+    </spriteset>

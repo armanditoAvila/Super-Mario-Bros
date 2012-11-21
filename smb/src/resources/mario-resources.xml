@@ -1,0 +1,12 @@
+<resources>
+
+    <spritesheet>
+        <imagesrc>mario-spritesheet.png</imagesrc>
+        <framesrc>mario-spritesheet.xml</framesrc>
+    </spritesheet>
+    
+    <audioclip>
+        <src>BOUNCE.wav</src>
+    </audioclip>
+
+</resources>
