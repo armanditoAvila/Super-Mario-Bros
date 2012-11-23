@@ -7,12 +7,12 @@ import jig.engine.util.Vector2D;
 public class Turtle extends VanillaSphere {
 
 	SpriteUpdateRules updateRule;
-	SMB smbObject;
+	smb smbObject;
 	final long frameTime = 800;
 	long timeSinceLastUpdate = frameTime;
 
 	public Turtle(int x, int y, String ghostName) {
-		super(SMB.SPRITE_SHEET + ghostName);
+		super(smb.SPRITE_SHEET + ghostName);
 		position = new Vector2D(x, y);
 		velocity = new Vector2D(20, 20);
 	}
