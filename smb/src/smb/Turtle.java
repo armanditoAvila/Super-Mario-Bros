@@ -2,9 +2,10 @@ package smb;
 
 import jig.engine.hli.physics.SpriteUpdateRules;
 import jig.engine.physics.vpe.VanillaSphere;
+import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
-public class Turtle extends VanillaSphere {
+public class Turtle extends VanillaAARectangle {
 
 	SpriteUpdateRules updateRule;
 	smb smbObject;
