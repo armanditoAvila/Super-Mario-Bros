@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
-public class goomba extends movable {
+public class goomba extends VanillaAARectangle {
 	int Xdirection, Ydirection;
 	int speed = 30;
 	int frameDelay=200;
@@ -21,7 +21,7 @@ public class goomba extends movable {
 	Rectangle2D boundingBox;
 
 	goomba(int x, int y) {
-		super(smb.SPRITE_SHEET + "#Goomba");
+		super(smb.SPRITE_SHEET + "#Goomba", 5);
 		frameTime=System.currentTimeMillis();
 		Xdirection = 1;
 		Ydirection = 0;
@@ -61,13 +61,12 @@ public class goomba extends movable {
 			frameTimeSet=true;
 		}
 		
-		if(this.position.getX()-smb.currentCenter > (5/4)*smb.HALF_SCREEN_WIDTH){
-			return;
-		}
 		
+		/*
 		if(outOfScreen()){
 			this.setActivation(false);
 		}
+		*/
 		if (Xdirection == 1) {
 			vSpeedX = speed;
 		} else if (Xdirection == 3) {
@@ -82,7 +81,7 @@ public class goomba extends movable {
 			vSpeedY = smb.gravity;
 		}
 
-		
+		/*
 		boundingBox = new Rectangle2D.Double(this.position.getX(), this.position.getY() + (vSpeedY * (deltaMs / 1000.0)), this.getWidth(), this.getHeight());
 		if (checkVerticalCollision(boundingBox, this.position.getX(), this.position.getY(), vSpeedY)) {
 			if(Xdirection==1){
@@ -124,11 +123,20 @@ public class goomba extends movable {
 			}
 
 		}
-
+*/
 		velocity = new Vector2D(vSpeedX, vSpeedY);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
 		
 		}
+	
+	public void setOppositeDirection(){
+		if(Xdirection==1){
+			Xdirection=3;
+		}
+		else if(Xdirection==3){
+			Xdirection=1;
+		}
+	}
 	
 	
 	public void setDead(){
@@ -146,5 +154,4 @@ public class goomba extends movable {
 	}
 
 	
-
-}
+	}

@@ -22,7 +22,7 @@ import jig.engine.physics.Body;
  * 
  */
 public abstract class VanillaAARectangle extends Body {
-
+	public int type;
 	protected List<ImageResource> imgBoundingRectangle;
 
 	private boolean renderMarkup = false;
@@ -47,8 +47,9 @@ public abstract class VanillaAARectangle extends Body {
 	 * @param rsc
 	 *            the name of the image resource to load.
 	 */
-	public VanillaAARectangle(final String rsc) {
+	public VanillaAARectangle(final String rsc, int type) {
 		super(rsc);
+		this.type=type;
 	}
 
 	/**

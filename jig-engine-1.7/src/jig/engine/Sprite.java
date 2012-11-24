@@ -124,7 +124,7 @@ public class Sprite implements Viewable {
 	 * @param rc
 	 *            the rendering context upon which to draw
 	 */
-	public void render(final RenderingContext rc,double x, double y) {
+	public void render(final RenderingContext rc) {
 		if (active) {
 			
 			if (rc == null) {
@@ -134,14 +134,11 @@ public class Sprite implements Viewable {
 			
 			frames.get(visibleFrame).render(
 					rc,
-					AffineTransform.getTranslateInstance(position.getX()+x,
-							position.getY()+y));
+					AffineTransform.getTranslateInstance(position.getX(),
+							position.getY()));
 		}
 	}
 	
-	public void render(){
-		
-	}
 
 	/**
 	 * 
@@ -227,10 +224,6 @@ public class Sprite implements Viewable {
 		return active;
 	}
 
-	@Override
-	public void render(RenderingContext rc) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }
