@@ -11,6 +11,7 @@ public class player extends VanillaAARectangle {
 	final int jumpV = -80;
 	int Xdirection, Ydirection;
 	int speed = 100;
+	int level;
 	double vSpeedX, vSpeedY;
 	boolean jumped;
 	boolean onGround;

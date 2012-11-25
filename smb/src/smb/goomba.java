@@ -4,6 +4,8 @@ import java.awt.geom.Rectangle2D;
 
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
+import jig.engine.ResourceFactory;
+import jig.engine.audio.jsound.AudioClip;
 
 public class goomba extends VanillaAARectangle {
 	int Xdirection, Ydirection;
@@ -19,6 +21,7 @@ public class goomba extends VanillaAARectangle {
 	boolean frameTimeSet;
 	boolean onGround;
 	Rectangle2D boundingBox;
+	private static AudioClip stomp = ResourceFactory.getFactory().getAudioClip("resources/" + "smb_stomp.wav");
 
 	goomba(int x, int y) {
 		super(smb.SPRITE_SHEET + "#Goomba", 5);
@@ -26,6 +29,7 @@ public class goomba extends VanillaAARectangle {
 		Xdirection = 1;
 		Ydirection = 0;
 		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);
+		setFrame(0);
 	}
 
 	@Override
@@ -34,31 +38,21 @@ public class goomba extends VanillaAARectangle {
 			return;
 		}
 		
-		if(dead && !deadTimeSet){
-			deadTime = System.currentTimeMillis();
-			System.out.println("deadtime:" + deadTime);
-			deadTimeSet=true;
-			return;
-			 
-		}
-		else if(dead && (System.currentTimeMillis()-deadTime)>deadDelay){
-			this.active=false;
-		}else if(dead){
+		if (dead && System.currentTimeMillis() - deadTime > deadDelay) {
+			this.active = false;
+
+		} else if (dead) {
 			return;
 		}
 
-		if(!dead && frameTimeSet && System.currentTimeMillis()-frameTime>frameDelay){
-			if(getFrame()==1){
+		if (!dead && System.currentTimeMillis() - frameTime > frameDelay) {
+			if (getFrame() == 1) {
 				setFrame(0);
-			}
-			else{
+				frameTime = System.currentTimeMillis();
+			} else {
 				setFrame(1);
+				frameTime=System.currentTimeMillis();
 			}
-			frameTimeSet=false;
-		}
-		if(!dead && !frameTimeSet){
-			frameTime=System.currentTimeMillis();
-			frameTimeSet=true;
 		}
 		
 		
@@ -81,49 +75,7 @@ public class goomba extends VanillaAARectangle {
 			vSpeedY = smb.gravity;
 		}
 
-		/*
-		boundingBox = new Rectangle2D.Double(this.position.getX(), this.position.getY() + (vSpeedY * (deltaMs / 1000.0)), this.getWidth(), this.getHeight());
-		if (checkVerticalCollision(boundingBox, this.position.getX(), this.position.getY(), vSpeedY)) {
-			if(Xdirection==1){
-			boundingBox = new Rectangle2D.Double(this.position.getX()-0.2, this.position.getY() + (vSpeedY * (deltaMs / 1000.0)), this.getWidth(), this.getHeight());
-			}
-			else{
-				boundingBox = new Rectangle2D.Double(this.position.getX()+0.2, this.position.getY() + (vSpeedY * (deltaMs / 1000.0)), this.getWidth(), this.getHeight());
-			}
-			
-			if (checkVerticalCollision(boundingBox, this.position.getX(), this.position.getY() , vSpeedY)) {
-				vSpeedY = 0;
-			}
-			else{
-				if(Xdirection==1){
-					position = new Vector2D(this.position.getX()-0.2 , this.position.getY() + (vSpeedY * (deltaMs / 1000.0)));
-				}
-				else{
-					position = new Vector2D(this.position.getX()+0.2 , this.position.getY() + (vSpeedY * (deltaMs / 1000.0)));
-				}
-				vSpeedX = 0;
-			}
-			
-		}
 		
-		boundingBox = new Rectangle2D.Double(this.position.getX()+(vSpeedY * (deltaMs / 1000.0)), this.position.getY(), this.getWidth(), this.getHeight());
-		if (checkHorizontalCollision(boundingBox, this.position.getX(), this.position.getY(), Xdirection)) {
-			boundingBox = new Rectangle2D.Double(this.position.getX(), this.position.getY() + (vSpeedY * (deltaMs / 1000.0)) - 0.1, this.getWidth(), this.getHeight());
-			if (checkHorizontalCollision(boundingBox, this.position.getX(), this.position.getY(), Xdirection)) {
-				vSpeedX = 0;
-				if (Xdirection == 3) {
-					Xdirection = 1;
-				} else {
-					Xdirection = 3;
-				}
-			} else {
-				position = new Vector2D(this.position.getX() + (vSpeedX * (deltaMs / 1000.0)), this.position.getY() + (vSpeedY * (deltaMs / 1000.0)) - 0.1);
-				vSpeedX = 0;
-
-			}
-
-		}
-*/
 		velocity = new Vector2D(vSpeedX, vSpeedY);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
 		
@@ -139,9 +91,11 @@ public class goomba extends VanillaAARectangle {
 	}
 	
 	
-	public void setDead(){
-		this.dead=true;
+	public void setDead() {
+		this.dead = true;
+		deadTime = System.currentTimeMillis();
 		setFrame(2);
+		stomp.play();
 	}
 	
 	boolean outOfScreen(){

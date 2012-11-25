@@ -5,8 +5,56 @@
         <framesrc>mario-spritesheet.xml</framesrc>
     </spritesheet>
     
-    <audioclip>
-        <src>BOUNCE.wav</src>
+<audioclip>
+        <src>smb_1-up.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_bowserfalls.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_bowserfire.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_breakblock.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_bump.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_coin.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_fireball.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_fireworks.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_jump-small.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_jump-super.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_kick.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_pause.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_pipe.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_powerup.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_powerup_appears.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_stomp.wav</src>
+    </audioclip>
+<audioclip>
+        <src>smb_vine.wav</src>
     </audioclip>
 
 </resources>

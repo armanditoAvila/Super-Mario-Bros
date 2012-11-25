@@ -76,7 +76,8 @@ public class smb extends ScrollingScreenGame {
 	private AudioStream music;
 	public BodyLayer<VanillaAARectangle> unmovableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public BodyLayer<VanillaAARectangle> movableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
-	public BodyLayer<VanillaAARectangle> backGroundLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
+	public static BodyLayer<VanillaAARectangle> backGroundLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
+    public static BodyLayer<VanillaAARectangle> powerUpLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 
 	// public AbstractBodyLayer<VanillaAARectangle> playerLayer = new
 	// AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
@@ -86,12 +87,16 @@ public class smb extends ScrollingScreenGame {
 		physics = new VanillaPhysicsEngine();
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
+		
 		gameObjectLayers.add(backGroundLayer);
 		physics.manageViewableSet(backGroundLayer);
+		gameObjectLayers.add(powerUpLayer);
+		physics.manageViewableSet(powerUpLayer);
 		gameObjectLayers.add(unmovableLayer);
 		physics.manageViewableSet(unmovableLayer);
 		gameObjectLayers.add(movableLayer);
 		physics.manageViewableSet(movableLayer);
+		
 		RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle> d = new RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle>(movableLayer, unmovableLayer) {
 			@Override
 			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
@@ -119,16 +124,36 @@ public class smb extends ScrollingScreenGame {
 						}
 					}
 				} else {
-					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() - 1 && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
+					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
 						((player) a).vSpeedY = 0;
-					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() + 1 && a.getPosition().getY() > b.getPosition().getY()) {
-
+					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
+						((player) a).vSpeedY = -((player) a).vSpeedY;
+						switch(b.type){
+						case 1:
+							((player) a).vSpeedY=-((player) a).vSpeedY;
+							((breakableBrownWall)b).breakApart();
+							break;
+						case 11:
+							if(!((questionBlock)b).dead){
+								((player) a).vSpeedY=-((player) a).vSpeedY;
+								if(p.level==1){
+									
+								}
+								else{
+									powerUpLayer.add(new powerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
+									((questionBlock)b).setDead();
+							}
+							}
+							break;
+						
+						}
 					}
-					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() - 1 && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
+					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
 						((player) a).vSpeedX = 0;
-					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() + 1 && a.getPosition().getX() > b.getPosition().getX()) {
+					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
 						((player) a).vSpeedX = 0;
 					}
@@ -195,6 +220,7 @@ public class smb extends ScrollingScreenGame {
 	 * 14 n smallcloud
 	 * 15 0 bighill
 	 * 16 p shrub
+	 * 17   flower
 	 */
 	private void buildMap(String s, int y) throws InterruptedException {
 		try {
@@ -265,11 +291,11 @@ public class smb extends ScrollingScreenGame {
 
 	public void render(RenderingContext rc) {
 		super.render(rc);
-		scoreboardFont.render("MARIO", rc, AffineTransform.getTranslateInstance(40, 20));
+		scoreboardFont.render("MARIO x" + live, rc, AffineTransform.getTranslateInstance(40, 20));
 		scoreboardFont.render("WORLD", rc, AffineTransform.getTranslateInstance(300, 20));
 		scoreboardFont.render("TIME", rc, AffineTransform.getTranslateInstance(430, 20));
-		scoreboardFont.render("LIVE", rc, AffineTransform.getTranslateInstance(230, 20));
-		scoreboardFont.render(live + "", rc, AffineTransform.getTranslateInstance(233, 40));
+		//scoreboardFont.render("LIVE", rc, AffineTransform.getTranslateInstance(230, 20));
+		//scoreboardFont.render(live + "", rc, AffineTransform.getTranslateInstance(233, 40));
 		scoreboardFont.render(points + "", rc, AffineTransform.getTranslateInstance(50, 40));
 		scoreboardFont.render(world + "" + "-" + world_level, rc, AffineTransform.getTranslateInstance(310, 40));
 		scoreboardFont.render((int) time + "", rc, AffineTransform.getTranslateInstance(440, 40));
@@ -308,6 +334,44 @@ public class smb extends ScrollingScreenGame {
 
 		if (space) {
 			this.p.jumped = true;
+		}
+		
+		/* collision between mario and interactable objects */
+		for(int i=0; i<movableLayer.size();i++){
+			if(movableLayer.get(i).isActive() && movableLayer.get(i).type!=4 && movableLayer.get(i).getBoundingBox().intersects(p.getBoundingBox())){
+				//System.out.println("colliding");
+				double playerFoot = p.getPosition().getY()+ p.getHeight();
+				double enemyHead = movableLayer.get(i).getPosition().getY();
+				switch(movableLayer.get(i).type){
+				case 5:
+					if(((goomba)movableLayer.get(i)).dead){
+						continue;
+					}
+					if(playerFoot > enemyHead && playerFoot < enemyHead+2){
+						((goomba)movableLayer.get(i)).setDead();
+						p.jumped=true;
+					}
+					else{
+						//player loose a life
+					}
+				break;
+				case 7:
+					
+					break;
+
+				}
+			}
+		}
+		
+		/* collision between mario and interactable objects */
+		for(int i=0; i<powerUpLayer.size();i++){
+			if(powerUpLayer.get(i).isActive() && powerUpLayer.get(i).type!=4 && powerUpLayer.get(i).getBoundingBox().intersects(p.getBoundingBox())){
+				switch(powerUpLayer.get(i).type){
+				case 17:
+					((powerUpFlower)powerUpLayer.get(i)).setDead();
+					break;
+				}
+			}
 		}
 
 		physics.applyLawsOfPhysics(deltaMs);
