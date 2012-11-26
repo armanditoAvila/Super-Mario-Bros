@@ -6,55 +6,55 @@
     </spritesheet>
     
 <audioclip>
-        <src>smb_1-up.wav</src>
+        <src>audio/smb_1-up.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_bowserfalls.wav</src>
+        <src>audio/smb_bowserfalls.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_bowserfire.wav</src>
+        <src>audio/smb_bowserfire.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_breakblock.wav</src>
+        <src>audio/smb_breakblock.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_bump.wav</src>
+        <src>audio/smb_bump.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_coin.wav</src>
+        <src>audio/smb_coin.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_fireball.wav</src>
+        <src>audio/smb_fireball.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_fireworks.wav</src>
+        <src>audio/smb_fireworks.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_jump-small.wav</src>
+        <src>audio/smb_jump-small.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_jump-super.wav</src>
+        <src>audio/smb_jump-super.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_kick.wav</src>
+        <src>audio/smb_kick.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_pause.wav</src>
+        <src>audio/smb_pause.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_pipe.wav</src>
+        <src>audio/smb_pipe.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_powerup.wav</src>
+        <src>audio/smb_powerup.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_powerup_appears.wav</src>
+        <src>audio/smb_powerup_appears.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_stomp.wav</src>
+        <src>audio/smb_stomp.wav</src>
     </audioclip>
 <audioclip>
-        <src>smb_vine.wav</src>
+        <src>audio/smb_vine.wav</src>
     </audioclip>
 
 </resources>

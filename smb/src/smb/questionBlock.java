@@ -10,7 +10,7 @@ public class questionBlock extends VanillaAARectangle{
 	int frameDelay=200;
 	boolean frameTimeSet;
 	long frameTime;
-	private static AudioClip clip = ResourceFactory.getFactory().getAudioClip("resources/" + "smb_powerup_appears.wav");
+	private static AudioClip clip = ResourceFactory.getFactory().getAudioClip("resources/" + "audio/smb_powerup_appears.wav");
 	questionBlock(int x, int y) {
 		super(smb.SPRITE_SHEET + "#questionBlock", 11);
 		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);

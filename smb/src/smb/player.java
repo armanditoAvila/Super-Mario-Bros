@@ -81,7 +81,7 @@ public class player extends VanillaAARectangle {
 		if (this.previousVelocity.getX() > 0 && this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
 					smb.SPRITE_SHEET + "#marioleft");
-		} else if (this.previousVelocity.getX() == 0
+		} /* else if (this.previousVelocity.getX() == 0
 				&& this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
 					smb.SPRITE_SHEET + "#marioleft");

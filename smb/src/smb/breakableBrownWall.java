@@ -6,7 +6,7 @@ import jig.engine.ResourceFactory;
 import jig.engine.audio.jsound.AudioClip;
 
 public class breakableBrownWall extends VanillaAARectangle {
-private static AudioClip breakApart = ResourceFactory.getFactory().getAudioClip("resources/" + "smb_breakblock.wav");
+private static AudioClip breakApart = ResourceFactory.getFactory().getAudioClip("resources/" + "audio/smb_breakblock.wav");
 	breakableBrownWall(int x, int y) {
 		super(smb.SPRITE_SHEET + "#breakableBrownWall", 1);
 		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);
