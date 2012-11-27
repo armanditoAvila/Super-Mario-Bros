@@ -4,7 +4,7 @@ public final class Physics {
 	/* Framerate Constants */
 	public static double second = 1000;
 	public static double tenFrames = second / 6;
-	public static double keyPoll = second / 60;
+	public static double keyPoll = second / 30;
 	
 	/* @2x Constants For An @2x World */
 	public static double bl = 32;          // Block

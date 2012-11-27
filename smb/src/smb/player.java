@@ -84,7 +84,7 @@ public class player extends VanillaAARectangle {
 		accelerate();
 		velocity = new Vector2D(playerXvel, playerYvel);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
-		jumped = false;
+		//jumped = false;
 	
 	/**
 		 * To Animate the player

@@ -69,6 +69,8 @@ public class smb extends ScrollingScreenGame {
 	String maptext;
 	// public List<walls> wallarray = new ArrayList<walls>();
 	// public List<goomba> goombaarray = new ArrayList<goomba>();
+	
+	long jumpTimer;
 
 	// static double offset;
 	private VanillaPhysicsEngine physics;
@@ -194,6 +196,7 @@ public class smb extends ScrollingScreenGame {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
 						((player) a).playerYvel = 0;
 						((player) a).playerYacc = 0; // causes problems, if player walks off of block gravity doesn't start back up
+						((player) a).jumped = false;
 					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
 						((player) a).playerYvel = -((player) a).playerYvel;
@@ -219,12 +222,12 @@ public class smb extends ScrollingScreenGame {
 					}
 					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
-						((player) a).playerXvel = 0;
-						((player) a).playerXacc = 0;
+						//((player) a).playerXvel = 0;
+						//((player) a).playerXacc = 0;
 					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
-						((player) a).playerXvel = 0;
-						((player) a).playerXacc = 0;
+						//((player) a).playerXvel = 0;
+						//((player) a).playerXacc = 0;
 					}
 				}
 			}
@@ -376,6 +379,9 @@ public class smb extends ScrollingScreenGame {
 		 * time-=((System.currentTimeMillis()-currentTime)/1000.0);
 		 * currentTime=System.currentTimeMillis();
 		 */
+		
+		jumpTimer += deltaMs;
+		
 		if (p.getPosition().getX() < leftWidthBreakPoint) {
 			centerOnPoint(leftWidthBreakPoint, HALF_SCREEN_HEIGHT);
 		} else if (p.getPosition().getX() > rightWidthBreakPoint) {
@@ -391,24 +397,45 @@ public class smb extends ScrollingScreenGame {
 		boolean down = keyboard.isPressed(KeyEvent.VK_DOWN);
 		boolean space = keyboard.isPressed(KeyEvent.VK_SPACE);
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
+		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
 
 		if (left && !right) {
 			//this.p.Xdirection = 3;
 			if(this.p.MARIO) {
-				this.p.playerXacc = -Physics.mg_acceler_walk;
-				this.p.maxXvel = -Physics.mg_max_vel_walk;
+				if(!run){
+					this.p.playerXacc = -Physics.mg_acceler_walk;
+					this.p.maxXvel = -Physics.mg_max_vel_walk;
+				} else {
+					this.p.playerXacc = -Physics.mg_acceler_runn;
+					this.p.maxXvel = -Physics.mg_max_vel_runn;
+				}
 			} else {
-				this.p.playerXacc = -Physics.lg_acceler_walk;
-				this.p.maxXvel = -Physics.lg_max_vel_walk;
+				if(!run){
+					this.p.playerXacc = -Physics.lg_acceler_walk;
+					this.p.maxXvel = -Physics.lg_max_vel_walk;
+				} else {
+					this.p.playerXacc = -Physics.lg_acceler_runn;
+					this.p.maxXvel = -Physics.lg_max_vel_runn;
+				}
 			}
 		} else if (right && !left) {
 			//this.p.Xdirection = 1;
 			if(this.p.MARIO) {
-				this.p.playerXacc = Physics.mg_acceler_walk;
-				this.p.maxXvel = Physics.mg_max_vel_walk;
+				if(!run){
+					this.p.playerXacc = Physics.mg_acceler_walk;
+					this.p.maxXvel = Physics.mg_max_vel_walk;
+				} else {
+					this.p.playerXacc = Physics.mg_acceler_runn;
+					this.p.maxXvel = Physics.mg_max_vel_runn;
+				}
 			} else {
-				this.p.playerXacc = Physics.lg_acceler_walk;
-				this.p.maxXvel = Physics.lg_max_vel_walk;
+				if(!run){
+					this.p.playerXacc = Physics.lg_acceler_walk;
+					this.p.maxXvel = Physics.lg_max_vel_walk;
+				} else {
+					this.p.playerXacc = Physics.lg_acceler_runn;
+					this.p.maxXvel = Physics.lg_max_vel_runn;
+				}
 			}
 		} else {
 			//this.p.Xdirection = 0;
@@ -428,44 +455,40 @@ public class smb extends ScrollingScreenGame {
 		}
 
 		if (space) {
-			this.p.jumped = true;
-			if(Math.abs(this.p.playerXvel) < Physics.ba_max_air_lt) {
-				if(p.playerXvel < 0) {
-					p.maxXvel = -Physics.ba_max_air_lt;
-				} else {
-					p.maxXvel = Physics.ba_max_air_gt;
+			//this.p.jumped = true;
+			if(jumpTimer > Physics.keyPoll){
+				if(Math.abs(this.p.playerXvel) < Physics.ba_max_air_lt) {
+					if(p.playerXvel < 0) {
+						p.maxXvel = -Physics.ba_max_air_lt;
+					} else {
+						p.maxXvel = Physics.ba_max_air_gt;
+					}
 				}
-			}
-			if(this.p.MARIO){
-				if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
-					System.out.println("jump");
-					this.p.playerYvel = -Physics.mj_lt_init_vel;
-					this.p.playerYacc = Physics.mj_lt_fall_gra;
-					this.p.gravity = Physics.mj_lt_fall_gra;
-				} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
-					this.p.playerYvel = -Physics.mj_bt_init_vel;
-					this.p.playerYacc = Physics.mj_bt_fall_gra;
-					this.p.gravity = Physics.mj_bt_fall_gra;
+				if(this.p.MARIO){
+					if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
+						System.out.println("jump");
+						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_lt_init_vel;
+						if(!this.p.jumped) this.p.playerYacc = Physics.mj_lt_fall_gra;
+						if(this.p.jumped) this.p.playerYacc = Physics.mj_lt_hold_gra;
+						this.p.jumped = true;
+						this.p.gravity = Physics.mj_lt_fall_gra;
+					} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
+						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_bt_init_vel;
+						if(!this.p.jumped) this.p.playerYacc = Physics.mj_bt_fall_gra;
+						if(this.p.jumped) this.p.playerYacc = Physics.mj_bt_hold_gra;
+						this.p.jumped = true;
+						this.p.gravity = Physics.mj_bt_fall_gra;
+					} else {
+						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_gt_init_vel;
+						if(!this.p.jumped) this.p.playerYacc = Physics.mj_gt_fall_gra;
+						if(this.p.jumped) this.p.playerYacc = Physics.mj_gt_hold_gra;
+						this.p.jumped = true;
+						this.p.gravity = Physics.mj_gt_fall_gra;
+					}
 				} else {
-					this.p.playerYvel = -Physics.mj_gt_init_vel;
-					this.p.playerYacc = Physics.mj_gt_fall_gra;
-					this.p.gravity = Physics.mj_gt_fall_gra;
+					
 				}
-			} else {
-				if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
-					System.out.println("jump");
-					this.p.playerYvel = -Physics.lj_lt_init_vel;
-					this.p.playerYacc = Physics.lj_lt_fall_gra;
-					this.p.gravity = Physics.lj_lt_fall_gra;
-				} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
-					this.p.playerYvel = -Physics.lj_bt_init_vel;
-					this.p.playerYacc = Physics.lj_bt_fall_gra;
-					this.p.gravity = Physics.lj_bt_fall_gra;
-				} else {
-					this.p.playerYvel = -Physics.lj_gt_init_vel;
-					this.p.playerYacc = Physics.lj_gt_fall_gra;
-					this.p.gravity = Physics.lj_gt_fall_gra;
-				}
+				jumpTimer = 0;
 			}
 		}
 		
