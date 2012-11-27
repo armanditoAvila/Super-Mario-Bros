@@ -5,7 +5,7 @@ import jig.engine.physics.vpe.VanillaSphere;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
-public class turtle extends VanillaAARectangle {
+public class Turtle extends VanillaAARectangle {
 
 	SpriteUpdateRules updateRule;
 	smb smbObject;
@@ -19,7 +19,7 @@ public class turtle extends VanillaAARectangle {
 	boolean dead;
 	long timeSinceLastUpdate = frameTime;
 
-	public turtle(int x, int y) {
+	public Turtle(int x, int y) {
 		/*
 		super(smb.SPRITE_SHEET + ghostName);
 		position = new Vector2D(x, y);

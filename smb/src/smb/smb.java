@@ -97,6 +97,7 @@ public class smb extends ScrollingScreenGame {
 		gameObjectLayers.add(movableLayer);
 		physics.manageViewableSet(movableLayer);
 		
+		/* Justin: Commenting out to test changed names
 		RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle> d = new RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle>(movableLayer, unmovableLayer) {
 			@Override
 			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
@@ -156,6 +157,74 @@ public class smb extends ScrollingScreenGame {
 					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
 						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
 						((player) a).vSpeedX = 0;
+					}
+				}
+			}
+		};
+		*/
+		
+		RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle> d = new RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle>(movableLayer, unmovableLayer) {
+			@Override
+			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
+				if (a.type != 4) {
+					if (a.type == 5) {
+						if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY()&& (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
+							((goomba) a).vSpeedY = 0;
+						} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight()&& a.getPosition().getY() > b.getPosition().getY()) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.5));
+							((goomba) a).vSpeedY = -((goomba) a).vSpeedY;
+						}
+						if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX()&& a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
+							((goomba) a).vSpeedX = 0;
+							((goomba) a).setOppositeDirection();
+
+							
+							
+						} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth()&& a.getPosition().getX() > b.getPosition().getX()) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
+							((goomba) a).vSpeedX = 0;
+							((goomba) a).setOppositeDirection();
+
+						}
+					}
+				} else {
+					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
+						((player) a).playerYvel = 0;
+						((player) a).playerYacc = 0; // causes problems, if player walks off of block gravity doesn't start back up
+					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
+						((player) a).playerYvel = -((player) a).playerYvel;
+						switch(b.type){
+						case 1:
+							((player) a).playerYvel=-((player) a).playerYvel;
+							((breakableBrownWall)b).breakApart();
+							break;
+						case 11:
+							if(!((questionBlock)b).dead){
+								((player) a).playerYvel=-((player) a).playerYvel;
+								if(p.level==1){
+									
+								}
+								else{
+									powerUpLayer.add(new powerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
+									((questionBlock)b).setDead();
+							}
+							}
+							break;
+						
+						}
+					}
+					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
+						((player) a).playerXvel = 0;
+						((player) a).playerXacc = 0;
+					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
+						((player) a).playerXvel = 0;
+						((player) a).playerXacc = 0;
 					}
 				}
 			}
@@ -242,7 +311,7 @@ public class smb extends ScrollingScreenGame {
 				} else if (ch == 'f') {
 					unmovableLayer.add(new flagPole(x, y));
 				} else if (ch == 'g') {
-					movableLayer.add(new turtle(x, y));
+					movableLayer.add(new Turtle(x, y));
 				} else if (ch == 'h') {
 					unmovableLayer.add(new verticalPipe(x, y));
 				} else if (ch == 'i') {
@@ -324,16 +393,80 @@ public class smb extends ScrollingScreenGame {
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 
 		if (left && !right) {
-			this.p.Xdirection = 3;
-
+			//this.p.Xdirection = 3;
+			if(this.p.MARIO) {
+				this.p.playerXacc = -Physics.mg_acceler_walk;
+				this.p.maxXvel = -Physics.mg_max_vel_walk;
+			} else {
+				this.p.playerXacc = -Physics.lg_acceler_walk;
+				this.p.maxXvel = -Physics.lg_max_vel_walk;
+			}
 		} else if (right && !left) {
-			this.p.Xdirection = 1;
+			//this.p.Xdirection = 1;
+			if(this.p.MARIO) {
+				this.p.playerXacc = Physics.mg_acceler_walk;
+				this.p.maxXvel = Physics.mg_max_vel_walk;
+			} else {
+				this.p.playerXacc = Physics.lg_acceler_walk;
+				this.p.maxXvel = Physics.lg_max_vel_walk;
+			}
 		} else {
-			this.p.Xdirection = 0;
+			//this.p.Xdirection = 0;
+			if(this.p.playerXvel < 0) {
+				if(this.p.MARIO) {
+					this.p.playerXacc = Physics.mg_deceler_rele;
+				} else {
+					this.p.playerXacc = Physics.lg_deceler_rele;
+				}
+			} else if(p.playerXvel > 0) {
+				if(this.p.MARIO) {
+					this.p.playerXacc = -Physics.lg_deceler_rele;
+				} else {
+					this.p.playerXacc = -Physics.lg_deceler_rele;
+				}
+			}
 		}
 
 		if (space) {
 			this.p.jumped = true;
+			if(Math.abs(this.p.playerXvel) < Physics.ba_max_air_lt) {
+				if(p.playerXvel < 0) {
+					p.maxXvel = -Physics.ba_max_air_lt;
+				} else {
+					p.maxXvel = Physics.ba_max_air_gt;
+				}
+			}
+			if(this.p.MARIO){
+				if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
+					System.out.println("jump");
+					this.p.playerYvel = -Physics.mj_lt_init_vel;
+					this.p.playerYacc = Physics.mj_lt_fall_gra;
+					this.p.gravity = Physics.mj_lt_fall_gra;
+				} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
+					this.p.playerYvel = -Physics.mj_bt_init_vel;
+					this.p.playerYacc = Physics.mj_bt_fall_gra;
+					this.p.gravity = Physics.mj_bt_fall_gra;
+				} else {
+					this.p.playerYvel = -Physics.mj_gt_init_vel;
+					this.p.playerYacc = Physics.mj_gt_fall_gra;
+					this.p.gravity = Physics.mj_gt_fall_gra;
+				}
+			} else {
+				if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
+					System.out.println("jump");
+					this.p.playerYvel = -Physics.lj_lt_init_vel;
+					this.p.playerYacc = Physics.lj_lt_fall_gra;
+					this.p.gravity = Physics.lj_lt_fall_gra;
+				} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
+					this.p.playerYvel = -Physics.lj_bt_init_vel;
+					this.p.playerYacc = Physics.lj_bt_fall_gra;
+					this.p.gravity = Physics.lj_bt_fall_gra;
+				} else {
+					this.p.playerYvel = -Physics.lj_gt_init_vel;
+					this.p.playerYacc = Physics.lj_gt_fall_gra;
+					this.p.gravity = Physics.lj_gt_fall_gra;
+				}
+			}
 		}
 		
 		/* collision between mario and interactable objects */

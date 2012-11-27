@@ -24,13 +24,33 @@ public class player extends VanillaAARectangle {
 	
 	Vector2D currentVelocity;
 	Vector2D previousVelocity;
+	
+	/* Justin's Physics Variables */
+	public double playerXvel;
+	public double playerXacc;
+
+	public double playerYvel;
+	public double playerYacc;
+
+	public double gravity;
+
+	public double maxAvel;	// Mid-Air X
+	public double maxXvel;
+	public double maxYvel;
+	public double wraYvel;
+	public boolean MARIO = true;
 
 	player(int x, int y) {
 		super(smb.SPRITE_SHEET + "#mario", 4);
 		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);
 		currentVelocity = Vector2D.ZERO;
 		previousVelocity = Vector2D.ZERO;
-
+		playerXvel = playerXacc = playerYvel = playerYacc = 0;
+		if(MARIO) {
+			maxXvel = Physics.mg_max_vel_walk;
+		} else {
+			maxXvel = Physics.lg_max_vel_walk;
+		}
 	}
 
 	public void update(final long deltaMs) {
@@ -38,7 +58,7 @@ public class player extends VanillaAARectangle {
 			return;
 		}
 		
-
+		/* Commenting Out To Test Mine
 		if (Xdirection == 1) {
 			vSpeedX = speed;
 		} else if (Xdirection == 3) {
@@ -60,9 +80,11 @@ public class player extends VanillaAARectangle {
 
 		velocity = new Vector2D(vSpeedX, vSpeedY);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
-
-	
-	
+		*/
+		accelerate();
+		velocity = new Vector2D(playerXvel, playerYvel);
+		position = position.translate(velocity.scale(deltaMs / 1000.0));
+		jumped = false;
 	
 	/**
 		 * To Animate the player
@@ -142,5 +164,23 @@ public class player extends VanillaAARectangle {
 			}
 		}
 
+	}
+	
+	/* Justin's Physics Handler */
+	void accelerate() {
+		/* X Calculations And Checks */
+		if(playerXvel > 0 && (playerXvel + playerXacc) <= 0) {
+			playerXvel = 0;
+		} else if(playerXvel < 0 && (playerXvel + playerXacc) >= 0) {
+			playerXvel = 0;
+		} else {
+			playerXvel = playerXvel + playerXacc;
+			if(Math.abs(playerXvel) > Math.abs(maxXvel)) playerXvel = maxXvel;
+		}
+		
+		/* Y Calculations And Checks */
+		playerYvel = playerYvel + playerYacc;
+		//if(playerYvel > maxYvel) playerYvel = wraYvel;
+		//System.out.println(playerYvel);
 	}
 }
