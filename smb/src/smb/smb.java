@@ -486,7 +486,26 @@ public class smb extends ScrollingScreenGame {
 						this.p.gravity = Physics.mj_gt_fall_gra;
 					}
 				} else {
-					
+					if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
+						System.out.println("jump");
+						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.lj_lt_init_vel;
+						if(!this.p.jumped) this.p.playerYacc = Physics.lj_lt_fall_gra;
+						if(this.p.jumped) this.p.playerYacc = Physics.lj_lt_hold_gra;
+						this.p.jumped = true;
+						this.p.gravity = Physics.lj_lt_fall_gra;
+					} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
+						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.lj_bt_init_vel;
+						if(!this.p.jumped) this.p.playerYacc = Physics.lj_bt_fall_gra;
+						if(this.p.jumped) this.p.playerYacc = Physics.lj_bt_hold_gra;
+						this.p.jumped = true;
+						this.p.gravity = Physics.lj_bt_fall_gra;
+					} else {
+						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.lj_gt_init_vel;
+						if(!this.p.jumped) this.p.playerYacc = Physics.lj_gt_fall_gra;
+						if(this.p.jumped) this.p.playerYacc = Physics.lj_gt_hold_gra;
+						this.p.jumped = true;
+						this.p.gravity = Physics.lj_gt_fall_gra;
+					}
 				}
 				jumpTimer = 0;
 			}
