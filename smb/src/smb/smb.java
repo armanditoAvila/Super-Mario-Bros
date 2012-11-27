@@ -105,33 +105,33 @@ public class smb extends ScrollingScreenGame {
 			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
 				if (a.type != 4) {
 					if (a.type == 5) {
-						if (a.isOnTopSide(b)) {
-							a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
-			
-						} else if (a.isOnBottomSide(b)) {
-						
-							a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
+						if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY()&& (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
+							((goomba) a).vSpeedY = 0;
+						} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight()&& a.getPosition().getY() > b.getPosition().getY()) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.5));
 							((goomba) a).vSpeedY = -((goomba) a).vSpeedY;
 						}
-
-						if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
-							
-							a.setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
+						if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX()&& a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
+							((goomba) a).vSpeedX = 0;
 							((goomba) a).setOppositeDirection();
 
-						} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
 							
-							a.setPosition(new Vector2D(a.getPosition().getX() + a.rightCollidingDistance(b), a.getPosition().getY()));
+							
+						} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth()&& a.getPosition().getX() > b.getPosition().getX()) {
+							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
+							((goomba) a).vSpeedX = 0;
 							((goomba) a).setOppositeDirection();
 
 						}
 					}
 				} else {
-					if (a.isOnTopSide(b)) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
+					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
 						((player) a).vSpeedY = 0;
-					} else if (a.isOnBottomSide(b)) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
+					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
 						((player) a).vSpeedY = -((player) a).vSpeedY;
 						switch(b.type){
 						case 1:
@@ -153,11 +153,11 @@ public class smb extends ScrollingScreenGame {
 						
 						}
 					}
-					if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
+					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
 						((player) a).vSpeedX = 0;
-					} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX() + a.rightCollidingDistance(b), a.getPosition().getY()));
+					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
+						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
 						((player) a).vSpeedX = 0;
 					}
 				}
