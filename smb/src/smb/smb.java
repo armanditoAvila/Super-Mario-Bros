@@ -330,7 +330,7 @@ public class smb extends ScrollingScreenGame {
 				} else if (ch == 'l') {
 					backGroundLayer.add(new smallcloud(x,y));
 				} else if (ch == 'm') {
-					backGroundLayer.add(new bigcloud(x,y));
+					backGroundLayer.add(new BigCloud(x,y));
 				} else if (ch == 'n') {
 					backGroundLayer.add(new smallhill(x,y));
 				} else if (ch == 'o') {
