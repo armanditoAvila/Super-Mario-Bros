@@ -293,7 +293,7 @@ public class smb extends ScrollingScreenGame {
 	 * 15 0 bighill
 	 * 16 p shrub
 	 * 17 q green goomba
-	 * 18 r green duck
+	 * 18 r green turtle
 	 * 19 s green step
 	 * 20 w green breakable wall
 	 * 21   flower
@@ -307,18 +307,18 @@ public class smb extends ScrollingScreenGame {
 				if (ch == 'a') {
 					unmovableLayer.add(new breakableBrownWall(x, y));
 				} else if (ch == 'b') {
-					unmovableLayer.add(new unbreakableWall(x, y));
+					unmovableLayer.add(new unbreakableWall(x, y,"#unbreakableWall"));
 				} else if (ch == 'c') {
 					unmovableLayer.add(new groundWall(x, y));
 				} else if (ch == 'd') {
 					p = new player(x, y);
 					movableLayer.add(p);
 				} else if (ch == 'e') {
-					movableLayer.add(new goomba(x, y));
+					movableLayer.add(new goomba(x, y,"#Goomba"));
 				} else if (ch == 'f') {
 					unmovableLayer.add(new flagPole(x, y));
 				} else if (ch == 'g') {
-					movableLayer.add(new Turtle(x, y));
+					movableLayer.add(new Turtle(x, y,"#turtle"));
 				} else if (ch == 'h') {
 					unmovableLayer.add(new verticalPipe(x, y));
 				} else if (ch == 'i') {
@@ -338,11 +338,11 @@ public class smb extends ScrollingScreenGame {
 				} else if (ch == 'p') {
 					backGroundLayer.add(new shrub(x,y));
 				} else if (ch == 'q') {
-
+					movableLayer.add(new goomba(x, y,"#greengoomba"));
 				} else if (ch == 'r') {
-
+					movableLayer.add(new Turtle(x, y,"#greenturtle"));
 				} else if (ch == 's') {
-
+					unmovableLayer.add(new unbreakableWall(x, y,"greenUnbreakableWall"));
 				} else if (ch == 't') {
 
 				} else if (ch == 'u') {
@@ -350,7 +350,7 @@ public class smb extends ScrollingScreenGame {
 				} else if (ch == 'v') {
 
 				} else if (ch == 'w') {
-
+					unmovableLayer.add(new breakableGreenWall(x,y));
 				} else if (ch == 'x') {
 
 				} else if (ch == 'y') {

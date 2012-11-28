@@ -19,13 +19,14 @@ public class Turtle extends VanillaAARectangle {
 	boolean dead;
 	long timeSinceLastUpdate = frameTime;
 
-	public Turtle(int x, int y) {
+	public Turtle(int x, int y, String turtleType) {
 		/*
 		super(smb.SPRITE_SHEET + ghostName);
 		position = new Vector2D(x, y);
 		velocity = new Vector2D(20, 20);
 		*/
-		super(smb.SPRITE_SHEET + "#turtle", 7);
+		//super(smb.SPRITE_SHEET + "#turtle", 7);
+		super(smb.SPRITE_SHEET + turtleType, 7);
 		Xdirection=3;
 		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE + 14);
 	}

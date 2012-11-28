@@ -23,8 +23,9 @@ public class goomba extends VanillaAARectangle {
 	Rectangle2D boundingBox;
 	private static AudioClip stomp = ResourceFactory.getFactory().getAudioClip("resources/" + "audio/smb_stomp.wav");
 
-	goomba(int x, int y) {
-		super(smb.SPRITE_SHEET + "#Goomba", 5);
+	goomba(int x, int y, String goombaType) {
+		//super(smb.SPRITE_SHEET + "#Goomba", 5);
+		super(smb.SPRITE_SHEET + goombaType, 5);
 		frameTime=System.currentTimeMillis();
 		Xdirection = 1;
 		Ydirection = 0;
