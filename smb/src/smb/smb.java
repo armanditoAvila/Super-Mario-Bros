@@ -292,7 +292,11 @@ public class smb extends ScrollingScreenGame {
 	 * 14 n smallcloud
 	 * 15 0 bighill
 	 * 16 p shrub
-	 * 17   flower
+	 * 17 q green goomba
+	 * 18 r green duck
+	 * 19 s green step
+	 * 20 w green breakable wall
+	 * 21   flower
 	 */
 	private void buildMap(String s, int y) throws InterruptedException {
 		try {
