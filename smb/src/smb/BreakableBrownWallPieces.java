@@ -3,9 +3,9 @@ package smb;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
-public class breakableBrownWallPieces extends VanillaAARectangle {
-	breakableBrownWallPieces(double d, double e, int location) {
-		super(smb.SPRITE_SHEET + "#breakableBrownWallPieces", 0);
+public class BreakableBrownWallPieces extends VanillaAARectangle {
+	BreakableBrownWallPieces(double d, double e, int location) {
+		super(Smb.SPRITE_SHEET + "#breakableBrownWallPieces", 0);
 		if(location==1){
 		position = new Vector2D(d-8, e-8);
 		velocity = new Vector2D(-10,-50);
@@ -30,10 +30,10 @@ public class breakableBrownWallPieces extends VanillaAARectangle {
 		return;
 		}
 		
-		if(position.getY()>smb.WORLD_HEIGHT){
+		if(position.getY()>Smb.WORLD_HEIGHT){
 			active=false;
 		}
-		velocity = new Vector2D(velocity.getX(), velocity.getY()+smb.gravity) ;
+		velocity = new Vector2D(velocity.getX(), velocity.getY()+Smb.gravity) ;
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
 	}
 	

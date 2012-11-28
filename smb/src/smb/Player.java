@@ -7,7 +7,7 @@ import jig.engine.ResourceFactory;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
-public class player extends VanillaAARectangle {
+public class Player extends VanillaAARectangle {
 	final int jumpV = -80;
 	int Xdirection, Ydirection;
 	int speed = 100;
@@ -40,9 +40,9 @@ public class player extends VanillaAARectangle {
 	public double wraYvel;
 	public boolean MARIO = true;
 
-	player(int x, int y) {
-		super(smb.SPRITE_SHEET + "#mario", 4);
-		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);
+	Player(int x, int y) {
+		super(Smb.SPRITE_SHEET + "#mario", 4);
+		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
 		currentVelocity = Vector2D.ZERO;
 		previousVelocity = Vector2D.ZERO;
 		playerXvel = playerXacc = playerYvel = playerYacc = 0;
@@ -102,7 +102,7 @@ public class player extends VanillaAARectangle {
 
 		if (this.previousVelocity.getX() > 0 && this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#marioleft");
+					Smb.SPRITE_SHEET + "#marioleft");
 		} /* else if (this.previousVelocity.getX() == 0
 				&& this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(

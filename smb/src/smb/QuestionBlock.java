@@ -5,15 +5,15 @@ import jig.engine.util.Vector2D;
 import jig.engine.ResourceFactory;
 import jig.engine.audio.jsound.AudioClip;
 
-public class questionBlock extends VanillaAARectangle{
+public class QuestionBlock extends VanillaAARectangle{
 	boolean dead;
 	int frameDelay=200;
 	boolean frameTimeSet;
 	long frameTime;
 	private static AudioClip clip = ResourceFactory.getFactory().getAudioClip("resources/" + "audio/smb_powerup_appears.wav");
-	questionBlock(int x, int y) {
-		super(smb.SPRITE_SHEET + "#questionBlock", 11);
-		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);
+	QuestionBlock(int x, int y) {
+		super(Smb.SPRITE_SHEET + "#questionBlock", 11);
+		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
 		setFrame(0);
 		frameTime=System.currentTimeMillis();
 	}

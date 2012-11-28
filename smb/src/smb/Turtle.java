@@ -8,7 +8,7 @@ import jig.engine.util.Vector2D;
 public class Turtle extends VanillaAARectangle {
 
 	SpriteUpdateRules updateRule;
-	smb smbObject;
+	Smb smbObject;
 	double vSpeedX, vSpeedY;
 	int Xdirection, Ydirection;
 	int speed = 30;
@@ -26,9 +26,9 @@ public class Turtle extends VanillaAARectangle {
 		velocity = new Vector2D(20, 20);
 		*/
 		//super(smb.SPRITE_SHEET + "#turtle", 7);
-		super(smb.SPRITE_SHEET + turtleType, 7);
+		super(Smb.SPRITE_SHEET + turtleType, 7);
 		Xdirection=3;
-		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE + 14);
+		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE + 14);
 	}
 
 	@Override
@@ -44,10 +44,10 @@ public class Turtle extends VanillaAARectangle {
 			vSpeedX = 0;
 		}
 
-		vSpeedY += smb.gravity;
+		vSpeedY += Smb.gravity;
 
-		if (vSpeedY > smb.gravity) {
-			vSpeedY = smb.gravity;
+		if (vSpeedY > Smb.gravity) {
+			vSpeedY = Smb.gravity;
 		}
 		
 		//this.updateFrame(deltaMs);

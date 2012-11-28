@@ -38,7 +38,7 @@ import jig.engine.physics.vpe.VanillaSphere;
 import jig.engine.util.Vector2D;
 
 @SuppressWarnings("unused")
-public class smb extends ScrollingScreenGame {
+public class Smb extends ScrollingScreenGame {
 
 	static final int WORLD_WIDTH = 512;
 
@@ -54,7 +54,7 @@ public class smb extends ScrollingScreenGame {
 	static final double deltaTime = 0.0001;
 	static int mapWidth, mapHeight;
 
-	player p;
+	Player p;
 	int points;
 	int coinNum;
 	int world;
@@ -83,7 +83,7 @@ public class smb extends ScrollingScreenGame {
 
 	// public AbstractBodyLayer<VanillaAARectangle> playerLayer = new
 	// AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
-	public smb() {
+	public Smb() {
 		super(WORLD_WIDTH, WORLD_HEIGHT, false);
 
 		physics = new VanillaPhysicsEngine();
@@ -171,49 +171,49 @@ public class smb extends ScrollingScreenGame {
 				if (a.type != 4) {
 					if (a.type == 5) {
 						if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY()&& (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
-							((goomba) a).vSpeedY = 0;
+							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
+							((Goomba) a).vSpeedY = 0;
 						} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight()&& a.getPosition().getY() > b.getPosition().getY()) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.5));
-							((goomba) a).vSpeedY = -((goomba) a).vSpeedY;
+							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.5));
+							((Goomba) a).vSpeedY = -((Goomba) a).vSpeedY;
 						}
 						if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX()&& a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
-							((goomba) a).vSpeedX = 0;
-							((goomba) a).setOppositeDirection();
+							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
+							((Goomba) a).vSpeedX = 0;
+							((Goomba) a).setOppositeDirection();
 
 							
 							
 						} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth()&& a.getPosition().getX() > b.getPosition().getX()) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
-							((goomba) a).vSpeedX = 0;
-							((goomba) a).setOppositeDirection();
+							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
+							((Goomba) a).vSpeedX = 0;
+							((Goomba) a).setOppositeDirection();
 
 						}
 					}
 				} else {
 					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
-						((player) a).playerYvel = 0;
-						((player) a).playerYacc = 0; // causes problems, if player walks off of block gravity doesn't start back up
-						((player) a).jumped = false;
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
+						((Player) a).playerYvel = 0;
+						((Player) a).playerYacc = 0; // causes problems, if player walks off of block gravity doesn't start back up
+						((Player) a).jumped = false;
 					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
-						((player) a).playerYvel = -((player) a).playerYvel;
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
+						((Player) a).playerYvel = -((Player) a).playerYvel;
 						switch(b.type){
 						case 1:
-							((player) a).playerYvel=-((player) a).playerYvel;
-							((breakableBrownWall)b).breakApart();
+							((Player) a).playerYvel=-((Player) a).playerYvel;
+							((BreakableBrownWall)b).breakApart();
 							break;
 						case 11:
-							if(!((questionBlock)b).dead){
-								((player) a).playerYvel=-((player) a).playerYvel;
+							if(!((QuestionBlock)b).dead){
+								((Player) a).playerYvel=-((Player) a).playerYvel;
 								if(p.level==1){
 									
 								}
 								else{
-									powerUpLayer.add(new powerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
-									((questionBlock)b).setDead();
+									powerUpLayer.add(new PowerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
+									((QuestionBlock)b).setDead();
 							}
 							}
 							break;
@@ -221,11 +221,11 @@ public class smb extends ScrollingScreenGame {
 						}
 					}
 					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
 						//((player) a).playerXvel = 0;
 						//((player) a).playerXacc = 0;
 					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
 						//((player) a).playerXvel = 0;
 						//((player) a).playerXacc = 0;
 					}
@@ -305,44 +305,44 @@ public class smb extends ScrollingScreenGame {
 
 				char ch = line.charAt(x);
 				if (ch == 'a') {
-					unmovableLayer.add(new breakableBrownWall(x, y));
+					unmovableLayer.add(new BreakableBrownWall(x, y));
 				} else if (ch == 'b') {
-					unmovableLayer.add(new unbreakableWall(x, y,"#unbreakableWall"));
+					unmovableLayer.add(new UnbreakableWall(x, y,"#unbreakableWall"));
 				} else if (ch == 'c') {
-					unmovableLayer.add(new groundWall(x, y));
+					unmovableLayer.add(new GroundWall(x, y));
 				} else if (ch == 'd') {
-					p = new player(x, y);
+					p = new Player(x, y);
 					movableLayer.add(p);
 				} else if (ch == 'e') {
-					movableLayer.add(new goomba(x, y,"#Goomba"));
+					movableLayer.add(new Goomba(x, y,"#Goomba"));
 				} else if (ch == 'f') {
-					unmovableLayer.add(new flagPole(x, y));
+					unmovableLayer.add(new FlagPole(x, y));
 				} else if (ch == 'g') {
 					movableLayer.add(new Turtle(x, y,"#turtle"));
 				} else if (ch == 'h') {
-					unmovableLayer.add(new verticalPipe(x, y));
+					unmovableLayer.add(new VerticalPipe(x, y));
 				} else if (ch == 'i') {
-					unmovableLayer.add(new verticalHalfPipe(x, y));
+					unmovableLayer.add(new VerticalHalfPipe(x, y));
 				} else if (ch == 'j') {
-					unmovableLayer.add(new castle(x, y));
+					unmovableLayer.add(new Castle(x, y));
 				} else if (ch == 'k') {
-					unmovableLayer.add(new questionBlock(x, y));
+					unmovableLayer.add(new QuestionBlock(x, y));
 				} else if (ch == 'l') {
-					backGroundLayer.add(new smallcloud(x,y));
+					backGroundLayer.add(new SmallCloud(x,y));
 				} else if (ch == 'm') {
 					backGroundLayer.add(new BigCloud(x,y));
 				} else if (ch == 'n') {
-					backGroundLayer.add(new smallhill(x,y));
+					backGroundLayer.add(new SmallHill(x,y));
 				} else if (ch == 'o') {
-					backGroundLayer.add(new bighill(x,y));
+					backGroundLayer.add(new BigHill(x,y));
 				} else if (ch == 'p') {
-					backGroundLayer.add(new shrub(x,y));
+					backGroundLayer.add(new Shrub(x,y));
 				} else if (ch == 'q') {
-					movableLayer.add(new goomba(x, y,"#greengoomba"));
+					movableLayer.add(new Goomba(x, y,"#greengoomba"));
 				} else if (ch == 'r') {
 					movableLayer.add(new Turtle(x, y,"#greenturtle"));
 				} else if (ch == 's') {
-					unmovableLayer.add(new unbreakableWall(x, y,"greenUnbreakableWall"));
+					unmovableLayer.add(new UnbreakableWall(x, y,"greenUnbreakableWall"));
 				} else if (ch == 't') {
 
 				} else if (ch == 'u') {
@@ -350,7 +350,7 @@ public class smb extends ScrollingScreenGame {
 				} else if (ch == 'v') {
 
 				} else if (ch == 'w') {
-					unmovableLayer.add(new breakableGreenWall(x,y));
+					unmovableLayer.add(new BreakableGreenWall(x,y));
 				} else if (ch == 'x') {
 
 				} else if (ch == 'y') {
@@ -523,11 +523,11 @@ public class smb extends ScrollingScreenGame {
 				double enemyHead = movableLayer.get(i).getPosition().getY();
 				switch(movableLayer.get(i).type){
 				case 5:
-					if(((goomba)movableLayer.get(i)).dead){
+					if(((Goomba)movableLayer.get(i)).dead){
 						continue;
 					}
 					if(playerFoot > enemyHead && playerFoot < enemyHead+2){
-						((goomba)movableLayer.get(i)).setDead();
+						((Goomba)movableLayer.get(i)).setDead();
 						p.jumped=true;
 					}
 					else{
@@ -547,7 +547,7 @@ public class smb extends ScrollingScreenGame {
 			if(powerUpLayer.get(i).isActive() && powerUpLayer.get(i).type!=4 && powerUpLayer.get(i).getBoundingBox().intersects(p.getBoundingBox())){
 				switch(powerUpLayer.get(i).type){
 				case 17:
-					((powerUpFlower)powerUpLayer.get(i)).setDead();
+					((PowerUpFlower)powerUpLayer.get(i)).setDead();
 					break;
 				}
 			}
@@ -559,7 +559,7 @@ public class smb extends ScrollingScreenGame {
 
 	public static void main(String[] args) {
 
-		smb p = new smb();
+		Smb p = new Smb();
 		p.run();
 
 	}

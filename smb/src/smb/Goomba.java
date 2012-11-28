@@ -7,7 +7,7 @@ import jig.engine.util.Vector2D;
 import jig.engine.ResourceFactory;
 import jig.engine.audio.jsound.AudioClip;
 
-public class goomba extends VanillaAARectangle {
+public class Goomba extends VanillaAARectangle {
 	int Xdirection, Ydirection;
 	int speed = 30;
 	int frameDelay=200;
@@ -23,13 +23,13 @@ public class goomba extends VanillaAARectangle {
 	Rectangle2D boundingBox;
 	private static AudioClip stomp = ResourceFactory.getFactory().getAudioClip("resources/" + "audio/smb_stomp.wav");
 
-	goomba(int x, int y, String goombaType) {
+	Goomba(int x, int y, String goombaType) {
 		//super(smb.SPRITE_SHEET + "#Goomba", 5);
-		super(smb.SPRITE_SHEET + goombaType, 5);
+		super(Smb.SPRITE_SHEET + goombaType, 5);
 		frameTime=System.currentTimeMillis();
 		Xdirection = 1;
 		Ydirection = 0;
-		position = new Vector2D(x * smb.TILE_SIZE, y * smb.TILE_SIZE);
+		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
 		setFrame(0);
 	}
 
@@ -70,10 +70,10 @@ public class goomba extends VanillaAARectangle {
 			vSpeedX = 0;
 		}
 
-		vSpeedY += smb.gravity;
+		vSpeedY += Smb.gravity;
 
-		if (vSpeedY > smb.gravity) {
-			vSpeedY = smb.gravity;
+		if (vSpeedY > Smb.gravity) {
+			vSpeedY = Smb.gravity;
 		}
 
 		
@@ -100,7 +100,7 @@ public class goomba extends VanillaAARectangle {
 	}
 	
 	boolean outOfScreen(){
-		if(this.position.getX()+ smb.WORLD_WIDTH < smb.currentCenter || this.position.getY() > smb.WORLD_HEIGHT+this.getHeight()){
+		if(this.position.getX()+ Smb.WORLD_WIDTH < Smb.currentCenter || this.position.getY() > Smb.WORLD_HEIGHT+this.getHeight()){
 			return true;
 		}
 		else{

@@ -7,12 +7,12 @@ import jig.engine.util.Vector2D;
 public class Mushroom extends VanillaSphere {
 
 	SpriteUpdateRules updateRule;
-	smb smbObject;
+	Smb smbObject;
 	final long frameTime = 800;
 	long timeSinceLastUpdate = frameTime;
 
 	public Mushroom(int x, int y, String ghostName) {
-		super(smb.SPRITE_SHEET + ghostName);
+		super(Smb.SPRITE_SHEET + ghostName);
 		position = new Vector2D(x, y);
 		velocity = new Vector2D(20, 20);
 	}
