@@ -51,6 +51,7 @@ public class Smb extends ScrollingScreenGame {
 	int worldPixelLenght;
 	int worldPixelHeight;
 	static final String SPRITE_SHEET = "resources/mario-spritesheet.png";
+	static final String SPRITE_SHEET2 = "resources/smb_mario_sheet.png";
 	static final double deltaTime = 0.0001;
 	static int mapWidth, mapHeight;
 

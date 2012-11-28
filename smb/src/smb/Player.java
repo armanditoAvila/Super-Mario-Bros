@@ -17,7 +17,7 @@ public class Player extends VanillaAARectangle {
 	boolean onGround;
 	Rectangle2D boundingBox;
 	Vector2D tempVelocity, tempPosition;
-	final long frameTime = 800;
+	final long frameTime = 180;
 	
 	long timeSinceLastUpdate = frameTime;
 	boolean move = true;
@@ -41,7 +41,7 @@ public class Player extends VanillaAARectangle {
 	public boolean MARIO = true;
 
 	Player(int x, int y) {
-		super(Smb.SPRITE_SHEET + "#mario", 4);
+		super(Smb.SPRITE_SHEET2 + "#mario", 4);
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
 		currentVelocity = Vector2D.ZERO;
 		previousVelocity = Vector2D.ZERO;
@@ -91,8 +91,8 @@ public class Player extends VanillaAARectangle {
 		 * Uncomment this code once ready to animate the player
 		 */
 		
-	//	this.updateVelocity();
-	//	this.updateFrame(deltaMs);
+		this.updateVelocity();
+		this.updateFrame(deltaMs);
 	}
 	
 
@@ -100,48 +100,28 @@ public class Player extends VanillaAARectangle {
 		this.previousVelocity = this.currentVelocity;
 		this.currentVelocity = this.velocity;
 
-		if (this.previousVelocity.getX() > 0 && this.currentVelocity.getX() < 0) {
+	/*	if (this.previousVelocity.getX() > 0 && this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					Smb.SPRITE_SHEET + "#marioleft");
-		} /* else if (this.previousVelocity.getX() == 0
+					smb.SPRITE_SHEET2 + "#marioleft");
+		} else if (this.previousVelocity.getX() == 0
 				&& this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#marioleft");
-		} else if (this.previousVelocity.getX() < 0
+					smb.SPRITE_SHEET2 + "#marioleft");
+		} else */if (this.previousVelocity.getX() < 0
 				&& this.currentVelocity.getX() > 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#mario");
+					smb.SPRITE_SHEET2 + "#mario");
 		} else if (this.previousVelocity.getX() == 0
 				&& this.currentVelocity.getX() > 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#mario");
+					smb.SPRITE_SHEET2 + "#mario");
 		}
-
-		else if (this.previousVelocity.getY() < 0
-				&& this.currentVelocity.getY() > 0) {
-			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#mariodown");
-		} else if (this.previousVelocity.getY() == 0
-				&& this.currentVelocity.getY() > 0) {
-			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#mariodown");
-		}
-
-		else if (this.previousVelocity.getY() > 0
-				&& this.currentVelocity.getY() < 0) {
-			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#marioup");
-		} else if (this.previousVelocity.getY() == 0
-				&& this.currentVelocity.getY() < 0) {
-			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET + "#marioup");
-		}*/
 	}
 	
 	public void updateFrame(long deltaMs) {
 
 		if (this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0) {
-			this.setFrame(1);
+			this.setFrame(0);
 			this.timeSinceLastUpdate = this.frameTime;
 		} else {
 			this.timeSinceLastUpdate -= deltaMs;
