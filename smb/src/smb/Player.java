@@ -102,19 +102,19 @@ public class Player extends VanillaAARectangle {
 
 	/*	if (this.previousVelocity.getX() > 0 && this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET2 + "#marioleft");
+					Smb.SPRITE_SHEET2 + "#marioleft");
 		} else if (this.previousVelocity.getX() == 0
 				&& this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET2 + "#marioleft");
+					Smb.SPRITE_SHEET2 + "#marioleft");
 		} else */if (this.previousVelocity.getX() < 0
 				&& this.currentVelocity.getX() > 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET2 + "#mario");
+					Smb.SPRITE_SHEET2 + "#mario");
 		} else if (this.previousVelocity.getX() == 0
 				&& this.currentVelocity.getX() > 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
-					smb.SPRITE_SHEET2 + "#mario");
+					Smb.SPRITE_SHEET2 + "#mario");
 		}
 	}
 	
