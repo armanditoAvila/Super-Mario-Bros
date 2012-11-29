@@ -23,6 +23,9 @@ import jig.engine.physics.Body;
  */
 public abstract class VanillaAARectangle extends Body {
 	public int type;
+	private double offset=10;
+	private double safenum=0.00001;
+	private double sideCollisionBounceOff=0.2;
 	protected List<ImageResource> imgBoundingRectangle;
 
 	private boolean renderMarkup = false;
@@ -114,5 +117,49 @@ public abstract class VanillaAARectangle extends Body {
 			imgBoundingRectangle.get(0).render(rc, at);
 		}
 	}
+	
+	public boolean isOnLeftSide(VanillaAARectangle b){
+		if(position.getX()+getWidth() > b.getPosition().getX() && position.getX() < b.getPosition().getX()){
+			return true;
+		}
+		return false;
+	}
+	
+public boolean isOnRightSide(VanillaAARectangle b){
+		if(position.getX() < b.getPosition().getX() + b.getWidth() && position.getX() + getWidth() > b.getPosition().getX() + b.getWidth()){
+			return true;
+		}
+		return false;
+	}
+
+public boolean isOnTopSide(VanillaAARectangle b){
+	if(position.getY()+getHeight() > b.getPosition().getY() && position.getY() < b.getPosition().getY() && position.getY()+getHeight() - b.getPosition().getY() < offset){
+		return true;
+	}
+	return false;
+}
+
+public boolean isOnBottomSide(VanillaAARectangle b){
+	if(position.getY() < b.getPosition().getY() + b.getHeight() && position.getY() + getHeight() > b.getPosition().getY() + b.getHeight() && b.getPosition().getY() + b.getHeight()-position.getY()<offset){
+		return true;
+	}
+	return false;
+}
+
+public double leftCollidingDistance(VanillaAARectangle b){
+	return (position.getX()+getWidth()) - b.getPosition().getX() + sideCollisionBounceOff;
+}
+
+public double rightCollidingDistance(VanillaAARectangle b){
+	return (b.getPosition().getX() + b.getWidth()) - position.getX() + sideCollisionBounceOff;
+}
+
+public double topCollidingDistance(VanillaAARectangle b){
+	return (position.getY()+getHeight()) - b.getPosition().getY() + safenum;
+}
+
+public double bottomCollidingDistance(VanillaAARectangle b){
+	return (b.getPosition().getY() + b.getHeight()) - position.getY() + safenum;
+}
 
 }

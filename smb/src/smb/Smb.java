@@ -171,64 +171,61 @@ public class Smb extends ScrollingScreenGame {
 			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
 				if (a.type != 4) {
 					if (a.type == 5) {
-						if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY()&& (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
-							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
-							((Goomba) a).vSpeedY = 0;
-						} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight()&& a.getPosition().getY() > b.getPosition().getY()) {
-							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.5));
-							((Goomba) a).vSpeedY = -((Goomba) a).vSpeedY;
+						if (a.isOnTopSide(b)) {
+							a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
+						} else if (a.isOnBottomSide(b)) {
+							a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
 						}
-						if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX()&& a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
-							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
-							((Goomba) a).vSpeedX = 0;
+						
+						if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
+
+							a.setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
 							((Goomba) a).setOppositeDirection();
 
-							
-							
-						} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth()&& a.getPosition().getX() > b.getPosition().getX()) {
-							((Goomba) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
-							((Goomba) a).vSpeedX = 0;
+						} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
 							((Goomba) a).setOppositeDirection();
-
 						}
+
 					}
 				} else {
-					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
+					if (a.isOnTopSide(b)) {
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
 						((Player) a).playerYvel = 0;
-						((Player) a).playerYacc = 0; // causes problems, if player walks off of block gravity doesn't start back up
+						((Player) a).playerYacc = 0; // causes problems, if
+														// player walks off of
+														// block gravity doesn't
+														// start back up
 						((Player) a).jumped = false;
-					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
+					}else if (a.isOnBottomSide(b)) {
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
 						((Player) a).playerYvel = -((Player) a).playerYvel;
-						switch(b.type){
+						switch (b.type) {
 						case 1:
-							((Player) a).playerYvel=-((Player) a).playerYvel;
-							((BreakableBrownWall)b).breakApart();
+							((Player) a).playerYvel = -((Player) a).playerYvel;
+							((BreakableBrownWall) b).breakApart();
 							break;
 						case 11:
-							if(!((QuestionBlock)b).dead){
-								((Player) a).playerYvel=-((Player) a).playerYvel;
-								if(p.level==1){
-									
-								}
-								else{
+							if (!((QuestionBlock) b).dead) {
+								((Player) a).playerYvel = -((Player) a).playerYvel;
+								if (p.level == 1) {
+
+								} else {
 									powerUpLayer.add(new PowerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
-									((QuestionBlock)b).setDead();
-							}
+									((QuestionBlock) b).setDead();
+								}
 							}
 							break;
-						
+
 						}
 					}
-					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
-						//((player) a).playerXvel = 0;
-						//((player) a).playerXacc = 0;
-					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
-						//((player) a).playerXvel = 0;
-						//((player) a).playerXacc = 0;
+					if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
+						// ((player) a).playerXvel = 0;
+						// ((player) a).playerXacc = 0;
+					} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX() + a.rightCollidingDistance(b), a.getPosition().getY()));
+						// ((player) a).playerXvel = 0;
+						// ((player) a).playerXacc = 0;
 					}
 				}
 			}
