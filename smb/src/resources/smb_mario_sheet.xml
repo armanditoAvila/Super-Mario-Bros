@@ -1,0 +1,25 @@
+<spriteset>
+    <author>CS447</author>
+    <name>mario-sprites</name>
+    <type>image/png</type>
+    <width>870</width>
+    <height>376</height>
+
+    <frameset>
+        <name>mario</name>
+        <top>0</top>
+        <left>422</left>
+        <width>28</width>
+        <height>32</height>
+        <columns>4</columns>
+    </frameset>
+    <frameset>
+        <name>marioleft</name>
+        <top>0</top>
+        <left>239</left>
+        <width>30</width>
+        <height>31</height>
+        <columns>4</columns>
+    </frameset>
+    
+    </spriteset>

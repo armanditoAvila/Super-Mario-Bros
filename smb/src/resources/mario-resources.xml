@@ -4,6 +4,11 @@
         <imagesrc>mario-spritesheet.png</imagesrc>
         <framesrc>mario-spritesheet.xml</framesrc>
     </spritesheet>
+	
+	    <spritesheet>
+        <imagesrc>smb_mario_sheet.png</imagesrc>
+        <framesrc>smb_mario_sheet.xml</framesrc>
+    </spritesheet>
     
 <audioclip>
         <src>audio/smb_1-up.wav</src>
