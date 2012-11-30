@@ -1,5 +1,7 @@
 package smb;
 
+import jig.engine.ResourceFactory;
+import jig.engine.audio.jsound.AudioClip;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
@@ -8,6 +10,7 @@ public class PowerUpFlower extends VanillaAARectangle {
 	int frameDelay=150;
 	long frameTime;
 	double stopPosition;
+	private static AudioClip clip = ResourceFactory.getFactory().getAudioClip(Smb.audioSource + "smb_powerup_appears.wav");
 	PowerUpFlower(double x, double y) {
 		super(Smb.SPRITE_SHEET + "#powerUpFlower", 17);
 		position = new Vector2D(x, y-10);
@@ -15,6 +18,7 @@ public class PowerUpFlower extends VanillaAARectangle {
 		setFrame(0);
 		frameTime=System.currentTimeMillis();
 		stopPosition=y-Smb.TILE_SIZE;
+		clip.play();
 	}
 
 	@Override

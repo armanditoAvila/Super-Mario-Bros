@@ -14,8 +14,6 @@ public class Goomba extends VanillaAARectangle {
 	int deadDelay=1000;
 	long frameTime;
 	long deadTime;
-	double vSpeedX, vSpeedY, previousvSpeedX, previousvSpeedY;
-	double tempPositionX, tempPositionY;
 	boolean dead;
 	boolean deadTimeSet;
 	boolean frameTimeSet;
@@ -27,9 +25,8 @@ public class Goomba extends VanillaAARectangle {
 		//super(smb.SPRITE_SHEET + "#Goomba", 5);
 		super(Smb.SPRITE_SHEET + goombaType, 5);
 		frameTime=System.currentTimeMillis();
-		Xdirection = 1;
-		Ydirection = 0;
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
+		velocity = new Vector2D(-speed,speed);
 		setFrame(0);
 	}
 
@@ -62,34 +59,13 @@ public class Goomba extends VanillaAARectangle {
 			this.setActivation(false);
 		}
 		*/
-		if (Xdirection == 1) {
-			vSpeedX = speed;
-		} else if (Xdirection == 3) {
-			vSpeedX = -speed;
-		} else {
-			vSpeedX = 0;
-		}
 
-		vSpeedY += Smb.gravity;
 
-		if (vSpeedY > Smb.gravity) {
-			vSpeedY = Smb.gravity;
-		}
-
-		
-		velocity = new Vector2D(vSpeedX, vSpeedY);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
 		
 		}
 	
-	public void setOppositeDirection(){
-		if(Xdirection==1){
-			Xdirection=3;
-		}
-		else if(Xdirection==3){
-			Xdirection=1;
-		}
-	}
+
 	
 	
 	public void setDead() {

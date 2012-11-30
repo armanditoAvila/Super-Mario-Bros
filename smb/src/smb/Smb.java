@@ -52,6 +52,7 @@ public class Smb extends ScrollingScreenGame {
 	int worldPixelHeight;
 	static final String SPRITE_SHEET = "resources/mario-spritesheet.png";
 	static final String SPRITE_SHEET2 = "resources/smb_mario_sheet.png";
+	static final String audioSource = "resources/audio/";
 	static final double deltaTime = 0.0001;
 	static int mapWidth, mapHeight;
 
@@ -62,7 +63,9 @@ public class Smb extends ScrollingScreenGame {
 	int world_level;
 	int live;
 	long time;
+		int questionBlockCount;
 	long currentTime;
+	private AudioClip bump;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
 	FontResource scoreboardFont;
@@ -70,7 +73,7 @@ public class Smb extends ScrollingScreenGame {
 	String maptext;
 	// public List<walls> wallarray = new ArrayList<walls>();
 	// public List<goomba> goombaarray = new ArrayList<goomba>();
-	
+	List<QuestionBlock> powerUpQuestionBlocksArray = new ArrayList<QuestionBlock>();
 	long jumpTimer;
 
 	// static double offset;
@@ -90,7 +93,7 @@ public class Smb extends ScrollingScreenGame {
 		physics = new VanillaPhysicsEngine();
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
-		
+		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
 		gameObjectLayers.add(backGroundLayer);
 		physics.manageViewableSet(backGroundLayer);
 		gameObjectLayers.add(powerUpLayer);
@@ -169,24 +172,34 @@ public class Smb extends ScrollingScreenGame {
 		RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle> d = new RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle>(movableLayer, unmovableLayer) {
 			@Override
 			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
+				/*
+				 * Most objects other than mario have a different collision
+				 * condition because they don't activate other objects.
+				 */
 				if (a.type != 4) {
-					if (a.type == 5) {
-						if (a.isOnTopSide(b)) {
-							a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
-						} else if (a.isOnBottomSide(b)) {
-							a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
+					if (a.type == 22) {
+						if(!((Mushroom)a).popedUp){
+							return;
 						}
-						
-						if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
-
-							a.setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
-							((Goomba) a).setOppositeDirection();
-
-						} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
-							((Goomba) a).setOppositeDirection();
-						}
-
 					}
+					if (a.isOnTopSide(b)) {
+						a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
+					} else if (a.isOnBottomSide(b)) {
+						a.setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
+					}
+
+					if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
+
+						a.setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
+						a.setOppositeXVelocity();
+
+					} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
+						a.setOppositeXVelocity();
+					}
+
+					/*
+					 * Mario collision handling
+					 */
 				} else {
 					if (a.isOnTopSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
@@ -196,7 +209,7 @@ public class Smb extends ScrollingScreenGame {
 														// block gravity doesn't
 														// start back up
 						((Player) a).jumped = false;
-					}else if (a.isOnBottomSide(b)) {
+					} else if (a.isOnBottomSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
 						((Player) a).playerYvel = -((Player) a).playerYvel;
 						switch (b.type) {
@@ -205,14 +218,24 @@ public class Smb extends ScrollingScreenGame {
 							((BreakableBrownWall) b).breakApart();
 							break;
 						case 11:
+							((Player) a).playerYvel = -((Player) a).playerYvel;
 							if (!((QuestionBlock) b).dead) {
-								((Player) a).playerYvel = -((Player) a).playerYvel;
-								if (p.level == 1) {
-
+								if (powerUpInTheBlock((QuestionBlock) b)) {
+									if (p.level == 0) {
+										movableLayer.add(new Mushroom(a.getPosition().getX(), a.getPosition().getY()));
+										((QuestionBlock) b).setDead();
+										p.level++;
+									} else {
+										powerUpLayer.add(new PowerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
+										((QuestionBlock) b).setDead();
+									}
 								} else {
-									powerUpLayer.add(new PowerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
+									powerUpLayer.add(new Coin(b.getPosition().getX(), b.getPosition().getY()));
 									((QuestionBlock) b).setDead();
 								}
+							}
+							else{
+								bump.play();
 							}
 							break;
 
@@ -236,10 +259,20 @@ public class Smb extends ScrollingScreenGame {
 		setWorldBounds(0, 0, mapWidth * TILE_SIZE, mapHeight * TILE_SIZE);
 	}
 
+	private boolean powerUpInTheBlock(QuestionBlock b) {
+		for (int i = 0; i < powerUpQuestionBlocksArray.size(); i++) {
+			if (b.hashCode() == powerUpQuestionBlocksArray.get(i).hashCode()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void loadLevel(String level) {
 		time = 300;
 		currentTime = System.currentTimeMillis();
 		world = 1;
+		questionBlockCount = 0;
 		world_level = Integer.valueOf(level);
 		String ud = System.getProperty("user.dir");
 		try {
@@ -324,7 +357,13 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'j') {
 					unmovableLayer.add(new Castle(x, y));
 				} else if (ch == 'k') {
-					unmovableLayer.add(new QuestionBlock(x, y));
+					QuestionBlock qb = new QuestionBlock(x, y);
+					switch (powerUpBlockType(questionBlockCount)) {
+					case (1):
+						powerUpQuestionBlocksArray.add(qb);
+					}
+					unmovableLayer.add(qb);
+					questionBlockCount++;
 				} else if (ch == 'l') {
 					backGroundLayer.add(new SmallCloud(x,y));
 				} else if (ch == 'm') {
@@ -361,6 +400,25 @@ public class Smb extends ScrollingScreenGame {
 		} catch (Exception e) {
 			return;
 		}
+	}
+	
+	/*
+	 * level 1: block# 3 and 7 are power ups , #9 is invinciblility
+	 * 
+	 * return type: 1=power up, 2=invinciblilty
+	 */
+	private int powerUpBlockType(int count) {
+		if (world_level == 1) {
+			switch (count) {
+			case (3):
+				return 1;
+			case (7):
+				return 1;
+			case (9):
+				return 2;
+			}
+		}
+		return 0;
 	}
 
 	public void render(RenderingContext rc) {

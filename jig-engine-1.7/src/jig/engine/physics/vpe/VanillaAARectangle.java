@@ -11,6 +11,7 @@ import jig.engine.RenderingContext;
 import jig.engine.ResourceFactory;
 import jig.engine.PaintableCanvas.JIGSHAPE;
 import jig.engine.physics.Body;
+import jig.engine.util.Vector2D;
 
 /**
  * An object modeled as an Axis-Aligned Rectangular Body. It is assumed that
@@ -160,6 +161,14 @@ public double topCollidingDistance(VanillaAARectangle b){
 
 public double bottomCollidingDistance(VanillaAARectangle b){
 	return (b.getPosition().getY() + b.getHeight()) - position.getY() + safenum;
+}
+
+public void setOppositeXVelocity(){
+	velocity= new Vector2D(-velocity.getX(),velocity.getY());
+}
+
+public void setOppositeYVelocity(){
+	velocity= new Vector2D(velocity.getX(),-velocity.getY());
 }
 
 }
