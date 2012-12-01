@@ -17,6 +17,7 @@ import jig.engine.audio.jsound.AudioClip;
 import jig.engine.audio.jsound.AudioStream;
 import jig.engine.FontResource;
 import jig.engine.ImageResource;
+import jig.engine.Keyboard;
 import jig.engine.PaintableCanvas;
 import jig.engine.RenderingContext;
 import jig.engine.ResourceFactory;
@@ -85,6 +86,14 @@ public class Smb extends ScrollingScreenGame {
 	public static BodyLayer<VanillaAARectangle> backGroundLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
     public static BodyLayer<VanillaAARectangle> powerUpLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 
+    public Keyboard getKeyboard() { 
+    	return this.keyboard;
+    }
+    
+    public List<ViewableLayer> getGameObjectLayers() {
+    	return this.gameObjectLayers;
+    }
+    
 	// public AbstractBodyLayer<VanillaAARectangle> playerLayer = new
 	// AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public Smb() {

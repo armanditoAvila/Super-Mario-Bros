@@ -57,7 +57,11 @@ public class Player extends VanillaAARectangle {
 		if (!active) {
 			return;
 		}
-		
+				
+		if(this.getPosition().getX() < 2){
+			this.setVelocity(Vector2D.ZERO);
+			this.setPosition(new Vector2D(2,352));
+		}
 		/* Commenting Out To Test Mine
 		if (Xdirection == 1) {
 			vSpeedX = speed;
