@@ -1,5 +1,9 @@
 package smb;
 
+import java.awt.geom.Rectangle2D;
+
+import jig.engine.ResourceFactory;
+import jig.engine.audio.jsound.AudioClip;
 import jig.engine.hli.physics.SpriteUpdateRules;
 import jig.engine.physics.vpe.VanillaSphere;
 import jig.engine.physics.vpe.VanillaAARectangle;
@@ -7,28 +11,28 @@ import jig.engine.util.Vector2D;
 
 public class Turtle extends VanillaAARectangle {
 
-	SpriteUpdateRules updateRule;
-	Smb smbObject;
-	double vSpeedX, vSpeedY;
 	int Xdirection, Ydirection;
 	int speed = 30;
-	int retractedShellSpeed=50;
-	final long frameTime = 800;
-	boolean retracted;
-	boolean stumped;
+	int frameDelay = 200;
+	int deadDelay = 1000;
+	long frameTime;
+	long deadTime;
 	boolean dead;
-	long timeSinceLastUpdate = frameTime;
+	boolean deadTimeSet;
+	boolean frameTimeSet;
+	boolean onGround;
+	Rectangle2D boundingBox;
+	private static AudioClip stomp = ResourceFactory.getFactory().getAudioClip(
+			"resources/" + "audio/smb_stomp.wav");
 
 	public Turtle(int x, int y, String turtleType) {
-		/*
-		super(smb.SPRITE_SHEET + ghostName);
-		position = new Vector2D(x, y);
-		velocity = new Vector2D(20, 20);
-		*/
-		//super(smb.SPRITE_SHEET + "#turtle", 7);
+
 		super(Smb.SPRITE_SHEET + turtleType, 7);
-		Xdirection=3;
+		frameTime = System.currentTimeMillis();
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE + 14);
+		velocity = new Vector2D(-speed, speed);
+		setFrame(0);
+
 	}
 
 	@Override
@@ -36,63 +40,46 @@ public class Turtle extends VanillaAARectangle {
 		if (!active) {
 			return;
 		}
-		if (Xdirection == 1) {
-			vSpeedX = speed;
-		} else if (Xdirection == 3) {
-			vSpeedX = -speed;
-		} else {
-			vSpeedX = 0;
+
+		if (dead && System.currentTimeMillis() - deadTime > deadDelay) {
+			this.active = false;
+
+		} else if (dead) {
+			return;
 		}
 
-		vSpeedY += Smb.gravity;
-
-		if (vSpeedY > Smb.gravity) {
-			vSpeedY = Smb.gravity;
-		}
-		
-		//this.updateFrame(deltaMs);
-		position = position.translate(velocity.scale(deltaMs / 100.0));
-	}
-
-	void updateFrame(long deltaMs) {
-		this.timeSinceLastUpdate -= deltaMs;
-
-		if (this.timeSinceLastUpdate <= 0) {
-			if (this.getFrame() == (this.getFrameCount() - 1)) {
-				this.setFrame(0);
+		if (!dead && System.currentTimeMillis() - frameTime > frameDelay) {
+			if (getFrame() == 1) {
+				setFrame(0);
+				frameTime = System.currentTimeMillis();
 			} else {
-				this.setFrame(this.getFrame() + 1);
+				setFrame(1);
+				frameTime = System.currentTimeMillis();
 			}
+		}
 
-			this.timeSinceLastUpdate = this.frameTime;
-		}
+		/*
+		 * if(outOfScreen()){ this.setActivation(false); }
+		 */
+
+		position = position.translate(velocity.scale(deltaMs / 1000.0));
+
 	}
-	
-	public void setOppositeDirection(){
-		if(Xdirection==1){
-			Xdirection=3;
-		}
-		else if(Xdirection==3){
-			Xdirection=1;
-		}
-	}
-	
-	public void stumped(){
-		if(stumped){
-		setFrame(5);
-		velocity=new Vector2D(vSpeedX,0);
-		stumped=true;
-		}
-		else{
-		setFrame(5);
-		velocity=new Vector2D(0,0);
-		stumped=true;
-		}
-	}
-	
-	public void setDead(){
-		this.dead=true;
+
+	public void setDead() {
+		this.dead = true;
+		deadTime = System.currentTimeMillis();
 		setFrame(2);
+		stomp.play();
+	}
+
+	boolean outOfScreen() {
+		if (this.position.getX() + Smb.WORLD_WIDTH < Smb.currentCenter
+				|| this.position.getY() > Smb.WORLD_HEIGHT + this.getHeight()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
