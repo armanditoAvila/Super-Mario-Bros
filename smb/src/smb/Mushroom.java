@@ -10,18 +10,16 @@ public class Mushroom extends VanillaAARectangle{
 
 	SpriteUpdateRules updateRule;
 	Smb smbObject;
-	double appearSpeed=-20;
-	double speed=20;
-	boolean popedUp;
+	double speed=100;
+	boolean poppedUp;
 	double stopPosition;
-	Vector2D appearingVelocity=new Vector2D(0,appearSpeed);
+	Vector2D appearingVelocity=new Vector2D(0,-speed);
 	private static AudioClip clip = ResourceFactory.getFactory().getAudioClip(Smb.audioSource + "smb_powerup_appears.wav");
 	public Mushroom(double x, double y) {
 		super(Smb.SPRITE_SHEET + "#levelUpMushroom",22);
 		position = new Vector2D(x, y-10);
 		velocity = new Vector2D(speed, speed);
-		setFrame(0);
-		stopPosition=y-Smb.TILE_SIZE;
+		stopPosition=y-getHeight();
 		clip.play();
 	}
 
@@ -30,13 +28,16 @@ public class Mushroom extends VanillaAARectangle{
 		if(!active){
 			return;
 		}
-		if(!popedUp && getPosition().getY()>stopPosition){
-			position = position.translate(appearingVelocity.scale(deltaMs / 100.0));
+		if(!poppedUp){
+			if(position.getY()<stopPosition){
+				poppedUp=true;
+				return;
+			}
+			position = position.translate(appearingVelocity.scale(deltaMs / 1000.0));
 
 		}
 		else{
-			popedUp=true;
-			position = position.translate(velocity.scale(deltaMs / 100.0));
+			position = position.translate(velocity.scale(deltaMs / 1000.0));
 		}
 
 	}

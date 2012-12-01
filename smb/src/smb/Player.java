@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 
 import jig.engine.ResourceFactory;
+import jig.engine.audio.jsound.AudioClip;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
 
@@ -21,7 +22,8 @@ public class Player extends VanillaAARectangle {
 	
 	long timeSinceLastUpdate = frameTime;
 	boolean move = true;
-	
+	private static AudioClip die = ResourceFactory.getFactory().getAudioClip(Smb.audioSource + "smb_mariodie.wav");
+	private static AudioClip powerup = ResourceFactory.getFactory().getAudioClip(Smb.audioSource + "smb_powerup.wav");
 	Vector2D currentVelocity;
 	Vector2D previousVelocity;
 	
@@ -166,5 +168,16 @@ public class Player extends VanillaAARectangle {
 		playerYvel = playerYvel + playerYacc;
 		//if(playerYvel > maxYvel) playerYvel = wraYvel;
 		//System.out.println(playerYvel);
+	}
+	
+	public void marioDie(){
+		//falls off the map animation
+		die.play();
+	}
+	
+	public void levelUp(){
+		level++;
+		powerup.play();
+		//level up animation transition
 	}
 }

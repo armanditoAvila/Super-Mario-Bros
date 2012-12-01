@@ -61,5 +61,21 @@
 <audioclip>
         <src>audio/smb_vine.wav</src>
     </audioclip>
+    
+<audioclip>
+        <src>audio/smb_world_clear.wav</src>
+    </audioclip>
+    <audioclip>
+        <src>audio/smb_stage_clear.wav</src>
+    </audioclip>
+    <audioclip>
+        <src>audio/smb_warning.wav</src>
+    </audioclip>
+    <audioclip>
+        <src>audio/smb_gameover.wav</src>
+    </audioclip>
+    <audioclip>
+        <src>audio/smb_mariodie.wav</src>
+    </audioclip>
 
 </resources>

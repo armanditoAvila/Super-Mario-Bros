@@ -221,5 +221,14 @@
         <height>32</height>
         <columns>4</columns>
     </frameset>
+	
+		<frameset>
+<name>score100</name>
+        <top>119</top>
+        <left>555</left>
+        <width>18</width>
+        <height>9</height>
+        <columns>1</columns>
+    </frameset>
 
     </spriteset>

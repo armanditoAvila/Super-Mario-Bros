@@ -64,7 +64,10 @@ public class Smb extends ScrollingScreenGame {
 	int world_level;
 	int live;
 	long time;
+	int startingPositionX;
+	int startingPositionY;
 		int questionBlockCount;
+		boolean restartLevel;
 	long currentTime;
 	private AudioClip bump;
 	// private ViewableLayer splashLayer;
@@ -187,7 +190,7 @@ public class Smb extends ScrollingScreenGame {
 				 */
 				if (a.type != 4) {
 					if (a.type == 22) {
-						if(!((Mushroom)a).popedUp){
+						if(!((Mushroom)a).poppedUp){
 							return;
 						}
 					}
@@ -231,7 +234,7 @@ public class Smb extends ScrollingScreenGame {
 							if (!((QuestionBlock) b).dead) {
 								if (powerUpInTheBlock((QuestionBlock) b)) {
 									if (p.level == 0) {
-										movableLayer.add(new Mushroom(a.getPosition().getX(), a.getPosition().getY()));
+										movableLayer.add(new Mushroom(b.getPosition().getX(), b.getPosition().getY()));
 										((QuestionBlock) b).setDead();
 										p.level++;
 									} else {
@@ -241,6 +244,7 @@ public class Smb extends ScrollingScreenGame {
 								} else {
 									powerUpLayer.add(new Coin(b.getPosition().getX(), b.getPosition().getY()));
 									((QuestionBlock) b).setDead();
+									points+=100;
 								}
 							}
 							else{
@@ -280,7 +284,9 @@ public class Smb extends ScrollingScreenGame {
 	private void loadLevel(String level) {
 		time = 300;
 		currentTime = System.currentTimeMillis();
+		points=0;
 		world = 1;
+		live=3;
 		questionBlockCount = 0;
 		world_level = Integer.valueOf(level);
 		String ud = System.getProperty("user.dir");
@@ -337,6 +343,9 @@ public class Smb extends ScrollingScreenGame {
 	 * 19 s green step
 	 * 20 w green breakable wall
 	 * 21   flower
+	 * 22   mushrrom
+	 * 23   smallCoin
+	 * 24   score100
 	 */
 	private void buildMap(String s, int y) throws InterruptedException {
 		try {
@@ -353,6 +362,8 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'd') {
 					p = new Player(x, y);
 					movableLayer.add(p);
+					startingPositionX=x;
+					startingPositionY=y;
 				} else if (ch == 'e') {
 					movableLayer.add(new Goomba(x, y,"#Goomba"));
 				} else if (ch == 'f') {
@@ -441,6 +452,16 @@ public class Smb extends ScrollingScreenGame {
 		scoreboardFont.render(world + "" + "-" + world_level, rc, AffineTransform.getTranslateInstance(310, 40));
 		scoreboardFont.render((int) time + "", rc, AffineTransform.getTranslateInstance(440, 40));
 	}
+	
+	private void resetLevel(String level){
+		unmovableLayer.clear();
+		movableLayer.clear();
+		backGroundLayer.clear();
+		powerUpLayer.clear();
+		powerUpQuestionBlocksArray.clear();
+	    loadLevel(level);
+	    restartLevel=false;
+	}
 
 	@Override
 	public void update(long deltaMs) {
@@ -448,6 +469,10 @@ public class Smb extends ScrollingScreenGame {
 		 * time-=((System.currentTimeMillis()-currentTime)/1000.0);
 		 * currentTime=System.currentTimeMillis();
 		 */
+		 
+		 if(restartLevel){
+			resetLevel(world_level+"");
+		}
 		
 		jumpTimer += deltaMs;
 		
@@ -591,18 +616,35 @@ public class Smb extends ScrollingScreenGame {
 					if(((Goomba)movableLayer.get(i)).dead){
 						continue;
 					}
-					if(playerFoot > enemyHead && playerFoot < enemyHead+2){
+					if(playerFoot > enemyHead && playerFoot < enemyHead+10){
 						((Goomba)movableLayer.get(i)).setDead();
+						backGroundLayer.add(new Score100(((Goomba)movableLayer.get(i)).getPosition().getX(),((Goomba)movableLayer.get(i)).getPosition().getY()));
+						points+=100;
 						p.jumped=true;
 					}
 					else{
-						//player loose a life
+						live--;
+						p.marioDie();
+						p.setActivation(false);
+						if(live>=0){
+							p=new Player(startingPositionX, startingPositionY);
+							movableLayer.add(p);
+						}
+						else{
+							restartLevel=true;
+							return;
+						}
 					}
 				break;
 				case 7:
 					
 					break;
-
+				case 22:
+					if(((Mushroom)movableLayer.get(i)).poppedUp){
+					((Mushroom)movableLayer.get(i)).setActivation(false);
+					}
+					p.levelUp();
+					break;
 				}
 			}
 		}
