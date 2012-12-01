@@ -360,9 +360,9 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'g') {
 					movableLayer.add(new Turtle(x, y,"#turtle"));
 				} else if (ch == 'h') {
-					unmovableLayer.add(new VerticalPipe(x, y));
+					unmovableLayer.add(new VerticalPipe(x, y, "#verticalPipe", 8));
 				} else if (ch == 'i') {
-					unmovableLayer.add(new VerticalHalfPipe(x, y));
+					unmovableLayer.add(new VerticalPipe(x, y,"#verticalHalfPipe", 9));
 				} else if (ch == 'j') {
 					unmovableLayer.add(new Castle(x, y));
 				} else if (ch == 'k') {
