@@ -36,6 +36,14 @@ public class Goomba extends VanillaAARectangle {
 			return;
 		}
 		
+		if(position.getX()-Smb.currentCenter>Smb.WORLD_WIDTH){
+			return;
+		}
+		
+		if(Smb.currentCenter - position.getX()>Smb.WORLD_WIDTH){
+			active=false;
+		}
+		
 		if (dead && System.currentTimeMillis() - deadTime > deadDelay) {
 			this.active = false;
 

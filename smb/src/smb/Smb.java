@@ -62,13 +62,14 @@ public class Smb extends ScrollingScreenGame {
 	int coinNum;
 	int world;
 	int world_level;
-	int live;
+
 	long time;
-	int startingPositionX;
-	int startingPositionY;
+
 		int questionBlockCount;
-		boolean restartLevel;
+		static boolean restartLevel;
 	long currentTime;
+		long bumpPlayTime;
+	int bumpPlayDelay=1000;
 	private AudioClip bump;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
@@ -248,7 +249,11 @@ public class Smb extends ScrollingScreenGame {
 								}
 							}
 							else{
+								if(System.currentTimeMillis()-bumpPlayTime>bumpPlayDelay){
 								bump.play();
+								bumpPlayTime=System.currentTimeMillis();
+								}
+								
 							}
 							break;
 
@@ -286,7 +291,6 @@ public class Smb extends ScrollingScreenGame {
 		currentTime = System.currentTimeMillis();
 		points=0;
 		world = 1;
-		live=3;
 		questionBlockCount = 0;
 		world_level = Integer.valueOf(level);
 		String ud = System.getProperty("user.dir");
@@ -362,8 +366,6 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'd') {
 					p = new Player(x, y);
 					movableLayer.add(p);
-					startingPositionX=x;
-					startingPositionY=y;
 				} else if (ch == 'e') {
 					movableLayer.add(new Goomba(x, y,"#Goomba"));
 				} else if (ch == 'f') {
@@ -443,7 +445,7 @@ public class Smb extends ScrollingScreenGame {
 
 	public void render(RenderingContext rc) {
 		super.render(rc);
-		scoreboardFont.render("MARIO x" + live, rc, AffineTransform.getTranslateInstance(40, 20));
+		scoreboardFont.render("MARIO x" + p.live, rc, AffineTransform.getTranslateInstance(40, 20));
 		scoreboardFont.render("WORLD", rc, AffineTransform.getTranslateInstance(300, 20));
 		scoreboardFont.render("TIME", rc, AffineTransform.getTranslateInstance(430, 20));
 		//scoreboardFont.render("LIVE", rc, AffineTransform.getTranslateInstance(230, 20));
@@ -474,6 +476,8 @@ public class Smb extends ScrollingScreenGame {
 			resetLevel(world_level+"");
 		}
 		
+		currentCenter=p.getPosition().getX();
+		
 		jumpTimer += deltaMs;
 		
 		if (p.getPosition().getX() < leftWidthBreakPoint) {
@@ -493,24 +497,6 @@ public class Smb extends ScrollingScreenGame {
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
 
-		/**
-		 * Fix the issue of player going in the empty space.
-		 */
-		if(p.getPosition().getY() >=353){
-			live--;
-			p.marioDie();
-			p.setActivation(false);
-				
-		if(live>=0){
-			p=new Player(startingPositionX, startingPositionY);
-			movableLayer.add(p);
-		}
-		else{
-			restartLevel=true;
-			return;
-		}
-		
-		}
 		if (left && !right) {
 			//this.p.Xdirection = 3;
 			if(this.p.MARIO) {
@@ -641,17 +627,7 @@ public class Smb extends ScrollingScreenGame {
 						p.jumped=true;
 					}
 					else{
-						live--;
-						p.marioDie();
-						p.setActivation(false);
-						if(live>=0){
-							p=new Player(startingPositionX, startingPositionY);
-							movableLayer.add(p);
-						}
-						else{
-							restartLevel=true;
-							return;
-						}
+						p.restartPosition();
 					}
 				break;
 				case 7:

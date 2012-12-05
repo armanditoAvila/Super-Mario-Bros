@@ -13,6 +13,9 @@ public class Player extends VanillaAARectangle {
 	int Xdirection, Ydirection;
 	int speed = 100;
 	int level;
+	int live;
+	int startingPositionX;
+	int startingPositionY;
 	double vSpeedX, vSpeedY;
 	boolean jumped;
 	boolean onGround;
@@ -45,6 +48,9 @@ public class Player extends VanillaAARectangle {
 	Player(int x, int y) {
 		super(Smb.SPRITE_SHEET2 + "#mario", 4);
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
+		startingPositionX=x;
+		startingPositionY=y;
+		live=3;
 		currentVelocity = Vector2D.ZERO;
 		previousVelocity = Vector2D.ZERO;
 		playerXvel = playerXacc = playerYvel = playerYacc = 0;
@@ -60,9 +66,12 @@ public class Player extends VanillaAARectangle {
 			return;
 		}
 				
-		if(this.getPosition().getX() < 2){
-			this.setVelocity(Vector2D.ZERO);
-			this.setPosition(new Vector2D(2,352));
+		if(this.getPosition().getX() < 0){
+			this.setPosition(new Vector2D(0,position.getY()));
+		}
+		
+		if(position.getY() > Smb.WORLD_HEIGHT){
+			restartPosition();
 		}
 		/* Commenting Out To Test Mine
 		if (Xdirection == 1) {
@@ -173,11 +182,30 @@ public class Player extends VanillaAARectangle {
 	public void marioDie(){
 		//falls off the map animation
 		die.play();
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			System.err.println("Error on sleeping");
+			return;
+		}
 	}
 	
 	public void levelUp(){
 		level++;
 		powerup.play();
 		//level up animation transition
+	}
+	
+	public void restartPosition(){
+		live--;
+		marioDie();
+		if(live>=0){
+			position=new Vector2D(startingPositionX*Smb.TILE_SIZE,startingPositionY*Smb.TILE_SIZE);
+			playerXvel = playerXacc = playerYvel = playerYacc = 0;
+		}
+		else{
+			Smb.restartLevel=true;
+		}
+		
 	}
 }
