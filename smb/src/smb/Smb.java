@@ -56,7 +56,8 @@ public class Smb extends ScrollingScreenGame {
 	static final String audioSource = "resources/audio/";
 	static final double deltaTime = 0.0001;
 	static int mapWidth, mapHeight;
-
+	int stopWatch=0;
+	boolean gameover=false;
 	Player p;
 	int points;
 	int coinNum;
@@ -73,7 +74,7 @@ public class Smb extends ScrollingScreenGame {
 	private AudioClip bump;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
-	FontResource scoreboardFont;
+	FontResource scoreboardFont,gameOverFont,finalScoreFont;
 	FontResource powerUpsFont;
 	String maptext;
 	// public List<walls> wallarray = new ArrayList<walls>();
@@ -105,6 +106,8 @@ public class Smb extends ScrollingScreenGame {
 
 		physics = new VanillaPhysicsEngine();
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
+		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
+		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 36), Color.red, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
 		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
 		gameObjectLayers.add(backGroundLayer);
@@ -448,11 +451,16 @@ public class Smb extends ScrollingScreenGame {
 		scoreboardFont.render("MARIO x" + p.live, rc, AffineTransform.getTranslateInstance(40, 20));
 		scoreboardFont.render("WORLD", rc, AffineTransform.getTranslateInstance(300, 20));
 		scoreboardFont.render("TIME", rc, AffineTransform.getTranslateInstance(430, 20));
-		//scoreboardFont.render("LIVE", rc, AffineTransform.getTranslateInstance(230, 20));
-		//scoreboardFont.render(live + "", rc, AffineTransform.getTranslateInstance(233, 40));
 		scoreboardFont.render(points + "", rc, AffineTransform.getTranslateInstance(50, 40));
 		scoreboardFont.render(world + "" + "-" + world_level, rc, AffineTransform.getTranslateInstance(310, 40));
 		scoreboardFont.render((int) time + "", rc, AffineTransform.getTranslateInstance(440, 40));
+		
+		if(p.live <= 0 || time <=0){
+			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
+			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 240));
+			gameover=true;
+			gameObjectLayers.clear();
+		}
 	}
 	
 	private void resetLevel(String level){
@@ -478,6 +486,18 @@ public class Smb extends ScrollingScreenGame {
 		
 		currentCenter=p.getPosition().getX();
 		
+		/**
+		 * Jenis: Timer update for time-based game
+		 */
+		if(!gameover){
+			 stopWatch++;
+			 
+			 if(stopWatch >= 80){
+				 time--;
+				 stopWatch=0;
+			 }
+			 }
+		
 		jumpTimer += deltaMs;
 		
 		if (p.getPosition().getX() < leftWidthBreakPoint) {
@@ -497,6 +517,21 @@ public class Smb extends ScrollingScreenGame {
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
 
+		if(p.getPosition().getY() >=353){
+			p.live--;
+			p.marioDie();
+			p.setActivation(false);
+				
+			if (p.live >= 0) {
+				p = new Player(p.startingPositionX, p.startingPositionY);
+				movableLayer.add(p);
+			} else {
+				restartLevel = true;
+				return;
+			}
+		
+		}
+		
 		if (left && !right) {
 			//this.p.Xdirection = 3;
 			if(this.p.MARIO) {
