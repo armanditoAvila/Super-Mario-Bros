@@ -493,6 +493,24 @@ public class Smb extends ScrollingScreenGame {
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
 
+		/**
+		 * Fix the issue of player going in the empty space.
+		 */
+		if(p.getPosition().getY() >=353){
+			live--;
+			p.marioDie();
+			p.setActivation(false);
+				
+		if(live>=0){
+			p=new Player(startingPositionX, startingPositionY);
+			movableLayer.add(p);
+		}
+		else{
+			restartLevel=true;
+			return;
+		}
+		
+		}
 		if (left && !right) {
 			//this.p.Xdirection = 3;
 			if(this.p.MARIO) {
