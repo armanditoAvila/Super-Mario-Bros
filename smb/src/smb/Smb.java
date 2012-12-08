@@ -153,10 +153,6 @@ public class Smb extends ScrollingScreenGame {
 				} else {
 					if (a.isOnTopSide(b)) {
 						((Player) a).jumped = false;
-						//((Player) a).playerYacc = 0; // causes problems, if
-														// player walks off of
-														// block gravity doesn't
-														// start back up
 						((Player) a).playerYvel = 0;
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
 					} else if (a.isOnBottomSide(b)) {
@@ -569,44 +565,6 @@ public class Smb extends ScrollingScreenGame {
 		} else if(p.jumped == true) {
 			p.playerYacc = p.gravity;
 		}
-		
-		/*
-		if(p.jumped) {
-			if(Math.abs(p.playerXvel) < Physics.ba_max_air_lt) {
-				if(p.playerXvel < 0) {
-					p.maxXvel = -Physics.ba_max_air_lt;
-					if(left && p.MARIO) {
-						p.playerXacc = -Physics.ma_hf_lessthan;
-					} else if(left && !p.MARIO) {
-						p.playerXacc = -Physics.la_hf_lessthan;
-					}
-				} else {
-					p.maxXvel = Physics.ba_max_air_lt;
-					if(right && p.MARIO) {
-						p.playerXacc = Physics.ma_hf_lessthan;
-					} else if(right && !p.MARIO) {
-						p.playerXacc = Physics.la_hf_lessthan;
-					}
-				}
-			} else if(Math.abs(p.playerXvel) >= Physics.ba_max_air_lt) {
-				if(p.playerXvel < 0) {
-					p.maxXvel = -Physics.ba_max_air_gt;
-					if(left && p.MARIO) {
-						p.playerXacc = Physics.ma_hf_greatore;
-					} else if(left && !p.MARIO) {
-						p.playerXacc = Physics.la_hf_greatore;
-					}
-				} else {
-					p.maxXvel = Physics.ba_max_air_gt;
-					if(right && p.MARIO) {
-						p.playerXacc = Physics.ma_hf_greatore;
-					} else if(right && !p.MARIO) {
-						p.playerXacc = Physics.la_hf_greatore;
-					}
-				}
-			}
-		}
-		*/
 		
 		/* collision between mario and interactable objects */
 		for(int i=0; i<movableLayer.size();i++){

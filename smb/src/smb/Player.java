@@ -75,33 +75,10 @@ public class Player extends VanillaAARectangle {
 		if(position.getY() > Smb.WORLD_HEIGHT){
 			restartPosition();
 		}
-		/* Commenting Out To Test Mine
-		if (Xdirection == 1) {
-			vSpeedX = speed;
-		} else if (Xdirection == 3) {
-			vSpeedX = -speed;
-		} else {
-			vSpeedX = 0;
-		}
-
-		if (jumped) {
-			vSpeedY = jumpV;
-			jumped = false;
-		}
-
-		vSpeedY += smb.gravity;
-
-		if (vSpeedY > smb.gravity) {
-			vSpeedY = smb.gravity;
-		}
-
-		velocity = new Vector2D(vSpeedX, vSpeedY);
-		position = position.translate(velocity.scale(deltaMs / 1000.0));
-		*/
+		
 		accelerate();
 		velocity = new Vector2D(playerXvel, playerYvel);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
-		//jumped = false;
 	
 	/**
 		 * To Animate the player
@@ -163,7 +140,6 @@ public class Player extends VanillaAARectangle {
 
 	}
 	
-	/* Justin's Physics Handler */
 	void accelerate() {
 		/* X Calculations And Checks */
 		if(playerXvel > 0 && (playerXvel + playerXacc) <= 0) {
@@ -181,7 +157,6 @@ public class Player extends VanillaAARectangle {
 		if(playerYvel <= 0) playerYvel = playerYvel + playerYacc;
 		if(playerYvel > 0) playerYvel = playerYvel + gravity;
 		if(playerYvel > Physics.bf_max_vel_fall) playerYvel = Physics.bf_fall_vel_wrap;
-		//System.out.println(playerYvel);
 	}
 	
 	public void marioDie(){
