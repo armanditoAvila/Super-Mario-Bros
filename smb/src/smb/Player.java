@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 
 import jig.engine.ResourceFactory;
+import jig.engine.audio.AudioState;
 import jig.engine.audio.jsound.AudioClip;
 import jig.engine.physics.vpe.VanillaAARectangle;
 import jig.engine.util.Vector2D;
@@ -14,7 +15,7 @@ public class Player extends VanillaAARectangle {
 	int speed = 100;
 	int level;
 	int live;
-	long playerTimer = 300;
+	long playerTimer = 100;
 	int startingPositionX;
 	int startingPositionY;
 	double vSpeedX, vSpeedY;
@@ -45,6 +46,8 @@ public class Player extends VanillaAARectangle {
 	public double maxYvel;
 	public double wraYvel;
 	public boolean MARIO = true;
+	
+	
 
 	Player(int x, int y, String playerName) {
 		super(Smb.SPRITE_SHEET2 + playerName, 4);
@@ -74,7 +77,8 @@ public class Player extends VanillaAARectangle {
 		}
 		
 		if(position.getY() > Smb.WORLD_HEIGHT){
-			this.playerTimer = 300;
+			this.playerTimer = 100;
+			Smb.music.pause();
 			restartPosition();
 		}
 		
@@ -182,6 +186,8 @@ public class Player extends VanillaAARectangle {
 		live--;
 		marioDie();
 		if(live>=0){
+			
+			Smb.music.resume();
 			position=new Vector2D(startingPositionX*Smb.TILE_SIZE,startingPositionY*Smb.TILE_SIZE);
 			playerXvel = playerXacc = playerYvel = playerYacc = 0;
 			jumped = false;

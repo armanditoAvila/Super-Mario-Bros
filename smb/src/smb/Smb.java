@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import jig.engine.audio.AudioState;
 import jig.engine.audio.jsound.AudioClip;
 import jig.engine.audio.jsound.AudioStream;
 import jig.engine.FontResource;
@@ -69,7 +70,7 @@ public class Smb extends ScrollingScreenGame {
 	long currentTime;
 	long bumpPlayTime;
 	int bumpPlayDelay=1000;
-	private AudioClip bump;
+	private AudioClip bump,backMusic;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
 	FontResource scoreboardFont,gameOverFont,finalScoreFont;
@@ -83,7 +84,7 @@ public class Smb extends ScrollingScreenGame {
 	// static double offset;
 	private VanillaPhysicsEngine physics;
 	static final SpriteUpdateRules UPDATE_RULE = new SpriteUpdateRules(WORLD_WIDTH, WORLD_HEIGHT);
-	private AudioStream music;
+	public static AudioStream music;
 	public BodyLayer<VanillaAARectangle> unmovableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public BodyLayer<VanillaAARectangle> movableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public static BodyLayer<VanillaAARectangle> backGroundLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
@@ -107,7 +108,12 @@ public class Smb extends ScrollingScreenGame {
 		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
 		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 36), Color.red, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
+		//backMusic  = ResourceFactory.getFactory().getAudioClip(audioSource + "mario1.mp3");
 		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
+		
+		music = new AudioStream(audioSource + "mario1.mp3");
+		
+		music.loop(0.35,275);
 		gameObjectLayers.add(backGroundLayer);
 		physics.manageViewableSet(backGroundLayer);
 		gameObjectLayers.add(powerUpLayer);
@@ -188,6 +194,12 @@ public class Smb extends ScrollingScreenGame {
 							break;
 
 						}
+					}else{
+					switch(b.type){	
+					case 6:
+						System.out.println("End of Level 1");
+						break;
+					}
 					}
 					if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
@@ -571,6 +583,10 @@ public class Smb extends ScrollingScreenGame {
 				double playerFoot = p.getPosition().getY()+ p.getHeight();
 				double enemyHead = movableLayer.get(i).getPosition().getY();
 				switch(movableLayer.get(i).type){
+				
+				/**
+				 * collision between mario and Goomba
+				 */
 				case 5:
 					
 					if(((Goomba)movableLayer.get(i)).dead){
@@ -584,10 +600,15 @@ public class Smb extends ScrollingScreenGame {
 						p.jumped=true;
 					}
 					else{
+						music.pause();
 						p.restartPosition();
-						p.playerTimer = 300;
+						p.playerTimer = 100;
 					}
 				break;
+				
+				/**
+				 * Collision between mario and turtle
+				 */
 				case 7:
 					
 					if(((Turtle)movableLayer.get(i)).dead){
@@ -601,8 +622,9 @@ public class Smb extends ScrollingScreenGame {
 						p.jumped=true;
 					}
 					else{
+						music.pause();
 						p.restartPosition();
-						p.playerTimer = 300;
+						p.playerTimer = 100;
 					}
 					break;
 				case 22:

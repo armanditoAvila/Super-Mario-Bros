@@ -77,5 +77,8 @@
     <audioclip>
         <src>audio/smb_mariodie.wav</src>
     </audioclip>
+    <audioclip>
+        <src>audio/mario1.mp3</src>
+    </audioclip>
 
 </resources>
