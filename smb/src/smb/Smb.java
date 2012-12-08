@@ -168,7 +168,6 @@ public class Smb extends ScrollingScreenGame {
 							((BreakableBrownWall) b).breakApart();
 							break;
 						case 11:
-							((Player) a).playerYvel = -((Player) a).playerYvel;
 							if (!((QuestionBlock) b).dead) {
 								if (powerUpInTheBlock((QuestionBlock) b)) {
 									if (p.level == 0) {

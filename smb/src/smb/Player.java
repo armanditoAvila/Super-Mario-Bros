@@ -137,7 +137,7 @@ public class Player extends VanillaAARectangle {
 	
 	public void updateFrame(long deltaMs) {
 
-		if (this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0) {
+		if (this.getVelocity().getX() == 0) {
 			this.setFrame(0);
 			this.timeSinceLastUpdate = this.frameTime;
 		} else {
