@@ -45,9 +45,11 @@ public class Player extends VanillaAARectangle {
 	public double wraYvel;
 	public boolean MARIO = true;
 
-	Player(int x, int y) {
-		super(Smb.SPRITE_SHEET2 + "#mario", 4);
+	Player(int x, int y, String playerName) {
+		super(Smb.SPRITE_SHEET2 + playerName, 4);
+		
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
+		
 		startingPositionX=x;
 		startingPositionY=y;
 		live=3;

@@ -367,7 +367,7 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'c') {
 					unmovableLayer.add(new GroundWall(x, y));
 				} else if (ch == 'd') {
-					p = new Player(x, y);
+					p = new Player(x, y, "#mario");
 					movableLayer.add(p);
 				} else if (ch == 'e') {
 					movableLayer.add(new Goomba(x, y,"#Goomba"));
@@ -516,7 +516,7 @@ public class Smb extends ScrollingScreenGame {
 		boolean space = keyboard.isPressed(KeyEvent.VK_SPACE);
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
-
+/*
 		if(p.getPosition().getY() >=353){
 			p.live--;
 			p.marioDie();
@@ -531,7 +531,7 @@ public class Smb extends ScrollingScreenGame {
 			}
 		
 		}
-		
+	*/	
 		if (left && !right) {
 			//this.p.Xdirection = 3;
 			if(this.p.MARIO) {
@@ -652,6 +652,7 @@ public class Smb extends ScrollingScreenGame {
 				double enemyHead = movableLayer.get(i).getPosition().getY();
 				switch(movableLayer.get(i).type){
 				case 5:
+					
 					if(((Goomba)movableLayer.get(i)).dead){
 						continue;
 					}
@@ -667,6 +668,18 @@ public class Smb extends ScrollingScreenGame {
 				break;
 				case 7:
 					
+					if(((Turtle)movableLayer.get(i)).dead){
+						continue;
+					}
+					if(playerFoot > enemyHead && playerFoot < enemyHead+10){						
+						((Turtle)movableLayer.get(i)).setDead();
+						backGroundLayer.add(new Score100(((Turtle)movableLayer.get(i)).getPosition().getX(),((Turtle)movableLayer.get(i)).getPosition().getY()));
+						points+=100;
+						p.jumped=true;
+					}
+					else{
+						p.restartPosition();
+					}
 					break;
 				case 22:
 					if(((Mushroom)movableLayer.get(i)).poppedUp){
@@ -677,6 +690,7 @@ public class Smb extends ScrollingScreenGame {
 				}
 			}
 		}
+		
 		
 		/* collision between mario and interactable objects */
 		for(int i=0; i<powerUpLayer.size();i++){

@@ -62,16 +62,6 @@ public class Goomba extends VanillaAARectangle {
 		}
 		
 		
-		if(this.getPosition().getY() >= 353){
-			this.setActivation(false);
-		}
-		/*
-		if(outOfScreen()){
-			this.setActivation(false);
-		}
-		*/
-
-
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
 		
 		}

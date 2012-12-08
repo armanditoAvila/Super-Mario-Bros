@@ -22,6 +22,7 @@ public class Turtle extends VanillaAARectangle {
 	boolean frameTimeSet;
 	boolean onGround;
 	Rectangle2D boundingBox;
+	boolean numb;
 	private static AudioClip stomp = ResourceFactory.getFactory().getAudioClip(
 			"resources/" + "audio/smb_stomp.wav");
 
@@ -40,14 +41,22 @@ public class Turtle extends VanillaAARectangle {
 		if (!active) {
 			return;
 		}
-
+		
+		if(position.getX()-Smb.currentCenter>Smb.WORLD_WIDTH){
+			return;
+		}
+		
+		if(Smb.currentCenter - position.getX()>Smb.WORLD_WIDTH){
+			active=false;
+		}
+		
 		if (dead && System.currentTimeMillis() - deadTime > deadDelay) {
 			this.active = false;
 
 		} else if (dead) {
 			return;
 		}
-
+		
 		if (!dead && System.currentTimeMillis() - frameTime > frameDelay) {
 			if (getFrame() == 1) {
 				setFrame(0);
@@ -56,22 +65,19 @@ public class Turtle extends VanillaAARectangle {
 				setFrame(1);
 				frameTime = System.currentTimeMillis();
 			}
+			
+			
 		}
-
-		if(this.getPosition().getY() >= 353){
-			this.setActivation(false);
-		}
-		/*
-		 * if(outOfScreen()){ this.setActivation(false); }
-		 */
 
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
 
 	}
 
+	
+
 	public void setDead() {
 		this.dead = true;
-		deadTime = System.currentTimeMillis();
+		deadTime = System.currentTimeMillis();	
 		setFrame(2);
 		stomp.play();
 	}
