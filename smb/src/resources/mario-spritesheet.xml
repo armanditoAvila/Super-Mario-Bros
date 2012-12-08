@@ -1,234 +1,288 @@
-<spriteset>
-    <author>CS447</author>
-    <name>mario-sprites</name>
-    <type>image/png</type>
-    <width>1188</width>
-    <height>1711</height>
+	<spriteset>
+		<author>CS447</author>
+		<name>mario-sprites</name>
+		<type>image/png</type>
+		<width>1188</width>
+		<height>1711</height>
 
-    <frameset>
-        <name>breakableBrownWall</name>
-        <top>104</top>
-        <left>164</left>
-        <width>32</width>
-        <height>33</height>
-        <columns>1</columns>
-    </frameset>
-	
-	<frameset>
-        <name>breakableBrownWallPieces</name>
-        <top>122</top>
-        <left>210</left>
-        <width>16</width>
-        <height>17</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-        <name>unbreakableWall</name>
-        <top>399</top>
-        <left>107</left>
-        <width>32</width>
-        <height>33</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-        <name>groundWall</name>
-        <top>209</top>
-        <left>289</left>
-        <width>32</width>
-        <height>33</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-        <name>questionBlock</name>
-        <top>164</top>
-        <left>246</left>
-        <width>32</width>
-        <height>32</height>
-        <columns>4</columns>
-    </frameset>
-
-	<frameset>
-        <name>powerUpFlower</name>
-        <top>152</top>
-        <left>378</left>
-        <width>32</width>
-        <height>32</height>
-        <columns>4</columns>
-    </frameset>
-	
-<frameset>
-        <name>mario</name>
-        <top>975</top>
-        <left>66</left>
-        <width>26</width>
-        <height>32</height>
-        <columns>1</columns>
-    </frameset>
-    
-   <frameset>
-        <name>Goomba</name>
-        <top>1392</top>
-        <left>174</left>
-        <width>32</width>
-        <height>32</height>
-        <columns>3</columns>
-    </frameset>
-
-	<frameset>
-        <name>rotatingBigCoin</name>
-        <top>233</top>
-        <left>157</left>
-        <width>16</width>
-        <height>28</height>
-        <columns>4</columns>
-    </frameset>
-
-<frameset>
-        <name>colorChangingBigCoin</name>
-        <top>184</top>
-        <left>150</left>
-        <width>20</width>
-        <height>30</height>
-        <columns>3</columns>
-    </frameset>
-
-<frameset>
-<name>smallCoin</name>
-        <top>157</top>
-        <left>155</left>
-        <width>10</width>
-        <height>18</height>
-        <columns>3</columns>
-    </frameset>
-
-<frameset>
-<name>flagPole</name>
-        <top>102</top>
-        <left>107</left>
-        <width>32</width>
-        <height>330</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-
-<name>turtle</name>
-        <top>929</top>
-        <left>848</left>
-        <width>30</width>
-        <height>47</height>
-        <columns>3</columns>
-    </frameset>
-
-<frameset>
-<name>verticalPipe</name>
-        <top>564</top>
-        <left>585</left>
-        <width>64</width>
-        <height>132</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-<name>verticalHalfPipe</name>
-        <top>564</top>
-        <left>585</left>
-        <width>64</width>
-        <height>66</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-<name>shrub</name>
-        <top>488</top>
-        <left>808</left>
-        <width>128</width>
-        <height>32</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-<name>smallCloud</name>
-        <top>110</top>
-        <left>666</left>
-        <width>64</width>
-        <height>52</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-<name>bigCloud</name>
-        <top>110</top>
-        <left>748</left>
-        <width>100</width>
-        <height>52</height>
-        <columns>1</columns>
-    </frameset>
-
-<frameset>
-<name>smallHill</name>
-        <top>210</top>
-        <left>684</left>
-        <width>84</width>
-        <height>33</height>
-        <columns>1</columns>
-    </frameset>
-	
-<frameset>
-<name>bigHill</name>
-        <top>175</top>
-        <left>798</left>
-        <width>144</width>
-        <height>66</height>
-        <columns>1</columns>
-    </frameset>
-
-	<frameset>
-<name>1upMushroom</name>
-        <top>103</top>
-        <left>373</left>
-        <width>32</width>
-        <height>33</height>
-        <columns>1</columns>
-    </frameset>
-
-	<frameset>
-<name>levelUpMushroom</name>
-        <top>103</top>
-        <left>410</left>
-        <width>32</width>
-        <height>33</height>
-        <columns>1</columns>
-    </frameset>
-
-	<frameset>
-<name>castle</name>
-        <top>261</top>
-        <left>157</left>
-        <width>161</width>
-        <height>198</height>
-        <columns>1</columns>
-    </frameset>
-
-	<frameset>
-<name>star</name>
-        <top>241</top>
-        <left>379</left>
-        <width>28</width>
-        <height>32</height>
-        <columns>4</columns>
-    </frameset>
-	
 		<frameset>
-<name>score100</name>
-        <top>119</top>
-        <left>555</left>
-        <width>18</width>
-        <height>9</height>
-        <columns>1</columns>
-    </frameset>
+			<name>breakableBrownWall</name>
+			<top>104</top>
+			<left>164</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+		
+		<frameset>
+			<name>breakableBrownWallPieces</name>
+			<top>122</top>
+			<left>210</left>
+			<width>16</width>
+			<height>17</height>
+			<columns>1</columns>
+		</frameset>
 
-    </spriteset>
+	<frameset>
+			<name>breakableGreenWall</name>
+			<top>100</top>
+			<left>231</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+		
+		<frameset>
+			<name>breakableGreenWallPieces</name>
+			<top>102</top>
+			<left>210</left>
+			<width>16</width>
+			<height>17</height>
+			<columns>1</columns>
+		</frameset>
+		
+		
+	<frameset>
+			<name>unbreakableWall</name>
+			<top>399</top>
+			<left>107</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+			<name>greenUnbreakableWall</name>
+			<top>100</top>
+			<left>281</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+			<name>level1Ground</name>
+			<top>209</top>
+			<left>289</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+		
+	   <frameset>
+			<name>level2Ground</name>
+			<top>100</top>
+			<left>320</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+			<name>questionBlock</name>
+			<top>164</top>
+			<left>246</left>
+			<width>32</width>
+			<height>32</height>
+			<columns>4</columns>
+		</frameset>
+
+		<frameset>
+			<name>powerUpFlower</name>
+			<top>152</top>
+			<left>378</left>
+			<width>32</width>
+			<height>32</height>
+			<columns>4</columns>
+		</frameset>
+		
+	<frameset>
+			<name>mario</name>
+			<top>975</top>
+			<left>66</left>
+			<width>26</width>
+			<height>32</height>
+			<columns>1</columns>
+		</frameset>
+		
+	   <frameset>
+			<name>Goomba</name>
+			<top>1392</top>
+			<left>174</left>
+			<width>32</width>
+			<height>32</height>
+			<columns>3</columns>
+		</frameset>
+		
+		<frameset>
+			<name>level2Goomba</name>
+			<top>1392</top>
+			<left>306</left>
+			<width>32</width>
+			<height>32</height>
+			<columns>3</columns>
+		</frameset>
+
+		<frameset>
+			<name>rotatingBigCoin</name>
+			<top>233</top>
+			<left>157</left>
+			<width>16</width>
+			<height>28</height>
+			<columns>4</columns>
+		</frameset>
+
+	<frameset>
+			<name>colorChangingBigCoin</name>
+			<top>184</top>
+			<left>150</left>
+			<width>20</width>
+			<height>30</height>
+			<columns>3</columns>
+		</frameset>
+
+	<frameset>
+	<name>smallCoin</name>
+			<top>157</top>
+			<left>155</left>
+			<width>10</width>
+			<height>18</height>
+			<columns>3</columns>
+		</frameset>
+
+	<frameset>
+	<name>flagPole</name>
+			<top>102</top>
+			<left>107</left>
+			<width>32</width>
+			<height>330</height>
+			<columns>1</columns>
+		</frameset>
+
+		<frameset>
+
+		<name>turtle</name>
+			<top>929</top>
+			<left>848</left>
+			<width>30</width>
+			<height>47</height>
+			<columns>3</columns>
+		</frameset>
+		<frameset>
+		<name>level2turtle</name>
+			<top>1049</top>
+			<left>908</left>
+			<width>30</width>
+			<height>47</height>
+			<columns>3</columns>
+		</frameset>
+
+	<frameset>
+	<name>verticalPipe</name>
+			<top>564</top>
+			<left>585</left>
+			<width>64</width>
+			<height>132</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+	<name>verticalHalfPipe</name>
+			<top>564</top>
+			<left>585</left>
+			<width>64</width>
+			<height>66</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+	<name>shrub</name>
+			<top>488</top>
+			<left>808</left>
+			<width>128</width>
+			<height>32</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+	<name>smallCloud</name>
+			<top>110</top>
+			<left>666</left>
+			<width>64</width>
+			<height>52</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+	<name>bigCloud</name>
+			<top>110</top>
+			<left>748</left>
+			<width>100</width>
+			<height>52</height>
+			<columns>1</columns>
+		</frameset>
+
+	<frameset>
+	<name>smallHill</name>
+			<top>210</top>
+			<left>684</left>
+			<width>84</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+		
+	<frameset>
+	<name>bigHill</name>
+			<top>175</top>
+			<left>798</left>
+			<width>144</width>
+			<height>66</height>
+			<columns>1</columns>
+		</frameset>
+
+		<frameset>
+	<name>1upMushroom</name>
+			<top>103</top>
+			<left>373</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+
+		<frameset>
+	<name>levelUpMushroom</name>
+			<top>103</top>
+			<left>410</left>
+			<width>32</width>
+			<height>33</height>
+			<columns>1</columns>
+		</frameset>
+
+		<frameset>
+	<name>castle</name>
+			<top>261</top>
+			<left>157</left>
+			<width>161</width>
+			<height>198</height>
+			<columns>1</columns>
+		</frameset>
+
+		<frameset>
+	<name>star</name>
+			<top>241</top>
+			<left>379</left>
+			<width>28</width>
+			<height>32</height>
+			<columns>4</columns>
+		</frameset>
+		
+			<frameset>
+	<name>score100</name>
+			<top>119</top>
+			<left>555</left>
+			<width>18</width>
+			<height>9</height>
+			<columns>1</columns>
+		</frameset>
+
+		</spriteset>

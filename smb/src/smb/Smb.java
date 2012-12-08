@@ -65,6 +65,7 @@ public class Smb extends ScrollingScreenGame {
 	int world;
 	int world_level;
 
+	int gamelvl = 0;
 	int questionBlockCount;
 	static boolean restartLevel;
 	long currentTime;
@@ -114,12 +115,16 @@ public class Smb extends ScrollingScreenGame {
 		music = new AudioStream(audioSource + "mario1.mp3");
 		
 		music.loop(0.35,275);
+		
 		gameObjectLayers.add(backGroundLayer);
 		physics.manageViewableSet(backGroundLayer);
+		
 		gameObjectLayers.add(powerUpLayer);
 		physics.manageViewableSet(powerUpLayer);
+		
 		gameObjectLayers.add(unmovableLayer);
 		physics.manageViewableSet(unmovableLayer);
+		
 		gameObjectLayers.add(movableLayer);
 		physics.manageViewableSet(movableLayer);
 		
@@ -163,9 +168,14 @@ public class Smb extends ScrollingScreenGame {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
 						((Player) a).playerYvel = 0;
 						((Player) a).jumped = true;
-						switch (b.type) {
+					switch (b.type) {
 						case 1:
-							((BreakableBrownWall) b).breakApart();
+							if(gamelvl == 1)
+								((BreakableBrownWall) b).breakApart();
+							else if(gamelvl == 2)
+								((BreakableGreenWall) b).breakApart();
+							
+							
 							break;
 						case 11:
 							if (!((QuestionBlock) b).dead) {
@@ -198,6 +208,10 @@ public class Smb extends ScrollingScreenGame {
 					switch(b.type){	
 					case 6:
 						System.out.println("End of Level 1");
+						backGroundLayer.clear();
+						gamelvl = 2;
+						loadGameLevel(Integer.toString(gamelvl));
+						
 						break;
 					}
 					}
@@ -215,7 +229,8 @@ public class Smb extends ScrollingScreenGame {
 		};
 
 		physics.registerCollisionHandler(d);
-		loadLevel("1");
+		gamelvl =1;
+		loadGameLevel(Integer.toString(gamelvl));
 		setWorldBounds(0, 0, mapWidth * TILE_SIZE, mapHeight * TILE_SIZE);
 	}
 
@@ -228,7 +243,7 @@ public class Smb extends ScrollingScreenGame {
 		return false;
 	}
 	
-	private void loadLevel(String level) {
+	private void loadGameLevel(String level) {
 		
 		currentTime = System.currentTimeMillis();
 		points=0;
@@ -284,7 +299,7 @@ public class Smb extends ScrollingScreenGame {
 	 * 14 n smallcloud
 	 * 15 0 bighill
 	 * 16 p shrub
-	 * 17 q green goomba
+	 * 17 q green goomba (level 2 goomba)
 	 * 18 r green turtle
 	 * 19 s green step
 	 * 20 w green breakable wall
@@ -304,7 +319,7 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'b') {
 					unmovableLayer.add(new UnbreakableWall(x, y,"#unbreakableWall"));
 				} else if (ch == 'c') {
-					unmovableLayer.add(new GroundWall(x, y));
+					unmovableLayer.add(new GroundWall(x, y,"#level1Ground"));
 				} else if (ch == 'd') {
 					p = new Player(x, y, "#mario");
 					movableLayer.add(p);
@@ -339,13 +354,13 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 'p') {
 					backGroundLayer.add(new Shrub(x,y));
 				} else if (ch == 'q') {
-					movableLayer.add(new Goomba(x, y,"#greengoomba"));
+					movableLayer.add(new Goomba(x, y,"#level2Goomba"));
 				} else if (ch == 'r') {
-					movableLayer.add(new Turtle(x, y,"#greenturtle"));
+					movableLayer.add(new Turtle(x, y,"#level2turtle"));
 				} else if (ch == 's') {
-					unmovableLayer.add(new UnbreakableWall(x, y,"greenUnbreakableWall"));
+					unmovableLayer.add(new UnbreakableWall(x, y,"#greenUnbreakableWall"));
 				} else if (ch == 't') {
-
+					unmovableLayer.add(new GroundWall(x, y,"#level2Ground"));
 				} else if (ch == 'u') {
 
 				} else if (ch == 'v') {
@@ -408,7 +423,7 @@ public class Smb extends ScrollingScreenGame {
 		backGroundLayer.clear();
 		powerUpLayer.clear();
 		powerUpQuestionBlocksArray.clear();
-	    loadLevel(level);
+	    loadGameLevel(level);
 	    restartLevel=false;
 	}
 
