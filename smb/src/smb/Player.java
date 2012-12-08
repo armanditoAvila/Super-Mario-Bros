@@ -168,16 +168,19 @@ public class Player extends VanillaAARectangle {
 		/* X Calculations And Checks */
 		if(playerXvel > 0 && (playerXvel + playerXacc) <= 0) {
 			playerXvel = 0;
+			playerXacc = 0;
 		} else if(playerXvel < 0 && (playerXvel + playerXacc) >= 0) {
 			playerXvel = 0;
+			playerXacc = 0;
 		} else {
 			playerXvel = playerXvel + playerXacc;
 			if(Math.abs(playerXvel) > Math.abs(maxXvel)) playerXvel = maxXvel;
 		}
 		
 		/* Y Calculations And Checks */
-		if(jumped) playerYvel = playerYvel + playerYacc;
-		//if(playerYvel > maxYvel) playerYvel = wraYvel;
+		if(playerYvel <= 0) playerYvel = playerYvel + playerYacc;
+		if(playerYvel > 0) playerYvel = playerYvel + gravity;
+		if(playerYvel > Physics.bf_max_vel_fall) playerYvel = Physics.bf_fall_vel_wrap;
 		//System.out.println(playerYvel);
 	}
 	

@@ -152,13 +152,13 @@ public class Smb extends ScrollingScreenGame {
 					 */
 				} else {
 					if (a.isOnTopSide(b)) {
-						((Player) a).playerYacc = 0; // causes problems, if
+						((Player) a).jumped = false;
+						//((Player) a).playerYacc = 0; // causes problems, if
 														// player walks off of
 														// block gravity doesn't
 														// start back up
 						((Player) a).playerYvel = 0;
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
-						((Player) a).jumped = false;
 					} else if (a.isOnBottomSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
 						((Player) a).playerYvel = 0;
@@ -466,115 +466,114 @@ public class Smb extends ScrollingScreenGame {
 		
 		}
 	*/	
+		
+		if((left || right) && !p.jumped) {
+			p.playerYacc = p.gravity;
+		}
 		if (left && !right) {
-			//this.p.Xdirection = 3;
-			if(this.p.MARIO) {
+			if(p.MARIO) {
 				if(!run){
-					this.p.playerXacc = -Physics.mg_acceler_walk;
-					this.p.maxXvel = -Physics.mg_max_vel_walk;
+					p.playerXacc = -Physics.mg_acceler_walk;
+					p.maxXvel = -Physics.mg_max_vel_walk;
 				} else {
-					this.p.playerXacc = -Physics.mg_acceler_runn;
-					this.p.maxXvel = -Physics.mg_max_vel_runn;
+					p.playerXacc = -Physics.mg_acceler_runn;
+					p.maxXvel = -Physics.mg_max_vel_runn;
 				}
 			} else {
 				if(!run){
-					this.p.playerXacc = -Physics.lg_acceler_walk;
-					this.p.maxXvel = -Physics.lg_max_vel_walk;
+					p.playerXacc = -Physics.lg_acceler_walk;
+					p.maxXvel = -Physics.lg_max_vel_walk;
 				} else {
-					this.p.playerXacc = -Physics.lg_acceler_runn;
-					this.p.maxXvel = -Physics.lg_max_vel_runn;
+					p.playerXacc = -Physics.lg_acceler_runn;
+					p.maxXvel = -Physics.lg_max_vel_runn;
 				}
 			}
 		} else if (right && !left) {
-			//this.p.Xdirection = 1;
-			if(this.p.MARIO) {
+			if(p.MARIO) {
 				if(!run){
-					this.p.playerXacc = Physics.mg_acceler_walk;
-					this.p.maxXvel = Physics.mg_max_vel_walk;
+					p.playerXacc = Physics.mg_acceler_walk;
+					p.maxXvel = Physics.mg_max_vel_walk;
 				} else {
-					this.p.playerXacc = Physics.mg_acceler_runn;
-					this.p.maxXvel = Physics.mg_max_vel_runn;
+					p.playerXacc = Physics.mg_acceler_runn;
+					p.maxXvel = Physics.mg_max_vel_runn;
 				}
 			} else {
 				if(!run){
-					this.p.playerXacc = Physics.lg_acceler_walk;
-					this.p.maxXvel = Physics.lg_max_vel_walk;
+					p.playerXacc = Physics.lg_acceler_walk;
+					p.maxXvel = Physics.lg_max_vel_walk;
 				} else {
-					this.p.playerXacc = Physics.lg_acceler_runn;
-					this.p.maxXvel = Physics.lg_max_vel_runn;
+					p.playerXacc = Physics.lg_acceler_runn;
+					p.maxXvel = Physics.lg_max_vel_runn;
 				}
 			}
 		} else {
-			//this.p.Xdirection = 0;
-			if(this.p.playerXvel < 0) {
-				if(this.p.MARIO) {
-					this.p.playerXacc = Physics.mg_deceler_rele;
+			if(p.playerXvel < 0) {
+				if(p.MARIO) {
+					p.playerXacc = Physics.mg_deceler_rele;
 				} else {
-					this.p.playerXacc = Physics.lg_deceler_rele;
+					p.playerXacc = Physics.lg_deceler_rele;
 				}
 			} else if(p.playerXvel > 0) {
-				if(this.p.MARIO) {
-					this.p.playerXacc = -Physics.lg_deceler_rele;
+				if(p.MARIO) {
+					p.playerXacc = -Physics.lg_deceler_rele;
 				} else {
-					this.p.playerXacc = -Physics.lg_deceler_rele;
+					p.playerXacc = -Physics.lg_deceler_rele;
 				}
 			}
 		}
 
 		if (space) {
 			if(jumpTimer > Physics.keyPoll){
-				if(this.p.MARIO){
-					if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
-						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_lt_init_vel;
-						if(!this.p.jumped) this.p.playerYacc = Physics.mj_lt_fall_gra;
-						if(this.p.jumped) this.p.playerYacc = Physics.mj_lt_hold_gra;
-						this.p.jumped = true;
-						this.p.gravity = Physics.mj_lt_fall_gra;
-					} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
-						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_bt_init_vel;
-						if(!this.p.jumped) this.p.playerYacc = Physics.mj_bt_fall_gra;
-						if(this.p.jumped) this.p.playerYacc = Physics.mj_bt_hold_gra;
-						this.p.jumped = true;
-						this.p.gravity = Physics.mj_bt_fall_gra;
+				if(p.MARIO){
+					if(Math.abs(p.playerXvel) < Physics.lt_jump) {
+						if(p.playerYvel == 0) p.playerYvel = -Physics.mj_lt_init_vel;
+						if(!p.jumped) p.playerYacc = Physics.mj_lt_fall_gra;
+						if(p.jumped && p.playerYvel < 0) p.playerYacc = Physics.mj_lt_hold_gra;
+						p.jumped = true;
+						p.gravity = Physics.mj_lt_fall_gra;
+					} else if(Math.abs(p.playerXvel) < Physics.gt_jump) {
+						if(p.playerYvel == 0) p.playerYvel = -Physics.mj_bt_init_vel;
+						if(!p.jumped) p.playerYacc = Physics.mj_bt_fall_gra;
+						if(p.jumped && p.playerYvel < 0) p.playerYacc = Physics.mj_bt_hold_gra;
+						p.jumped = true;
+						p.gravity = Physics.mj_bt_fall_gra;
 					} else {
-						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_gt_init_vel;
-						if(!this.p.jumped) this.p.playerYacc = Physics.mj_gt_fall_gra;
-						if(this.p.jumped) this.p.playerYacc = Physics.mj_gt_hold_gra;
-						this.p.jumped = true;
-						this.p.gravity = Physics.mj_gt_fall_gra;
+						if(p.playerYvel == 0) p.playerYvel = -Physics.mj_gt_init_vel;
+						if(!p.jumped) p.playerYacc = Physics.mj_gt_fall_gra;
+						if(p.jumped && p.playerYvel < 0) p.playerYacc = Physics.mj_gt_hold_gra;
+						p.jumped = true;
+						p.gravity = Physics.mj_gt_fall_gra;
 					}
 				} else {
-					if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
-						System.out.println("jump");
-						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.lj_lt_init_vel;
-						if(!this.p.jumped) this.p.playerYacc = Physics.lj_lt_fall_gra;
-						if(this.p.jumped) this.p.playerYacc = Physics.lj_lt_hold_gra;
-						this.p.jumped = true;
-						this.p.gravity = Physics.lj_lt_fall_gra;
-					} else if(Math.abs(this.p.playerXvel) < Physics.gt_jump) {
-						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.lj_bt_init_vel;
-						if(!this.p.jumped) this.p.playerYacc = Physics.lj_bt_fall_gra;
-						if(this.p.jumped) this.p.playerYacc = Physics.lj_bt_hold_gra;
-						this.p.jumped = true;
-						this.p.gravity = Physics.lj_bt_fall_gra;
+					if(Math.abs(p.playerXvel) < Physics.lt_jump) {
+						if(p.playerYvel == 0) p.playerYvel = -Physics.lj_lt_init_vel;
+						if(!p.jumped) p.playerYacc = Physics.lj_lt_fall_gra;
+						if(p.jumped && p.playerYvel < 0) p.playerYacc = Physics.lj_lt_hold_gra;
+						p.jumped = true;
+						p.gravity = Physics.lj_lt_fall_gra;
+					} else if(Math.abs(p.playerXvel) < Physics.gt_jump) {
+						if(p.playerYvel == 0) p.playerYvel = -Physics.lj_bt_init_vel;
+						if(!p.jumped) p.playerYacc = Physics.lj_bt_fall_gra;
+						if(p.jumped && p.playerYvel < 0) p.playerYacc = Physics.lj_bt_hold_gra;
+						p.jumped = true;
+						p.gravity = Physics.lj_bt_fall_gra;
 					} else {
-						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.lj_gt_init_vel;
-						if(!this.p.jumped) this.p.playerYacc = Physics.lj_gt_fall_gra;
-						if(this.p.jumped) this.p.playerYacc = Physics.lj_gt_hold_gra;
-						this.p.jumped = true;
-						this.p.gravity = Physics.lj_gt_fall_gra;
+						if(p.playerYvel == 0) p.playerYvel = -Physics.lj_gt_init_vel;
+						if(!p.jumped) p.playerYacc = Physics.lj_gt_fall_gra;
+						if(p.jumped && p.playerYvel < 0) p.playerYacc = Physics.lj_gt_hold_gra;
+						p.jumped = true;
+						p.gravity = Physics.lj_gt_fall_gra;
 					}
 				}
 				jumpTimer = 0;
 			}
-		} else if(this.p.jumped == true) {
-			this.p.playerYacc = this.p.gravity;
-		} else if(this.p.jumped == false) {
-			this.p.playerYacc = 0;
+		} else if(p.jumped == true) {
+			p.playerYacc = p.gravity;
 		}
 		
-		if(this.p.jumped) {
-			if(Math.abs(this.p.playerXvel) < Physics.ba_max_air_lt) {
+		/*
+		if(p.jumped) {
+			if(Math.abs(p.playerXvel) < Physics.ba_max_air_lt) {
 				if(p.playerXvel < 0) {
 					p.maxXvel = -Physics.ba_max_air_lt;
 					if(left && p.MARIO) {
@@ -590,7 +589,7 @@ public class Smb extends ScrollingScreenGame {
 						p.playerXacc = Physics.la_hf_lessthan;
 					}
 				}
-			} else if(Math.abs(this.p.playerXvel) >= Physics.ba_max_air_lt) {
+			} else if(Math.abs(p.playerXvel) >= Physics.ba_max_air_lt) {
 				if(p.playerXvel < 0) {
 					p.maxXvel = -Physics.ba_max_air_gt;
 					if(left && p.MARIO) {
@@ -608,6 +607,7 @@ public class Smb extends ScrollingScreenGame {
 				}
 			}
 		}
+		*/
 		
 		/* collision between mario and interactable objects */
 		for(int i=0; i<movableLayer.size();i++){
@@ -625,6 +625,7 @@ public class Smb extends ScrollingScreenGame {
 						((Goomba)movableLayer.get(i)).setDead();
 						backGroundLayer.add(new Score100(((Goomba)movableLayer.get(i)).getPosition().getX(),((Goomba)movableLayer.get(i)).getPosition().getY()));
 						points+=100;
+						p.playerYvel = -Physics.enemy_stomp_vel;
 						p.jumped=true;
 					}
 					else{
@@ -640,6 +641,7 @@ public class Smb extends ScrollingScreenGame {
 						((Turtle)movableLayer.get(i)).setDead();
 						backGroundLayer.add(new Score100(((Turtle)movableLayer.get(i)).getPosition().getX(),((Turtle)movableLayer.get(i)).getPosition().getY()));
 						points+=100;
+						p.playerYvel = -Physics.enemy_stomp_vel;
 						p.jumped=true;
 					}
 					else{

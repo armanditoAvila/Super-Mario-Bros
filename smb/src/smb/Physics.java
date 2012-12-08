@@ -64,8 +64,8 @@ public final class Physics {
 	public static double bf_fall_vel_wrap = 240 * px;
 	
 	/* Mario Jump Physics Constants */
-	public static double mj_lt_init_vel = 240 * px;
-	public static double mj_bt_init_vel = 240 * px;
+	public static double mj_lt_init_vel = 290 * px;
+	public static double mj_bt_init_vel = 295 * px;
 	public static double mj_gt_init_vel = 300 * px;
 	public static double mj_le_init_vel = 0;
 	
@@ -80,8 +80,8 @@ public final class Physics {
 	public static double mj_le_fall_gra = 120 * spx + 480 * sspx;
 	
 	/* Luigi Jump Physics Constants */
-	public static double lj_lt_init_vel = 240 * px;
-	public static double lj_bt_init_vel = 240 * px;
+	public static double lj_lt_init_vel = 290 * px;
+	public static double lj_bt_init_vel = 295 * px;
 	public static double lj_gt_init_vel = 300 * px;
 	public static double lj_le_init_vel = 0;
 	
