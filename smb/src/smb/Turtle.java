@@ -13,6 +13,7 @@ public class Turtle extends VanillaAARectangle {
 
 	int Xdirection, Ydirection;
 	int speed = 30;
+	double gravity = Physics.mj_bt_fall_gra;
 	int frameDelay = 200;
 	int deadDelay = 1000;
 	long frameTime;
@@ -31,7 +32,7 @@ public class Turtle extends VanillaAARectangle {
 		super(Smb.SPRITE_SHEET + turtleType, 7);
 		frameTime = System.currentTimeMillis();
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE + 14);
-		velocity = new Vector2D(-speed, speed);
+		velocity = new Vector2D(-speed, gravity);
 		setFrame(0);
 
 	}
