@@ -14,6 +14,7 @@ public class Player extends VanillaAARectangle {
 	int speed = 100;
 	int level;
 	int live;
+	long playerTimer = 300;
 	int startingPositionX;
 	int startingPositionY;
 	double vSpeedX, vSpeedY;
@@ -73,6 +74,7 @@ public class Player extends VanillaAARectangle {
 		}
 		
 		if(position.getY() > Smb.WORLD_HEIGHT){
+			this.playerTimer = 300;
 			restartPosition();
 		}
 		

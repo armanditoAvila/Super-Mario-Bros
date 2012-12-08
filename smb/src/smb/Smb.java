@@ -64,12 +64,10 @@ public class Smb extends ScrollingScreenGame {
 	int world;
 	int world_level;
 
-	long time;
-
-		int questionBlockCount;
-		static boolean restartLevel;
+	int questionBlockCount;
+	static boolean restartLevel;
 	long currentTime;
-		long bumpPlayTime;
+	long bumpPlayTime;
 	int bumpPlayDelay=1000;
 	private AudioClip bump;
 	// private ViewableLayer splashLayer;
@@ -219,7 +217,7 @@ public class Smb extends ScrollingScreenGame {
 	}
 	
 	private void loadLevel(String level) {
-		time = 300;
+		
 		currentTime = System.currentTimeMillis();
 		points=0;
 		world = 1;
@@ -382,9 +380,9 @@ public class Smb extends ScrollingScreenGame {
 		scoreboardFont.render("TIME", rc, AffineTransform.getTranslateInstance(430, 20));
 		scoreboardFont.render(points + "", rc, AffineTransform.getTranslateInstance(50, 40));
 		scoreboardFont.render(world + "" + "-" + world_level, rc, AffineTransform.getTranslateInstance(310, 40));
-		scoreboardFont.render((int) time + "", rc, AffineTransform.getTranslateInstance(440, 40));
+		scoreboardFont.render((int) p.playerTimer + "", rc, AffineTransform.getTranslateInstance(440, 40));
 		
-		if(p.live <= 0 || time <=0){
+		if(p.live <= 0 || p.playerTimer <=0){
 			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
 			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 240));
 			gameover=true;
@@ -422,10 +420,10 @@ public class Smb extends ScrollingScreenGame {
 			 stopWatch++;
 			 
 			 if(stopWatch >= 80){
-				 time--;
+				 p.playerTimer--;
 				 stopWatch=0;
 			 }
-			 }
+		}
 		
 		jumpTimer += deltaMs;
 		
@@ -587,6 +585,7 @@ public class Smb extends ScrollingScreenGame {
 					}
 					else{
 						p.restartPosition();
+						p.playerTimer = 300;
 					}
 				break;
 				case 7:
@@ -603,6 +602,7 @@ public class Smb extends ScrollingScreenGame {
 					}
 					else{
 						p.restartPosition();
+						p.playerTimer = 300;
 					}
 					break;
 				case 22:
