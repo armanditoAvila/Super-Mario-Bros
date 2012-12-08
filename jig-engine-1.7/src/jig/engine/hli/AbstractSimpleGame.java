@@ -67,7 +67,7 @@ public abstract class AbstractSimpleGame {
 		boolean truePreferFullScreen = preferFullScreen;
 				
 		gameframe = ResourceFactory.getFactory()
-				.getGameFrame("My Game", desiredWidth, desiredHeight, truePreferFullScreen);
+				.getGameFrame("Super Mario Bros", desiredWidth, desiredHeight, truePreferFullScreen);
 		
 		//frame rate element and an 'fps' command to toggles it
 		fre = new FrameRateElement(new Vector2D(gameframe.getWidth() - 150, gameframe
