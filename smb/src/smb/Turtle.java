@@ -13,7 +13,7 @@ public class Turtle extends VanillaAARectangle {
 
 	int Xdirection, Ydirection;
 	int speed = 30;
-	double gravity = Physics.mj_bt_fall_gra;
+	double gravity = Physics.mj_lt_fall_gra;
 	int frameDelay = 200;
 	int deadDelay = 1000;
 	long frameTime;
