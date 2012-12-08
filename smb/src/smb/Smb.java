@@ -119,72 +119,6 @@ public class Smb extends ScrollingScreenGame {
 		gameObjectLayers.add(movableLayer);
 		physics.manageViewableSet(movableLayer);
 		
-		/* Justin: Commenting out to test changed names
-		RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle> d = new RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle>(movableLayer, unmovableLayer) {
-			@Override
-			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
-				if (a.type != 4) {
-					if (a.type == 5) {
-						if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY()&& (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
-							((goomba) a).vSpeedY = 0;
-						} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight()&& a.getPosition().getY() > b.getPosition().getY()) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.5));
-							((goomba) a).vSpeedY = -((goomba) a).vSpeedY;
-						}
-						if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX()&& a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
-							((goomba) a).vSpeedX = 0;
-							((goomba) a).setOppositeDirection();
-
-							
-							
-						} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth()&& a.getPosition().getX() > b.getPosition().getX()) {
-							((goomba) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
-							((goomba) a).vSpeedX = 0;
-							((goomba) a).setOppositeDirection();
-
-						}
-					}
-				} else {
-					if ((a.getPosition().getY() + a.getHeight()) > b.getPosition().getY() && (a.getPosition().getY() + a.getHeight()) < (b.getPosition().getY() + b.getHeight())) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 0.5));
-						((player) a).vSpeedY = 0;
-					} else if (a.getPosition().getY() < b.getPosition().getY() + b.getHeight() && a.getPosition().getY() > b.getPosition().getY()) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 0.2));
-						((player) a).vSpeedY = -((player) a).vSpeedY;
-						switch(b.type){
-						case 1:
-							((player) a).vSpeedY=-((player) a).vSpeedY;
-							((breakableBrownWall)b).breakApart();
-							break;
-						case 11:
-							if(!((questionBlock)b).dead){
-								((player) a).vSpeedY=-((player) a).vSpeedY;
-								if(p.level==1){
-									
-								}
-								else{
-									powerUpLayer.add(new powerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
-									((questionBlock)b).setDead();
-							}
-							}
-							break;
-						
-						}
-					}
-					if (a.getPosition().getX() + a.getWidth() > b.getPosition().getX() && a.getPosition().getX() + a.getWidth() < b.getPosition().getX()) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX() - 0.5, a.getPosition().getY()));
-						((player) a).vSpeedX = 0;
-					} else if (a.getPosition().getX() < b.getPosition().getX() + b.getWidth() && a.getPosition().getX() > b.getPosition().getX()) {
-						((player) a).setPosition(new Vector2D(a.getPosition().getX() + 0.5, a.getPosition().getY()));
-						((player) a).vSpeedX = 0;
-					}
-				}
-			}
-		};
-		*/
-		
 		RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle> d = new RectangleCollisionHandler<VanillaAARectangle, VanillaAARectangle>(movableLayer, unmovableLayer) {
 			@Override
 			public void collide(final VanillaAARectangle a, final VanillaAARectangle b) {
@@ -218,19 +152,19 @@ public class Smb extends ScrollingScreenGame {
 					 */
 				} else {
 					if (a.isOnTopSide(b)) {
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
-						((Player) a).playerYvel = 0;
 						((Player) a).playerYacc = 0; // causes problems, if
 														// player walks off of
 														// block gravity doesn't
 														// start back up
+						((Player) a).playerYvel = 0;
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
 						((Player) a).jumped = false;
 					} else if (a.isOnBottomSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
-						((Player) a).playerYvel = -((Player) a).playerYvel;
+						((Player) a).playerYvel = 0;
+						((Player) a).jumped = true;
 						switch (b.type) {
 						case 1:
-							((Player) a).playerYvel = -((Player) a).playerYvel;
 							((BreakableBrownWall) b).breakApart();
 							break;
 						case 11:
@@ -588,18 +522,9 @@ public class Smb extends ScrollingScreenGame {
 		}
 
 		if (space) {
-			//this.p.jumped = true;
 			if(jumpTimer > Physics.keyPoll){
-				if(Math.abs(this.p.playerXvel) < Physics.ba_max_air_lt) {
-					if(p.playerXvel < 0) {
-						p.maxXvel = -Physics.ba_max_air_lt;
-					} else {
-						p.maxXvel = Physics.ba_max_air_gt;
-					}
-				}
 				if(this.p.MARIO){
 					if(Math.abs(this.p.playerXvel) < Physics.lt_jump) {
-						System.out.println("jump");
 						if(this.p.playerYvel == 0) this.p.playerYvel = -Physics.mj_lt_init_vel;
 						if(!this.p.jumped) this.p.playerYacc = Physics.mj_lt_fall_gra;
 						if(this.p.jumped) this.p.playerYacc = Physics.mj_lt_hold_gra;
@@ -641,6 +566,46 @@ public class Smb extends ScrollingScreenGame {
 					}
 				}
 				jumpTimer = 0;
+			}
+		} else if(this.p.jumped == true) {
+			this.p.playerYacc = this.p.gravity;
+		} else if(this.p.jumped == false) {
+			this.p.playerYacc = 0;
+		}
+		
+		if(this.p.jumped) {
+			if(Math.abs(this.p.playerXvel) < Physics.ba_max_air_lt) {
+				if(p.playerXvel < 0) {
+					p.maxXvel = -Physics.ba_max_air_lt;
+					if(left && p.MARIO) {
+						p.playerXacc = -Physics.ma_hf_lessthan;
+					} else if(left && !p.MARIO) {
+						p.playerXacc = -Physics.la_hf_lessthan;
+					}
+				} else {
+					p.maxXvel = Physics.ba_max_air_lt;
+					if(right && p.MARIO) {
+						p.playerXacc = Physics.ma_hf_lessthan;
+					} else if(right && !p.MARIO) {
+						p.playerXacc = Physics.la_hf_lessthan;
+					}
+				}
+			} else if(Math.abs(this.p.playerXvel) >= Physics.ba_max_air_lt) {
+				if(p.playerXvel < 0) {
+					p.maxXvel = -Physics.ba_max_air_gt;
+					if(left && p.MARIO) {
+						p.playerXacc = Physics.ma_hf_greatore;
+					} else if(left && !p.MARIO) {
+						p.playerXacc = Physics.la_hf_greatore;
+					}
+				} else {
+					p.maxXvel = Physics.ba_max_air_gt;
+					if(right && p.MARIO) {
+						p.playerXacc = Physics.ma_hf_greatore;
+					} else if(right && !p.MARIO) {
+						p.playerXacc = Physics.la_hf_greatore;
+					}
+				}
 			}
 		}
 		

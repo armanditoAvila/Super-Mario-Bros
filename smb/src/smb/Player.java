@@ -176,7 +176,7 @@ public class Player extends VanillaAARectangle {
 		}
 		
 		/* Y Calculations And Checks */
-		playerYvel = playerYvel + playerYacc;
+		if(jumped) playerYvel = playerYvel + playerYacc;
 		//if(playerYvel > maxYvel) playerYvel = wraYvel;
 		//System.out.println(playerYvel);
 	}
@@ -204,6 +204,7 @@ public class Player extends VanillaAARectangle {
 		if(live>=0){
 			position=new Vector2D(startingPositionX*Smb.TILE_SIZE,startingPositionY*Smb.TILE_SIZE);
 			playerXvel = playerXacc = playerYvel = playerYacc = 0;
+			jumped = false;
 		}
 		else{
 			Smb.restartLevel=true;
