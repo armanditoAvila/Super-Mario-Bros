@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
@@ -167,7 +168,7 @@ public class Smb extends ScrollingScreenGame {
 					} else if (a.isOnBottomSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
 						((Player) a).playerYvel = 0;
-						((Player) a).jumped = true;
+						((Player) a).playerYacc = ((Player) a).gravity;
 					switch (b.type) {
 						case 1:
 							if(gamelvl == 1)
@@ -183,7 +184,7 @@ public class Smb extends ScrollingScreenGame {
 									if (p.level == 0) {
 										movableLayer.add(new Mushroom(b.getPosition().getX(), b.getPosition().getY()));
 										((QuestionBlock) b).setDead();
-										p.level++;
+										//p.level++;
 									} else {
 										powerUpLayer.add(new PowerUpFlower(b.getPosition().getX(), b.getPosition().getY()));
 										((QuestionBlock) b).setDead();
@@ -204,14 +205,15 @@ public class Smb extends ScrollingScreenGame {
 							break;
 
 						}
+						((Player) a).jumped = true;
 					}else{
 					switch(b.type){	
 					case 6:
 						System.out.println("End of Level 1");
-						backGroundLayer.clear();
+						//backGroundLayer.clear();
 						gamelvl = 2;
-						loadGameLevel(Integer.toString(gamelvl));
-						
+						//loadGameLevel(Integer.toString(gamelvl));
+						resetLevel(Integer.toString(gamelvl));
 						break;
 					}
 					}
@@ -229,7 +231,7 @@ public class Smb extends ScrollingScreenGame {
 		};
 
 		physics.registerCollisionHandler(d);
-		gamelvl =1;
+		gamelvl = 1;
 		loadGameLevel(Integer.toString(gamelvl));
 		setWorldBounds(0, 0, mapWidth * TILE_SIZE, mapHeight * TILE_SIZE);
 	}
@@ -253,7 +255,8 @@ public class Smb extends ScrollingScreenGame {
 		String ud = System.getProperty("user.dir");
 		try {
 			String line;
-			FileInputStream fstream = new FileInputStream("src/resources/map" + level + ".txt");
+			//FileInputStream fstream = new FileInputStream("/resources/map" + level + ".txt");
+			InputStream fstream = getClass().getResourceAsStream("/resources/map" + level + ".txt");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
@@ -617,7 +620,7 @@ public class Smb extends ScrollingScreenGame {
 					else{
 						music.pause();
 						p.restartPosition();
-						p.playerTimer = 100;
+						p.playerTimer = 300;
 					}
 				break;
 				
@@ -639,7 +642,7 @@ public class Smb extends ScrollingScreenGame {
 					else{
 						music.pause();
 						p.restartPosition();
-						p.playerTimer = 100;
+						p.playerTimer = 300;
 					}
 					break;
 				case 22:
