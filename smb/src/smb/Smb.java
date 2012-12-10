@@ -91,7 +91,8 @@ public class Smb extends ScrollingScreenGame {
 	public BodyLayer<VanillaAARectangle> movableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public static BodyLayer<VanillaAARectangle> backGroundLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
     public static BodyLayer<VanillaAARectangle> powerUpLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
-
+public ViewableLayer backGround;
+	ImageResource bg;
     public Keyboard getKeyboard() { 
     	return this.keyboard;
     }
@@ -116,6 +117,8 @@ public class Smb extends ScrollingScreenGame {
 		music = new AudioStream(audioSource + "mario1.mp3");
 		
 		music.loop(0.35,275);
+		
+		//gameObjectLayers.add(backGround);
 		
 		gameObjectLayers.add(backGroundLayer);
 		physics.manageViewableSet(backGroundLayer);
@@ -254,6 +257,15 @@ public class Smb extends ScrollingScreenGame {
 			}
 		}
 		return false;
+	}
+	
+	private void loadBackGround(){
+		if(gamelvl==1){
+			bg = ResourceFactory.getFactory().getFrames(
+					SPRITE_SHEET + "#level1BackGround").get(0);
+			backGround=new ImageBackgroundLayer(bg, WORLD_WIDTH,
+					WORLD_HEIGHT, ImageBackgroundLayer.SCALE_IMAGE);
+		}
 	}
 	
 	private void loadGameLevel(String level) {
@@ -432,6 +444,7 @@ public class Smb extends ScrollingScreenGame {
 	}
 	
 	private void resetLevel(String level){
+	music.resume();
 		unmovableLayer.clear();
 		movableLayer.clear();
 		backGroundLayer.clear();
@@ -662,8 +675,9 @@ public class Smb extends ScrollingScreenGame {
 				case 22:
 					if(((Mushroom)movableLayer.get(i)).poppedUp){
 					((Mushroom)movableLayer.get(i)).setActivation(false);
+					//p.levelUp();
 					}
-					p.levelUp();
+					
 					break;
 				}
 			}

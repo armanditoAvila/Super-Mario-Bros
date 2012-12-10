@@ -87,6 +87,7 @@
 			<columns>1</columns>
 		</frameset>
 
+
 	<frameset>
 			<name>questionBlock</name>
 			<top>164</top>
@@ -291,6 +292,15 @@
 			<left>555</left>
 			<width>18</width>
 			<height>9</height>
+			<columns>1</columns>
+		</frameset>
+		
+			<frameset>
+				<name>level1BackGround</name>
+			<top>583</top>
+			<left>846</left>
+			<width>53</width>
+			<height>53</height>
 			<columns>1</columns>
 		</frameset>
 

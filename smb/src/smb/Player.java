@@ -2,7 +2,8 @@ package smb;
 
 import java.awt.geom.Rectangle2D;
 
-
+import java.util.*;
+import jig.engine.ImageResource;
 import jig.engine.ResourceFactory;
 import jig.engine.audio.AudioState;
 import jig.engine.audio.jsound.AudioClip;
@@ -29,6 +30,11 @@ public class Player extends VanillaAARectangle {
 	boolean move = true;
 	private static AudioClip die = ResourceFactory.getFactory().getAudioClip(Smb.audioSource + "smb_mariodie.wav");
 	private static AudioClip powerup = ResourceFactory.getFactory().getAudioClip(Smb.audioSource + "smb_powerup.wav");
+	final double smallNum = 0.00001;
+	double levelZeroLeft;
+	double levelZeroRight;
+	double levelOneLeft;
+	double levelOneRight;
 	Vector2D currentVelocity;
 	Vector2D previousVelocity;
 	
@@ -65,6 +71,25 @@ public class Player extends VanillaAARectangle {
 			maxXvel = Physics.mg_max_vel_walk;
 		} else {
 			maxXvel = Physics.lg_max_vel_walk;
+		}
+		setFrame(4);
+		//appendImage();
+	}
+	
+	/*testing stage: the current frame set collection is an immuntable so it gives error when append more images*/
+	private void appendImage(){
+		try{
+			List<ImageResource> smallmario = ResourceFactory.getFactory().getFrames(Smb.SPRITE_SHEET2 + "#mario");
+		List<ImageResource> bigmario = ResourceFactory.getFactory().getFrames(Smb.SPRITE_SHEET2 + "#leveledMario");
+		smallmario.addAll(bigmario);
+		
+		this.frames=smallmario;
+		
+		//this.frames.addAll(bigMario);
+		}
+		catch(Exception e){
+			System.err.println("Error: append images");
+			e.printStackTrace();
 		}
 	}
 
@@ -109,7 +134,7 @@ public class Player extends VanillaAARectangle {
 				&& this.currentVelocity.getX() < 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
 					Smb.SPRITE_SHEET2 + "#marioleft");
-		} else */if (this.previousVelocity.getX() < 0
+		} else if (this.previousVelocity.getX() < 0
 				&& this.currentVelocity.getX() > 0) {
 			this.frames = ResourceFactory.getFactory().getFrames(
 					Smb.SPRITE_SHEET2 + "#mario");
@@ -118,10 +143,73 @@ public class Player extends VanillaAARectangle {
 			this.frames = ResourceFactory.getFactory().getFrames(
 					Smb.SPRITE_SHEET2 + "#mario");
 		}
+		*/
 	}
 	
 	public void updateFrame(long deltaMs) {
-
+if(level==0){
+			//System.out.println(playerXvel);
+			if(playerXvel>0){
+				if(System.currentTimeMillis()-levelZeroRight>frameTime){
+					if(getFrame()==6){
+						setFrame(5);
+						levelZeroRight=System.currentTimeMillis();
+					}
+					else{
+						setFrame(6);
+						levelZeroRight=System.currentTimeMillis();
+					}
+				}
+			}
+			else if(playerXvel<0){
+				if(System.currentTimeMillis()-levelZeroLeft>frameTime){
+					if(getFrame()==3){
+						setFrame(2);
+						levelZeroLeft=System.currentTimeMillis();
+					}
+					else{
+						setFrame(3);
+						levelZeroLeft=System.currentTimeMillis();
+					}
+				}
+			}
+		}
+		else if(level==2){
+			if(playerXvel>smallNum){
+				if(System.currentTimeMillis()-levelOneRight>frameTime){
+					if(getFrame()==17){
+						setFrame(18);
+						levelOneRight=System.currentTimeMillis();
+					}
+					else if(getFrame()==18){
+						setFrame(16);
+						levelOneRight=System.currentTimeMillis();
+					}
+					else{
+						setFrame(16);
+						levelOneRight=System.currentTimeMillis();
+					}
+				}
+			}
+			else if(playerXvel<-smallNum){
+				if(System.currentTimeMillis()-levelZeroLeft>frameTime){
+					if(getFrame()==12){
+						setFrame(11);
+						levelOneLeft=System.currentTimeMillis();
+					}
+					else if(getFrame()==11){
+						setFrame(13);
+						levelOneLeft=System.currentTimeMillis();
+					}
+					else{
+						setFrame(13);
+						levelOneLeft=System.currentTimeMillis();
+					}
+				}
+			}
+		}
+	
+	/*
 		if (this.getVelocity().getX() == 0) {
 			this.setFrame(0);
 			this.timeSinceLastUpdate = this.frameTime;
@@ -145,7 +233,7 @@ public class Player extends VanillaAARectangle {
 
 			}
 		}
-
+*/
 	}
 	
 	void accelerate() {
@@ -169,9 +257,11 @@ public class Player extends VanillaAARectangle {
 	
 	public void marioDie(){
 		//falls off the map animation
+		setFrame(0);
+		Smb.music.pause();
 		die.play();
 		try {
-			Thread.sleep(4000);
+			Thread.sleep(3300);
 		} catch (InterruptedException e) {
 			System.err.println("Error on sleeping");
 			return;
@@ -196,6 +286,7 @@ public class Player extends VanillaAARectangle {
 			jumped = false;
 		}
 		else{
+		marioDie();
 			Smb.restartLevel=true;
 		}
 		
