@@ -271,7 +271,7 @@ public ViewableLayer backGround;
 	private void loadGameLevel(String level) {
 		
 		currentTime = System.currentTimeMillis();
-		points=0;
+		//points=0;
 		world = 1;
 		questionBlockCount = 0;
 		world_level = Integer.valueOf(level);
