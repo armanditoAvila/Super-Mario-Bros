@@ -213,9 +213,13 @@ public class Smb extends ScrollingScreenGame {
 					}else{
 					switch(b.type){	
 					case 6:
-						System.out.println("End of Level 1");
+						System.out.println("End of Level");
 						//backGroundLayer.clear();
-						gamelvl = 2;
+						if(gamelvl < 3) {
+							gamelvl++;
+						} else {
+							gamelvl = 1;
+						}
 						//loadGameLevel(Integer.toString(gamelvl));
 						resetLevel(Integer.toString(gamelvl));
 						break;
@@ -238,7 +242,7 @@ public class Smb extends ScrollingScreenGame {
 		};
 
 		physics.registerCollisionHandler(d);
-		gamelvl = 2;
+		gamelvl = 1;
 		loadGameLevel(Integer.toString(gamelvl));
 		setWorldBounds(0, 0, mapWidth * TILE_SIZE, mapHeight * TILE_SIZE);
 	}
@@ -372,7 +376,7 @@ public class Smb extends ScrollingScreenGame {
 				} else if (ch == 't') {
 					unmovableLayer.add(new GroundWall(x, y,"#level2Ground"));
 				} else if (ch == 'u') {
-
+					unmovableLayer.add(new GroundWall(x, y,"#level3Ground"));
 				} else if (ch == 'v') {
 
 				} else if (ch == 'w') {

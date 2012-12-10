@@ -59,7 +59,8 @@ public class Player extends VanillaAARectangle {
 		live=3;
 		currentVelocity = Vector2D.ZERO;
 		previousVelocity = Vector2D.ZERO;
-		playerXvel = playerXacc = playerYvel = playerYacc = 0;
+		playerXvel = playerXacc = playerYvel = 0;
+		gravity = playerYacc = Physics.mj_le_fall_gra;
 		if(MARIO) {
 			maxXvel = Physics.mg_max_vel_walk;
 		} else {
@@ -85,6 +86,7 @@ public class Player extends VanillaAARectangle {
 		accelerate();
 		velocity = new Vector2D(playerXvel, playerYvel);
 		position = position.translate(velocity.scale(deltaMs / 1000.0));
+		//System.out.println(getPosition().getY() + "," + getHeight() + "," + (Smb.WORLD_HEIGHT-64));
 	
 	/**
 		 * To Animate the player
@@ -189,7 +191,8 @@ public class Player extends VanillaAARectangle {
 			
 			Smb.music.resume();
 			position=new Vector2D(startingPositionX*Smb.TILE_SIZE,startingPositionY*Smb.TILE_SIZE);
-			playerXvel = playerXacc = playerYvel = playerYacc = 0;
+			playerXvel = playerXacc = playerYvel = 0;
+			playerYacc = Physics.mj_le_fall_gra;
 			jumped = false;
 		}
 		else{
