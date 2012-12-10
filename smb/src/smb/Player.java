@@ -260,12 +260,14 @@ if(level==0){
 		setFrame(0);
 		Smb.music.pause();
 		die.play();
+		/*
 		try {
 			Thread.sleep(3300);
 		} catch (InterruptedException e) {
 			System.err.println("Error on sleeping");
 			return;
 		}
+		*/
 	}
 	
 	public void levelUp(){
