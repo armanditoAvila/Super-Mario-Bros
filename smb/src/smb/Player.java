@@ -161,7 +161,7 @@ public class Player extends VanillaAARectangle {
 		
 		/* Y Calculations And Checks */
 		if(playerYvel <= 0) playerYvel = playerYvel + playerYacc;
-		if(playerYvel > 0) playerYvel = playerYvel + gravity;
+		if(playerYvel > 0 || !jumped) playerYvel = playerYvel + gravity;
 		if(playerYvel > Physics.bf_max_vel_fall) playerYvel = Physics.bf_fall_vel_wrap;
 	}
 	

@@ -10,7 +10,7 @@ import jig.engine.audio.jsound.AudioClip;
 public class Goomba extends VanillaAARectangle {
 	int Xdirection, Ydirection;
 	int speed = 30;
-	double gravity = Physics.mj_lt_fall_gra;
+	double gravity = Physics.mj_gt_fall_gra;
 	int frameDelay=200;
 	int deadDelay=1000;
 	long frameTime;
@@ -27,12 +27,16 @@ public class Goomba extends VanillaAARectangle {
 		super(Smb.SPRITE_SHEET + goombaType, 5);
 		frameTime=System.currentTimeMillis();
 		position = new Vector2D(x * Smb.TILE_SIZE, y * Smb.TILE_SIZE);
-		velocity = new Vector2D(-speed,gravity);
+		velocity = new Vector2D(-speed, gravity);
 		setFrame(0);
 	}
 
 	@Override
 	public void update(long deltaMs) {
+		if(!dead && Smb.currentCenter - position.getX()>Smb.WORLD_WIDTH){
+			active = true;
+		}
+		
 		if (!active) {
 			return;
 		}

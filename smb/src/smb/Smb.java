@@ -161,14 +161,18 @@ public class Smb extends ScrollingScreenGame {
 					 * Mario collision handling
 					 */
 				} else {
+					double hold = ((Player) a).playerYacc;
+					((Player) a).playerYacc = 0;
+					((Player) a).playerYvel = 0;
 					if (a.isOnTopSide(b)) {
 						((Player) a).jumped = false;
-						((Player) a).playerYvel = 0;
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - a.topCollidingDistance(b)));
+						hold = -hold;
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() - 1.15*a.topCollidingDistance(b)));
 					} else if (a.isOnBottomSide(b)) {
-						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + a.bottomCollidingDistance(b)));
-						((Player) a).playerYvel = 0;
-						((Player) a).playerYacc = ((Player) a).gravity;
+						((Player) a).setPosition(new Vector2D(a.getPosition().getX(), a.getPosition().getY() + 1.15*a.bottomCollidingDistance(b)));
+						((Player) a).playerYvel = 1;
+						((Player) a).jumped = true;
+						hold = ((Player) a).gravity;
 					switch (b.type) {
 						case 1:
 							if(gamelvl == 1)
@@ -219,19 +223,22 @@ public class Smb extends ScrollingScreenGame {
 					}
 					if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnLeftSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX() - a.leftCollidingDistance(b), a.getPosition().getY()));
-						// ((player) a).playerXvel = 0;
-						// ((player) a).playerXacc = 0;
+						((Player) a).playerXvel = 0;
+						((Player) a).playerXacc = 0;
+						((Player) a).jumped = true;
 					} else if (a.getBoundingBox().intersects(b.getBoundingBox()) && a.isOnRightSide(b)) {
 						((Player) a).setPosition(new Vector2D(a.getPosition().getX() + a.rightCollidingDistance(b), a.getPosition().getY()));
-						// ((player) a).playerXvel = 0;
-						// ((player) a).playerXacc = 0;
+						((Player) a).playerXvel = 0;
+						((Player) a).playerXacc = 0;
+						((Player) a).jumped = true;
 					}
+					((Player) a).playerYacc = hold;
 				}
 			}
 		};
 
 		physics.registerCollisionHandler(d);
-		gamelvl = 1;
+		gamelvl = 2;
 		loadGameLevel(Integer.toString(gamelvl));
 		setWorldBounds(0, 0, mapWidth * TILE_SIZE, mapHeight * TILE_SIZE);
 	}
@@ -432,6 +439,7 @@ public class Smb extends ScrollingScreenGame {
 
 	@Override
 	public void update(long deltaMs) {
+		super.update(deltaMs);
 		/*
 		 * time-=((System.currentTimeMillis()-currentTime)/1000.0);
 		 * currentTime=System.currentTimeMillis();
@@ -591,6 +599,8 @@ public class Smb extends ScrollingScreenGame {
 				jumpTimer = 0;
 			}
 		} else if(p.jumped == true) {
+			p.playerYacc = p.gravity;
+		} else {
 			p.playerYacc = p.gravity;
 		}
 		
