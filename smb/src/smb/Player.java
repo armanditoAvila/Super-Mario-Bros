@@ -147,6 +147,7 @@ public class Player extends VanillaAARectangle {
 	}
 	
 	public void updateFrame(long deltaMs) {
+
 if(level==0){
 			//System.out.println(playerXvel);
 			if(playerXvel>0){
@@ -208,7 +209,8 @@ if(level==0){
 				}
 			}
 		}
-	
+
+
 	/*
 		if (this.getVelocity().getX() == 0) {
 			this.setFrame(0);

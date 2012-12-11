@@ -74,9 +74,10 @@ public class Smb extends ScrollingScreenGame {
 	long bumpPlayTime;
 	int bumpPlayDelay=1000;
 	private AudioClip bump,backMusic;
+	private boolean gameComplete = false;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
-	FontResource scoreboardFont,gameOverFont,finalScoreFont;
+	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont;
 	FontResource powerUpsFont;
 	String maptext;
 	// public List<walls> wallarray = new ArrayList<walls>();
@@ -88,11 +89,13 @@ public class Smb extends ScrollingScreenGame {
 	private VanillaPhysicsEngine physics;
 	static final SpriteUpdateRules UPDATE_RULE = new SpriteUpdateRules(WORLD_WIDTH, WORLD_HEIGHT);
 	public static AudioStream music;
+	
 	public BodyLayer<VanillaAARectangle> unmovableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public BodyLayer<VanillaAARectangle> movableLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 	public static BodyLayer<VanillaAARectangle> backGroundLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
     public static BodyLayer<VanillaAARectangle> powerUpLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
-public ViewableLayer backGround;
+    
+    public ViewableLayer backGround;
 	ImageResource bg;
 	BackGround bgi;
 	static boolean deathDelay;
@@ -115,6 +118,7 @@ public ViewableLayer backGround;
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
 		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
 		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 36), Color.red, null);
+		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
 		//backMusic  = ResourceFactory.getFactory().getAudioClip(audioSource + "mario1.mp3");
 		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
@@ -144,6 +148,7 @@ public ViewableLayer backGround;
 				 * Most objects other than mario have a different collision
 				 * condition because they don't activate other objects.
 				 */
+				
 				if (a.type != 4) {
 					if (a.type == 22) {
 						if(!((Mushroom)a).poppedUp){
@@ -187,7 +192,8 @@ public ViewableLayer backGround;
 								((BreakableBrownWall) b).breakApart();
 							else if(gamelvl == 2)
 								((BreakableGreenWall) b).breakApart();
-							
+							else if(gamelvl == 3);
+								//System.out.println("trying to break the wall");
 							
 							break;
 						case 11:
@@ -221,14 +227,20 @@ public ViewableLayer backGround;
 					}else{
 					switch(b.type){	
 					case 6:
-						System.out.println("End of Level");
+					
 						//backGroundLayer.clear();
+					
+						if(gamelvl != 3){
 						if(gamelvl < 3) {
-							gamelvl++;
-						} else {
+						//	gamelvl++;
+							gamelvl = gamelvl + 1;
+						} else if(gamelvl ==0) {
 							gamelvl = 1;
 						}
-						//loadGameLevel(Integer.toString(gamelvl));
+						}else{
+							gameComplete = true;
+							break;
+						}
 						resetLevel(Integer.toString(gamelvl));
 						break;
 					}
@@ -256,10 +268,17 @@ public ViewableLayer backGround;
 	}
 
 	private boolean powerUpInTheBlock(QuestionBlock b) {
+		try{
+		
 		for (int i = 0; i < powerUpQuestionBlocksArray.size(); i++) {
 			if (b.hashCode() == powerUpQuestionBlocksArray.get(i).hashCode()) {
 				return true;
 			}
+		}
+		
+		}catch(Exception e){
+			System.out.println("Exception in Powerupinblock"+e.getMessage());
+			//e.printStackTrace();
 		}
 		return false;
 	}
@@ -268,6 +287,11 @@ public ViewableLayer backGround;
 		if(gamelvl==1){
 			bg = ResourceFactory.getFactory().getFrames(
 					SPRITE_SHEET + "#level1BackGround").get(0);
+			backGround=new ImageBackgroundLayer(bg, WORLD_WIDTH,
+					WORLD_HEIGHT, ImageBackgroundLayer.SCALE_IMAGE);
+		}else if(gamelvl == 2){
+			bg = ResourceFactory.getFactory().getFrames(
+					SPRITE_SHEET + "#level2BackGround").get(0);
 			backGround=new ImageBackgroundLayer(bg, WORLD_WIDTH,
 					WORLD_HEIGHT, ImageBackgroundLayer.SCALE_IMAGE);
 		}
@@ -302,6 +326,7 @@ public ViewableLayer backGround;
 			bgi = new BackGround(gamelvl);
 			backGroundLayer.add(bgi);
 			int y = 0;
+			
 			while ((line = br.readLine()) != null) {
 
 				buildMap(line, y);
@@ -344,6 +369,7 @@ public ViewableLayer backGround;
 	private void buildMap(String s, int y) throws InterruptedException {
 		try {
 			String line = s;
+			
 			for (int x = 0; x < mapWidth; x++) {
 
 				char ch = line.charAt(x);
@@ -410,7 +436,8 @@ public ViewableLayer backGround;
 
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println("Exception caught here" + e.getMessage());
+			//System.out.println(e);
 			return;
 		}
 	}
@@ -436,6 +463,7 @@ public ViewableLayer backGround;
 
 	public void render(RenderingContext rc) {
 		super.render(rc);
+		try{
 		scoreboardFont.render("MARIO x" + p.live, rc, AffineTransform.getTranslateInstance(40, 20));
 		scoreboardFont.render("WORLD", rc, AffineTransform.getTranslateInstance(300, 20));
 		scoreboardFont.render("TIME", rc, AffineTransform.getTranslateInstance(430, 20));
@@ -448,11 +476,20 @@ public ViewableLayer backGround;
 			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 240));
 			gameover=true;
 			gameObjectLayers.clear();
+		}else if(gameComplete){
+			
+			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
+			gameCompleteFont.render("You Won the Game :) ",rc, AffineTransform.getTranslateInstance(180, 240));
+			gameObjectLayers.clear();
+		}
+		}catch(Exception e){
+			System.out.println("Exception in render method"+e.getMessage());
+			//e.printStackTrace();
 		}
 	}
 	
 	private void resetLevel(String level){
-	music.resume();
+		music.resume();
 		unmovableLayer.clear();
 		movableLayer.clear();
 		backGroundLayer.clear();
@@ -475,6 +512,7 @@ public ViewableLayer backGround;
 	@Override
 	public void update(long deltaMs) {
 		super.update(deltaMs);
+	try{
 		/*
 		 * time-=((System.currentTimeMillis()-currentTime)/1000.0);
 		 * currentTime=System.currentTimeMillis();
@@ -650,6 +688,7 @@ public ViewableLayer backGround;
 		}
 		
 		/* collision between mario and interactable objects */
+		
 		for(int i=0; i<movableLayer.size();i++){
 			if(movableLayer.get(i).isActive() && movableLayer.get(i).type!=4 && movableLayer.get(i).getBoundingBox().intersects(p.getBoundingBox())){
 				//System.out.println("colliding");
@@ -711,8 +750,9 @@ public ViewableLayer backGround;
 			}
 		}
 		
-		
+	
 		/* collision between mario and interactable objects */
+			
 		for(int i=0; i<powerUpLayer.size();i++){
 			if(powerUpLayer.get(i).isActive() && powerUpLayer.get(i).type!=4 && powerUpLayer.get(i).getBoundingBox().intersects(p.getBoundingBox())){
 				switch(powerUpLayer.get(i).type){
@@ -721,9 +761,14 @@ public ViewableLayer backGround;
 					break;
 				}
 			}
-		}
-
+		} 
+		
 		physics.applyLawsOfPhysics(deltaMs);
+		
+		}catch(Exception e){
+			System.out.println("Exception in update method"+e.getMessage());
+			//e.printStackTrace();
+		} 
 
 	}
 
