@@ -403,6 +403,7 @@ public ViewableLayer backGround;
 
 			}
 		} catch (Exception e) {
+			System.out.println(e);
 			return;
 		}
 	}
