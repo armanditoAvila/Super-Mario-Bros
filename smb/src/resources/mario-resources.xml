@@ -9,6 +9,11 @@
         <imagesrc>smb_mario_sheet.png</imagesrc>
         <framesrc>smb_mario_sheet.xml</framesrc>
     </spritesheet>
+	
+		    <spritesheet>
+        <imagesrc>backGround.png</imagesrc>
+        <framesrc>backGround.xml</framesrc>
+    </spritesheet>
     
 <audioclip>
         <src>audio/smb_1-up.wav</src>

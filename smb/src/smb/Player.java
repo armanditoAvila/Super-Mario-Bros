@@ -105,7 +105,7 @@ public class Player extends VanillaAARectangle {
 		if(position.getY() > Smb.WORLD_HEIGHT){
 			this.playerTimer = 300;
 			Smb.music.pause();
-			restartPosition();
+			marioDie();
 		}
 		
 		accelerate();
@@ -260,6 +260,9 @@ if(level==0){
 	//	setFrame(0);
 		Smb.music.pause();
 		die.play();
+		Smb.deathDelay=true;
+		Smb.deathDelayTime=System.currentTimeMillis();
+		//Smb.oneGameCycle=true;
 		/*
 		try {
 			Thread.sleep(3300);
@@ -277,18 +280,18 @@ if(level==0){
 	}
 	
 	public void restartPosition(){
+	Smb.deathDelay=false;
 		live--;
-		marioDie();
 		if(live>=0){
 			
 			Smb.music.resume();
+			setFrame(4);
 			position=new Vector2D(startingPositionX*Smb.TILE_SIZE,startingPositionY*Smb.TILE_SIZE);
 			playerXvel = playerXacc = playerYvel = 0;
 			playerYacc = Physics.mj_le_fall_gra;
 			jumped = false;
 		}
 		else{
-		marioDie();
 			Smb.restartLevel=true;
 		}
 		

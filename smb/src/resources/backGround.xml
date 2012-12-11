@@ -1,0 +1,34 @@
+<spriteset>
+    <author>CS447</author>
+    <name>backGround</name>
+    <type>image/png</type>
+    <width>2000</width>
+    <height>2000</height>
+
+    <frameset>
+        <name>map2</name>
+        <top>0</top>
+        <left>530</left>
+        <width>526</width>
+        <height>459</height>
+        <columns>1</columns>
+    </frameset>
+    <frameset>
+        <name>map1</name>
+        <top>0</top>
+        <left>0</left>
+        <width>530</width>
+        <height>457</height>
+        <columns>1</columns>
+    </frameset>
+    <frameset>
+        <name>map3</name>
+        <top>0</top>
+        <left>2</left>
+        <width>526</width>
+        <height>456</height>
+        <columns>1</columns>
+    </frameset>
+    
+    
+    </spriteset>

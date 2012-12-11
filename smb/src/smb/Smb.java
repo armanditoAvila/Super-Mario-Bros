@@ -55,6 +55,7 @@ public class Smb extends ScrollingScreenGame {
 	int worldPixelHeight;
 	static final String SPRITE_SHEET = "resources/mario-spritesheet.png";
 	static final String SPRITE_SHEET2 = "resources/smb_mario_sheet.png";
+	static final String BACKGROUND_SHEET = "resources/backGround.png";
 	static final String audioSource = "resources/audio/";
 	static final double deltaTime = 0.0001;
 	static int mapWidth, mapHeight;
@@ -93,6 +94,10 @@ public class Smb extends ScrollingScreenGame {
     public static BodyLayer<VanillaAARectangle> powerUpLayer = new AbstractBodyLayer.NoUpdate<VanillaAARectangle>();
 public ViewableLayer backGround;
 	ImageResource bg;
+	BackGround bgi;
+	static boolean deathDelay;
+	static long deathDelayTime;
+	static boolean oneGameCycle;
     public Keyboard getKeyboard() { 
     	return this.keyboard;
     }
@@ -294,6 +299,8 @@ public ViewableLayer backGround;
 			rightWidthBreakPoint = worldPixelLenght - HALF_SCREEN_WIDTH;
 
 			// map = new gamemap(mapWidth, mapHeight);
+			bgi = new BackGround(gamelvl);
+			backGroundLayer.add(bgi);
 			int y = 0;
 			while ((line = br.readLine()) != null) {
 
@@ -455,6 +462,16 @@ public ViewableLayer backGround;
 	    restartLevel=false;
 	}
 
+	private void moveBackGround(){
+		if (p.getPosition().getX() < leftWidthBreakPoint) {
+			bgi.setPosition(new Vector2D(0,0));
+		} else if (p.getPosition().getX() > rightWidthBreakPoint) {
+			bgi.setPosition(new Vector2D(rightWidthBreakPoint-HALF_SCREEN_WIDTH, 0));
+		} else {
+			bgi.setPosition(new Vector2D(p.getPosition().getX()-HALF_SCREEN_WIDTH, 0));
+		}
+	}
+	
 	@Override
 	public void update(long deltaMs) {
 		super.update(deltaMs);
@@ -466,6 +483,14 @@ public ViewableLayer backGround;
 		 if(restartLevel){
 			resetLevel(world_level+"");
 		}
+		
+		if(deathDelay){
+			 if(System.currentTimeMillis()-deathDelayTime>2500){
+				 p.restartPosition();
+			 }
+			 return;
+			 
+		 }
 		
 		currentCenter=p.getPosition().getX();
 		
@@ -490,6 +515,8 @@ public ViewableLayer backGround;
 		} else {
 			centerOnPoint((int) p.getPosition().getX(), HALF_SCREEN_HEIGHT);
 		}
+		
+		moveBackGround();
 
 		keyboard.poll();
 		boolean left = keyboard.isPressed(KeyEvent.VK_LEFT);
@@ -647,7 +674,7 @@ public ViewableLayer backGround;
 					}
 					else{
 						music.pause();
-						p.restartPosition();
+						p.marioDie();
 						p.playerTimer = 300;
 					}
 				break;
@@ -669,7 +696,7 @@ public ViewableLayer backGround;
 					}
 					else{
 						music.pause();
-						p.restartPosition();
+						p.marioDie();
 						p.playerTimer = 300;
 					}
 					break;
