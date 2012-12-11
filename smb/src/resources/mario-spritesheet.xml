@@ -174,16 +174,16 @@
 		<name>turtle</name>
 			<top>929</top>
 			<left>848</left>
-			<width>30</width>
-			<height>47</height>
+			<width>32</width>
+			<height>40</height>
 			<columns>3</columns>
 		</frameset>
 		<frameset>
 		<name>level2turtle</name>
 			<top>1049</top>
 			<left>908</left>
-			<width>30</width>
-			<height>47</height>
+			<width>32</width>
+			<height>40</height>
 			<columns>3</columns>
 		</frameset>
 

@@ -257,7 +257,7 @@ if(level==0){
 	
 	public void marioDie(){
 		//falls off the map animation
-		setFrame(0);
+	//	setFrame(0);
 		Smb.music.pause();
 		die.play();
 		/*
