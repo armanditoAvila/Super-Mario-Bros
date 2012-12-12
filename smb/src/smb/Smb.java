@@ -492,6 +492,7 @@ public class Smb extends ScrollingScreenGame {
 		} else if(p.live <= 0 || p.playerTimer <=0){
 			finalScoreFont.render("Your Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
 			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 180));
+			gameOverFont.render("Press Space To Restart", rc, AffineTransform.getTranslateInstance(100, 210));
 			
 			gameover=true;
 			file = new File("scoreTracking.txt");
@@ -522,6 +523,7 @@ public class Smb extends ScrollingScreenGame {
 			
 			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
 			gameCompleteFont.render("You Won the Game :) ",rc, AffineTransform.getTranslateInstance(180, 180));
+			gameOverFont.render("Press Space To Restart", rc, AffineTransform.getTranslateInstance(100, 210));
 			file = new File("scoreTracking.txt");
 			if (!file.exists()) {
 				fw = new FileWriter(file);
@@ -545,7 +547,7 @@ public class Smb extends ScrollingScreenGame {
 				
 			}
 			highScoreFont.render("High Score:" + highscore, rc,AffineTransform.getTranslateInstance(280, 240));
-			gameObjectLayers.clear();
+			//gameObjectLayers.clear();
 		}
 		}catch(Exception e){
 			System.out.println("Exception in render method"+e.getMessage());
