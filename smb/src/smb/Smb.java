@@ -125,11 +125,11 @@ public class Smb extends ScrollingScreenGame {
 
 		physics = new VanillaPhysicsEngine();
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
-		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.black, null);
-		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
-		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
+		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.red, null);
+		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
+		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
 		splashFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
-		highScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.black, null);
+		highScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.red, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
 		//backMusic  = ResourceFactory.getFactory().getAudioClip(audioSource + "mario1.mp3");
 		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
