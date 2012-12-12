@@ -500,7 +500,7 @@ public class Smb extends ScrollingScreenGame {
 		} else if(p.live <= 0 || p.playerTimer <=0){
 			finalScoreFont.render("Your Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
 			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 180));
-			gameOverFont.render("Press Space To Restart", rc, AffineTransform.getTranslateInstance(100, 210));
+			gameOverFont.render("Press Enter To Restart", rc, AffineTransform.getTranslateInstance(100, 210));
 			
 			gameover=true;
 			file = new File("scoreTracking.txt");
@@ -531,7 +531,7 @@ public class Smb extends ScrollingScreenGame {
 			
 			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
 			gameCompleteFont.render("You Won the Game :) ",rc, AffineTransform.getTranslateInstance(180, 180));
-			gameOverFont.render("Press Space To Restart", rc, AffineTransform.getTranslateInstance(100, 210));
+			gameOverFont.render("Press Enter To Restart", rc, AffineTransform.getTranslateInstance(100, 210));
 			file = new File("scoreTracking.txt");
 			if (!file.exists()) {
 				fw = new FileWriter(file);
@@ -637,6 +637,7 @@ public class Smb extends ScrollingScreenGame {
 		boolean up = keyboard.isPressed(KeyEvent.VK_UP);
 		boolean down = keyboard.isPressed(KeyEvent.VK_DOWN);
 		boolean space = keyboard.isPressed(KeyEvent.VK_SPACE);
+		boolean enterkey = keyboard.isPressed(KeyEvent.VK_ENTER);
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
 		boolean gameLivesCheat = keyboard.isPressed(KeyEvent.VK_L);
@@ -655,7 +656,8 @@ public class Smb extends ScrollingScreenGame {
 		}
 		
 		if(gameover || gameComplete){
-			if(space) {
+			//if(space) {
+			if(enterkey){
 				splash = false;
 				gameComplete = false;
 				gameover = false;
