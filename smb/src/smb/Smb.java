@@ -61,6 +61,7 @@ public class Smb extends ScrollingScreenGame {
 	static int mapWidth, mapHeight;
 	int stopWatch=0;
 	boolean gameover=false;
+	boolean splash=true;
 	Player p;
 	int points;
 	int coinNum;
@@ -77,7 +78,7 @@ public class Smb extends ScrollingScreenGame {
 	private boolean gameComplete = false;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
-	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont;
+	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont,splashFont;
 	FontResource powerUpsFont;
 	String maptext;
 	// public List<walls> wallarray = new ArrayList<walls>();
@@ -116,9 +117,10 @@ public class Smb extends ScrollingScreenGame {
 
 		physics = new VanillaPhysicsEngine();
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
-		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
-		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 36), Color.red, null);
-		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
+		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
+		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 36), Color.black, null);
+		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
+		splashFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
 		//backMusic  = ResourceFactory.getFactory().getAudioClip(audioSource + "mario1.mp3");
 		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
@@ -471,16 +473,22 @@ public class Smb extends ScrollingScreenGame {
 		scoreboardFont.render(world + "" + "-" + world_level, rc, AffineTransform.getTranslateInstance(310, 40));
 		scoreboardFont.render((int) p.playerTimer + "", rc, AffineTransform.getTranslateInstance(440, 40));
 		
-		if(p.live <= 0 || p.playerTimer <=0){
+		if(splash){
+			splashFont.render("Super Mario Bros.", rc, AffineTransform.getTranslateInstance(140, 80));
+			splashFont.render("By:", rc, AffineTransform.getTranslateInstance(240, 180));
+			splashFont.render("Jenis Modi", rc, AffineTransform.getTranslateInstance(180, 210));
+			splashFont.render("Justin Shelton", rc, AffineTransform.getTranslateInstance(150, 240));
+			splashFont.render("Xin Tang", rc, AffineTransform.getTranslateInstance(195, 270));
+		} else if(p.live <= 0 || p.playerTimer <=0){
 			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
 			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 240));
 			gameover=true;
-			gameObjectLayers.clear();
+			//gameObjectLayers.clear();
 		}else if(gameComplete){
 			
 			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
 			gameCompleteFont.render("You Won the Game :) ",rc, AffineTransform.getTranslateInstance(180, 240));
-			gameObjectLayers.clear();
+			//gameObjectLayers.clear();
 		}
 		}catch(Exception e){
 			System.out.println("Exception in render method"+e.getMessage());
@@ -535,7 +543,7 @@ public class Smb extends ScrollingScreenGame {
 		/**
 		 * Jenis: Timer update for time-based game
 		 */
-		if(!gameover){
+		if(!splash && !gameover && !gameComplete){
 			 stopWatch++;
 			 
 			 if(stopWatch >= 80){
@@ -564,6 +572,30 @@ public class Smb extends ScrollingScreenGame {
 		boolean space = keyboard.isPressed(KeyEvent.VK_SPACE);
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
+		
+		if(splash){
+			if(left || right || space){
+				splash = false;
+			} else {
+				return;
+			}
+		}
+		
+		if(gameover || gameComplete){
+			if(space) {
+				splash = false;
+				gameComplete = false;
+				gameover = false;
+				gamelvl = 1;
+				p.restartPosition();
+				p.live = 3;
+				points = 0;
+				resetLevel(Integer.toString(gamelvl));
+				return;
+			} else {
+				return;
+			}
+		}
 /*
 		if(p.getPosition().getY() >=353){
 			p.live--;
