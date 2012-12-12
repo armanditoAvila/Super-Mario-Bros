@@ -84,7 +84,7 @@ public class Smb extends ScrollingScreenGame {
 	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont,splashFont,highScoreFont;
 	FontResource powerUpsFont;
 	FileWriter fw = null;
-
+	static boolean LOncePressed = false;
 	FileReader fr = null;
 
 	File file = null;
@@ -136,7 +136,7 @@ public class Smb extends ScrollingScreenGame {
 		
 		music = new AudioStream(audioSource + "mario1.mp3");
 		
-		music.loop(0.35,275);
+		music.loop(0.35,0);
 		
 		//gameObjectLayers.add(backGround);
 		
@@ -476,13 +476,17 @@ public class Smb extends ScrollingScreenGame {
 		super.render(rc);
 		String highscore = null;
 		try{
+			
 		scoreboardFont.render("MARIO x" + p.live, rc, AffineTransform.getTranslateInstance(40, 20));
 		scoreboardFont.render("WORLD", rc, AffineTransform.getTranslateInstance(300, 20));
 		scoreboardFont.render("TIME", rc, AffineTransform.getTranslateInstance(430, 20));
 		scoreboardFont.render(points + "", rc, AffineTransform.getTranslateInstance(50, 40));
 		scoreboardFont.render(world + "" + "-" + world_level, rc, AffineTransform.getTranslateInstance(310, 40));
 		scoreboardFont.render((int) p.playerTimer + "", rc, AffineTransform.getTranslateInstance(440, 40));
-		
+		if(LOncePressed){
+			p.live = 5;
+			LOncePressed = false;
+		}
 		if(splash){
 			splashFont.render("Super Mario Bros.", rc, AffineTransform.getTranslateInstance(140, 80));
 			splashFont.render("By:", rc, AffineTransform.getTranslateInstance(240, 180));
@@ -631,6 +635,12 @@ public class Smb extends ScrollingScreenGame {
 		boolean space = keyboard.isPressed(KeyEvent.VK_SPACE);
 		boolean r = keyboard.isPressed(KeyEvent.VK_R);
 		boolean run = keyboard.isPressed(KeyEvent.VK_SHIFT);
+		boolean gameLivesCheat = keyboard.isPressed(KeyEvent.VK_L);
+		
+		if(gameLivesCheat){
+			LOncePressed = !LOncePressed;
+			gameLivesCheat=false;		
+		}
 		
 		if(splash){
 			if(left || right || space){
