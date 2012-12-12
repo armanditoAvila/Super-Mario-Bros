@@ -81,7 +81,7 @@ public class Smb extends ScrollingScreenGame {
 	private boolean gameComplete = false;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
-	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont,splashFont,highScoreFont;
+	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont,splashFont,highScoreFont,splashFont2;
 	FontResource powerUpsFont;
 	FileWriter fw = null;
 	static boolean LOncePressed = false;
@@ -129,6 +129,7 @@ public class Smb extends ScrollingScreenGame {
 		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
 		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.red, null);
 		splashFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
+		splashFont2 = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.black, null);
 		highScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.red, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
 		//backMusic  = ResourceFactory.getFactory().getAudioClip(audioSource + "mario1.mp3");
@@ -493,6 +494,9 @@ public class Smb extends ScrollingScreenGame {
 			splashFont.render("Jenis Modi", rc, AffineTransform.getTranslateInstance(180, 210));
 			splashFont.render("Justin Shelton", rc, AffineTransform.getTranslateInstance(150, 240));
 			splashFont.render("Xin Tang", rc, AffineTransform.getTranslateInstance(195, 270));
+			splashFont2.render("Move:  Arrow Keys", rc, AffineTransform.getTranslateInstance(25, 290));
+			splashFont2.render("Jump: Space", rc, AffineTransform.getTranslateInstance(385, 290));
+			splashFont2.render("Press Space key to start", rc, AffineTransform.getTranslateInstance(165, 320));
 		} else if(p.live <= 0 || p.playerTimer <=0){
 			finalScoreFont.render("Your Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
 			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 180));
