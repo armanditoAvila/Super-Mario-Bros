@@ -9,7 +9,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -78,8 +81,13 @@ public class Smb extends ScrollingScreenGame {
 	private boolean gameComplete = false;
 	// private ViewableLayer splashLayer;
 	int leftWidthBreakPoint, rightWidthBreakPoint;
-	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont,splashFont;
+	FontResource scoreboardFont,gameOverFont,finalScoreFont, gameCompleteFont,splashFont,highScoreFont;
 	FontResource powerUpsFont;
+	FileWriter fw = null;
+
+	FileReader fr = null;
+
+	File file = null;
 	String maptext;
 	// public List<walls> wallarray = new ArrayList<walls>();
 	// public List<goomba> goombaarray = new ArrayList<goomba>();
@@ -117,10 +125,11 @@ public class Smb extends ScrollingScreenGame {
 
 		physics = new VanillaPhysicsEngine();
 		scoreboardFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 15), Color.WHITE, null);
-		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
-		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 36), Color.black, null);
+		finalScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.black, null);
+		gameOverFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
 		gameCompleteFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
 		splashFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 30), Color.black, null);
+		highScoreFont = ResourceFactory.getFactory().getFontResource(new Font("Sans Serif", Font.BOLD, 25), Color.black, null);
 		ResourceFactory.getFactory().loadResources("resources/", "mario-resources.xml");
 		//backMusic  = ResourceFactory.getFactory().getAudioClip(audioSource + "mario1.mp3");
 		bump = ResourceFactory.getFactory().getAudioClip(audioSource + "smb_bump.wav");
@@ -465,6 +474,7 @@ public class Smb extends ScrollingScreenGame {
 
 	public void render(RenderingContext rc) {
 		super.render(rc);
+		String highscore = null;
 		try{
 		scoreboardFont.render("MARIO x" + p.live, rc, AffineTransform.getTranslateInstance(40, 20));
 		scoreboardFont.render("WORLD", rc, AffineTransform.getTranslateInstance(300, 20));
@@ -480,15 +490,62 @@ public class Smb extends ScrollingScreenGame {
 			splashFont.render("Justin Shelton", rc, AffineTransform.getTranslateInstance(150, 240));
 			splashFont.render("Xin Tang", rc, AffineTransform.getTranslateInstance(195, 270));
 		} else if(p.live <= 0 || p.playerTimer <=0){
-			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
-			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 240));
+			finalScoreFont.render("Your Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
+			gameOverFont.render("Game Over",rc, AffineTransform.getTranslateInstance(180, 180));
+			
 			gameover=true;
+			file = new File("scoreTracking.txt");
+			if (!file.exists()) {
+				fw = new FileWriter(file);
+				fw.write(String.valueOf(points));
+				fw.close();
+			} else {
+				fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+				String oldScore = br.readLine();
+				fr.close();
+
+				if (oldScore == null
+						|| Integer.parseInt(oldScore) < points) {
+					fw = new FileWriter(file);
+					fw.write(String.valueOf(points));
+
+					fw.close();
+				} else {
+					highscore = oldScore;
+				}
+				
+			}
+			highScoreFont.render("High Score:" + highscore, rc,AffineTransform.getTranslateInstance(280, 240));
 			//gameObjectLayers.clear();
 		}else if(gameComplete){
 			
-			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(180, 180));
-			gameCompleteFont.render("You Won the Game :) ",rc, AffineTransform.getTranslateInstance(180, 240));
-			//gameObjectLayers.clear();
+			finalScoreFont.render("Final Score:"+points,rc, AffineTransform.getTranslateInstance(20, 240));
+			gameCompleteFont.render("You Won the Game :) ",rc, AffineTransform.getTranslateInstance(180, 180));
+			file = new File("scoreTracking.txt");
+			if (!file.exists()) {
+				fw = new FileWriter(file);
+				fw.write(String.valueOf(points));
+				fw.close();
+			} else {
+				fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+				String oldScore = br.readLine();
+				fr.close();
+
+				if (oldScore == null
+						|| Integer.parseInt(oldScore) < points) {
+					fw = new FileWriter(file);
+					fw.write(String.valueOf(points));
+
+					fw.close();
+				} else {
+					highscore = oldScore;
+				}
+				
+			}
+			highScoreFont.render("High Score:" + highscore, rc,AffineTransform.getTranslateInstance(280, 240));
+			gameObjectLayers.clear();
 		}
 		}catch(Exception e){
 			System.out.println("Exception in render method"+e.getMessage());
